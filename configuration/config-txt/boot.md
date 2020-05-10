@@ -49,6 +49,18 @@ Note that the 64-bit kernel will only work on the Pi4, Pi3, and Pi2B rev1.2 boar
 
 Sets board-specific control bits.
 
+## armstub
+
+`armstub` is the filename on the boot partition from which to load the ARM stub. The default ARM stub is stored in firmware and is selected automatically based on the Pi model and various settings.
+
+The stub is a small piece of ARM code that is run before the kernel. Its job is to set up low-level hardware like the interrupt controller before passing control to the kernel.
+
+## arm_peri_high
+
+Set `arm_peri_high` to `1` to enable "High Peripheral" mode on the Pi 4. It is set automatically if a suitable DTB is loaded.
+
+**NOTE**: Enabling "High Peripheral" mode without a compatible device tree will make your system fail to boot. Currently ARM stub support is missing, so you will also need to load a suitable file using `armstub`.
+
 ## kernel_address
 
 `kernel_address` is the memory address to which the kernel image should be loaded. 32-bit kernels are loaded to address `0x8000` by default, and 64-bit kernels to address `0x80000`. If `kernel_old` is set, kernels are loaded to the address `0x0`.
@@ -98,6 +110,10 @@ If `disable_splash` is set to `1`, the rainbow splash screen will not be shown o
 ## enable_gic (Pi 4B only)
 
 On the Raspberry Pi 4B, if this value is set to `0` then the interrupts will be routed to the ARM cores using the legacy interrupt controller, rather than via the GIC-400. The default value is `1`.
+
+## force_eeprom_read
+
+Set this option to `0` to prevent the firmware from trying to read an I2C HAT EEPROM (connected to pins ID_SD & ID_SC) at powerup.
 
 ## os_prefix
 <a name="os_prefix"></a>

@@ -84,7 +84,7 @@
 ### [Networking and wireless connectivity](#networking)
 
 - Does the device support networking?
-- Is there built-in WiFi?
+- Is there built-in wireless networking?
 - Is there built-in Bluetooth?
 - I don't seem to get full-speed gigabit networking on my Raspberry Pi 3B+.
 - Does the device have support for any form of netbooting or PXE?
@@ -393,15 +393,15 @@ Power interruptions can cause problems on all sorts of electronic devices, and t
 
 ### What are the power requirements?
 
-The device is powered by 5V micro USB. Exactly how much current (mA) the Raspberry Pi requires is dependent on which model you are using, and what you hook up to it. We recommend a 2.5A (2500mA) power supply, from a reputable retailer, that will provide you with enough power to run your Raspberry Pi for most applications, including use of the 4 USB ports. Very high-demand USB devices may however require the use of a powered hub. The table below outlines the specific power requirements of each model.
+The device needs to be powered with a 5V power supply with a USB connector; USB-C for the Raspberry Pi 4, and micro USB for all other models. Exactly how much current (mA) the Raspberry Pi requires is dependent on which model you are using, and what you hook up to it. We recommend our own power supplies, and sell a [2.5A (2500mA)](https://www.raspberrypi.org/products/raspberry-pi-universal-power-supply/) supply for models up to the Pi 3, and a [3.0A (3000mA) supply](https://www.raspberrypi.org/products/type-c-power-supply/) for the Pi 4. These will provide you with enough power to run your Raspberry Pi for most applications, including use of the 4 USB ports. Very high-demand USB devices may however require the use of a powered hub. The table below outlines the specific power requirements of each model.
 
 | Product | Recommended PSU current capacity | Maximum total USB peripheral current draw | Typical bare-board active current consumption |
 |-|-|-|-|
 |Raspberry Pi Model A | 700mA | 500mA | 200mA |
 | Raspberry Pi Model B |1.2A | 500mA | 500mA |
 | Raspberry Pi Model A+ | 700mA | 500mA | 180mA
-| Raspberry Pi Model B+ | 1.8A | 600mA/1.2A (switchable)| 330mA |
-| Raspberry Pi 2 Model B | 1.8A | 600mA/1.2A (switchable) | 350mA |
+| Raspberry Pi Model B+ | 1.8A | 1.2A | 330mA |
+| Raspberry Pi 2 Model B | 1.8A | 1.2A | 350mA |
 | Raspberry Pi 3 Model B | 2.5A | 1.2A | 400mA |
 | Raspberry Pi 3 Model A+ | 2.5A | Limited by PSU, board, and connector ratings only. | 350mA |
 | Raspberry Pi 3 Model B+ | 2.5A | 1.2A | 500mA |
@@ -409,7 +409,11 @@ The device is powered by 5V micro USB. Exactly how much current (mA) the Raspber
 | Raspberry Pi Zero W/WH | 1.2A | Limited by PSU, board, and connector ratings only.| 150mA |
 | Raspberry Pi Zero | 1.2A | Limited by PSU, board, and connector ratings only | 100mA |
 
-The specific current requirements of each model are dependent on the use case: the PSU recommendations are based on **typical maximum** current consumption, the typical current consumption is for each board in a *desktop computer* configuration. The Raspberry Pi Model A, A+, and B can supply a maximum of 500mA to downstream USB peripherals. If you wish to connect a high-power USB device, it is recommended that you connect a powered USB hub to the Raspberry Pi and connect your peripherals to the USB hub. The Raspberry Pi  B+ and 2 Model B can supply 600mA/1.2A to downstream USB peripherals, switchable by a firmware setting. This allows the vast majority of USB devices to be connected directly to these models, assuming the upstream power supply has sufficient available current. Very high-current devices or devices which can draw a surge current such as certain modems and USB hard disks will still require an external powered USB hub. The power requirements of the Raspberry Pi increase as you make use of the various interfaces on the Raspberry Pi. The GPIO pins can draw 50mA safely (note that that means 50mA distributed across all the pins: an individual GPIO pin can only safely draw 16mA), the HDMI port uses 50mA, the Camera Module requires 250mA, and keyboards and mice can take as little as 100mA or as much as 1000mA! Check the power rating of the devices you plan to connect to the Raspberry Pi and purchase a power supply accordingly. If you're not sure, we would advise you to buy a powered hub.
+The specific current requirements of each model are dependent on the use case: the PSU recommendations are based on **typical maximum** current consumption, the typical current consumption is for each board in a *desktop computer* configuration. The Raspberry Pi Model A, A+, and B can supply a maximum of 500mA to downstream USB peripherals. If you wish to connect a high-power USB device, it is recommended that you connect a powered USB hub to the Raspberry Pi and connect your peripherals to the USB hub.
+
+From the Raspberry Pi B+ onwards, 1.2A is supplied to downstream USB peripherals. This allows the vast majority of USB devices to be connected directly to these models, assuming the upstream power supply has sufficient available current.
+
+Very high-current devices, or devices which can draw a surge current such as certain modems and USB hard disks, will still require an external powered USB hub. The power requirements of the Raspberry Pi increase as you make use of the various interfaces on the Raspberry Pi. The GPIO pins can draw 50mA safely (note that that means 50mA distributed across all the pins: an individual GPIO pin can only safely draw 16mA), the HDMI port uses 50mA, the Camera Module requires 250mA, and keyboards and mice can take as little as 100mA or as much as 1000mA! Check the power rating of the devices you plan to connect to the Raspberry Pi and purchase a power supply accordingly. If you're not sure, we would advise you to buy a powered USB hub.
 
 This is the typical amount of power (in ampere) drawn by different Raspberry Pi models during standard processes:
 
@@ -470,9 +474,9 @@ If you brick the device, you can restore it by reflashing the SD card.
 
 The Raspberry Pi 1 Model B and B+, Raspberry Pi 2, and Raspberry Pi 3 Model B versions of the device have built in 10/100 wired Ethernet. The Raspberry Pi 3B+ and Raspberry Pi 4 have 1000BaseT wired Ethernet, but on the 3B+, throughput is limited by its USB 2.0 connection to the SoC. There is no Ethernet on the Raspberry Pi 1 Model A and A+, and the Raspberry Pi Zero/Zero W.
 
-### Is there built-in WiFi?
+### Is there built-in wireless networking?
 
-Only the Raspberry Pi 3, 3+, 4, and Raspberry Pi Zero W have built-in wireless connectivity, but all other Raspberry Pi models can support a USB WiFi dongle. We offer our own branded WiFi dongle, which has been fully tested for use with the Raspberry Pi. It is [available through our distributors](https://www.raspberrypi.org/products/raspberry-pi-usb-wifi-dongle). You can, of course, use a dongle from another provider if you wish.
+The Raspberry Pi 3, 3+, 4, and Raspberry Pi Zero W have built-in wireless LAN connectivity. You can also add a USB wireless LAN dongle to any model of Raspberry Pi.
 
 The Raspberry Pi Model 3B+ and 4B support 802.11ac, and all earlier models support up to 802.11n.
 
@@ -500,15 +504,15 @@ Another option is [PiNet](http://pinet.org.uk), which is a free and open-source 
 
 ### What is the Camera Module?
 
-The Camera Module is a small PCB that connects to the CSI-2 camera port on the Raspberry Pi using a short ribbon cable. It provides connectivity for a camera capable of capturing still images or video recordings. The Camera Module connects to the Image System Pipeline (ISP) in the Raspberry Pi's SoC, where the incoming camera data is processed and eventually converted to an image or video on the SD card (or other storage). You can [read more about the Camera Module here](https://www.raspberrypi.org/products/). It's the only camera that is compatible with the Raspberry Pi.
+The Raspberry Pi Camera Modules are small PCB's that connects to the CSI-2 camera port on the Raspberry Pi using a short ribbon cable. They provide connectivity for a camera capable of capturing still images or video recordings. The Camera Modules connect to the Image System Pipeline (ISP) in the Raspberry Pi's SoC, where the incoming camera data is processed and eventually converted to an image or video on the SD card (or other storage). You can [read more about the Camera Modules here](https://www.raspberrypi.org/products/). 
 
 ### What model of camera does the Camera Module use?
 
-The Camera Module V2 is a Sony IMX219, while the original Camera Module is an Omnivision OV5647. They are comparable to cameras used in mobile phones.
+The original Camera Module is an Omnivision OV5647, the V2 which replaced it is a Sony IMX219. There is now a High quality camera module available, with an interchangeable lens mount, using the Sony IMX447 sensor.  
 
 ### What resolutions are supported?
 
-The Camera Module V2 is capable of taking photos up to 8 megapixels (8MP). It supports 1080p30, 720p60 and VGA90 video modes, as well as still capture. The original Camera Module is capable of taking photos up to 5 megapixels and can record video at resolutions up to 1080p30.
+The original Camera Module is capable of taking photos up to 5 megapixels and can record video at resolutions up to 1080p30. The Camera Module V2 is capable of taking photos up to 8 megapixels (8MP). It supports 1080p30, 720p60 and VGA90 video modes, as well as still capture. The High Quality camera module is 12.3MP, with the same video performance as the other models.
 
 ### What picture formats are supported?
 
