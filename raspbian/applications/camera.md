@@ -4,7 +4,7 @@ This document describes the use of the four Raspberry Pi camera applications, as
 
 There are four applications provided: `raspistill`, `raspivid`, `raspiyuv` and `raspividyuv`. `raspistill` and `raspiyuv` are very similar and are intended for capturing images; `raspivid` and `raspvidyuv` are for capturing video.
 
-All the applications are driven from the command line, and written to take advantage of the MMAL API which runs over OpenMAX. The MMAL API provides an easier to use system than that presented by OpenMAX. Note that MMAL is a Broadcom-specific API used only on Videocore 4 systems.
+All the applications are driven from the command line, and written to take advantage of the MMAL API which runs over OpenMAX. The MMAL API provides an easier to use system than that presented by OpenMAX. Note that MMAL is a Broadcom-specific API used only on VideoCore 4 systems.
 
 The applications use up to four OpenMAX (MMAL) components: camera, preview, encoder, and null_sink. All applications use the camera component; `raspistill` uses the Image Encode component; `raspivid` uses the Video Encode component; and `raspiyuv` and `raspividyuv` don't use an encoder, and sends their YUV or RGB output directly from the camera component to file.
 
@@ -246,10 +246,18 @@ Allows the specification of the area of the sensor to be used as the source for 
 ```
 
 ```
-	--shutter,	-ss		Set shutter speed
+	--shutter,	-ss		Set shutter speed/time
 ```
 
-Sets the shutter speed to the specified value (in microseconds). On Camera Module v1 and v2 there is an upper limit of approximately 6000000us (6000ms, 6s), past which operation is undefined. On the HQ Camera exposure times can be up to 200000000us (200000ms, 200s)
+Sets the shutter open time to the specified value (in microseconds). Shutter speed limits are as follows:
+
+| Camera Version | Max (microseconds)   |
+|----------------|:--------------------:| 
+| V1 (OV5647)    | 6000000 (i.e. 6s)    |
+| V2 (IMX219)    | 10000000 (i.e. 10s)  |
+| HQ (IMX477)    | 200000000 (i.e. 200s)|
+
+Using values above these maximums will result in undefined behaviour.
 
 ```
 	--drc,	-drc		Enable/disable dynamic range compression
@@ -265,10 +273,10 @@ DRC changes the images by increasing the range of dark areas, and decreasing the
 By default, DRC is off.
 
 ```
-	--stats,	-st		Display image statistics
+	--stats,	-st		Use stills capture frame for image statistics
 ```
 
-Displays the exposure, analogue and digital gains, and AWB settings used.
+Force recomputation of statistics on stills capture pass. Digital gain and AWB are recomputed based on the actual capture frame statistics, rather than the preceding preview frame.
 
 ```
 	--awbgains,	-awbg
@@ -286,7 +294,7 @@ Sets the analog gain value directly on the sensor (floating point value from 1.0
 	--digitalgain,	-dg
 ```
 
-Sets the digital gain value applied by the ISP (floating point value from 1.0 to 255.0, but values over about 4.0 will produce overexposed images)
+Sets the digital gain value applied by the ISP (floating point value from 1.0 to 64.0, but values over about 4.0 will produce overexposed images)
 
 ```
 	--mode,	-md
@@ -440,7 +448,9 @@ Outputs debugging/information messages during the program run.
 	--timeout,	-t		Time before the camera takes picture and shuts down
 ```
 
-The program will run for this length of time, then take the capture (if output is specified). If not specified, this is set to 5 seconds.
+The program will run for the specified length of time, entered in milliseconds. It then takes the capture and saves it if an output is specified. If a timeout value is not specified, then it is set to 5 seconds (-t 5000). Note that low values (less than 500ms, although it can depend on other settings) may not give enough time for the camera to start up and provide enough frames for the automatic algorithms like AWB and AGC to provide accurate results.
+
+If set to 0, the preview will run indefinitely, until stopped with CTRL-C. In this case no capture is made. 
 
 ```
 	--timelapse,	-tl		time-lapse mode
