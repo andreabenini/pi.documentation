@@ -31,6 +31,11 @@ sudo rpi-eeprom-update -d -f ./pieeprom-new.bin
 sudo reboot
 ```
 
+### Subsequent Bootloader Updates
+
+If you update your bootloader via apt, then any configuration changes made using the process described here will be migrated to the updated bootloader.
+
+
 ## Configuration Properties
 This section describes all the configuration items available in the bootloader. The syntax is the same as [config.txt](../../configuration/config-txt/) but the properties are specific to the bootloader. [Conditional filters](../../configuration/config-txt/conditional.md) are also supported except for EDID.
 
@@ -267,7 +272,7 @@ sudo apt upgrade
 # Check the current version
 sudo rpi-eeprom-update     
 # Update to latest
-sudo rpi-eeprom-update     
+sudo rpi-eeprom-update -a
 ```
 
 ### Enable network boot
@@ -352,12 +357,6 @@ Version: pieeprom-2020-05-15.bin - BETA
 If no USB mass storage devices are found within this timeout then USB-MSD is stopped and the next boot mode is selected
 
 Default: 20000 (20 seconds)  
-Version: pieeprom-2020-05-15.bin - BETA  
-
-### USB_MSD_BOOT_MAX_RETRIES
-The number of times that USB MSD boot will be retried after failure before moving to the next boot mode defined by `BOOT_ORDER`.  
--1 means infinite retries  
-Default: 0   
 Version: pieeprom-2020-05-15.bin - BETA  
 
 ### USB_MSD_LUN_TIMEOUT
