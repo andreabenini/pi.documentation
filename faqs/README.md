@@ -124,32 +124,34 @@ Raspberry Pi is the third best-selling computer brand in the world. The Raspberr
 
 Go to our [products page](https://www.raspberrypi.org/products/) and choose the product(s) you want to buy. Then select your country from the drop-down menu. You will be presented with our approved resellers for your country.
 
-The following prices are exclusive of any local taxes and shipping/handling fees.
+The following prices are in US dollars, and exclusive of any local taxes and shipping/handling fees.
 
 |Product|Price|
 |-------|-----|
-| Raspberry Pi Model A+| $20 |
-| Raspberry Pi Model B+ |$25 |
-| Raspberry Pi 2 Model B| $35 |
-| Raspberry Pi 3 Model B | $35 |
-| Raspberry Pi 3 Model A+ | $25 |
-| Raspberry Pi 3 Model B+ | $35 |
-| Raspberry Pi 4 Model B 2GB | $35 |
-| Raspberry Pi 4 Model B 4GB | $55 |
-| Raspberry Pi 4 Model B 8GB | $75 |
-| Raspberry Pi Zero | $5 |
-| Raspberry Pi Zero W |$10 |
-| Raspberry Pi Zero WH |$15 |
-| Raspberry Pi 400 |$70 |
-| Raspberry Pi 400 (full kit) |$100 |
-
+| [Raspberry Pi Model A+](https://www.raspberrypi.org/products/raspberry-pi-1-model-a-plus)| $20 |
+| [Raspberry Pi Model B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus) |$25 |
+| [Raspberry Pi 2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b)| $35 |
+| [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b) | $35 |
+| [Raspberry Pi 3 Model A+](https://www.raspberrypi.org/products/raspberry-pi-3-model-a-plus) | $25 |
+| [Raspberry Pi 3 Model B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus) | $35 |
+| [Raspberry Pi 4 Model B 2/4/8GB](https://www.raspberrypi.org/products/raspberry-pi-4-model-b) | $35/$55/$75 |
+| [Raspberry Pi 4 Model B official kits 2/4/8GB](https://www.raspberrypi.org/products/raspberry-pi-4-desktop-kit)  | $100/$120/$140 |
+| [Raspberry Pi Zero](https://www.raspberrypi.org/products/raspberry-pi-zero) | $5 |
+| [Raspberry Pi Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w) |$10 |
+| [Raspberry Pi Zero WH](https://www.raspberrypi.org/products/raspberry-pi-zero-w) |$15 |
+| [Raspberry Pi 400](https://www.raspberrypi.org/products/raspberry-pi-400-unit) |$70 |
+| [Raspberry Pi 400 official kit](https://www.raspberrypi.org/products/raspberry-pi-400) |$100 |
 
 <a name="buying-what"></a>
 ### What do I get when I buy one?
 
-You get the Raspberry Pi board itself. The [official power supply](https://www.raspberrypi.org/products/raspberry-pi-universal-power-supply/) and an SD card are not included, but they can be purchased at the same time from most places that sell the Raspberry Pi. You can also purchase pre-loaded SD cards; we recommend buying these from us or our licensed distributors rather than from third parties, as our software is updated regularly and cards sold by third parties can quickly become outdated.
+Raspberry Pi computers are available separately, or as complete kits which contain everything you need to get started including a mouse, HDMI cable, SD card, power supply, as well as our official Beginners Guide book. The Raspberry Pi 400 is a computer enclosed in a keyboard: other kits come with a separate case and keyboard.
 
-An official case for the Raspberry Pi is available separately [from our distributors](https://www.raspberrypi.org/products/). There are also lots of home-brew case discussions on the forum, as well as several third-party cases available. There are also loads of awesome [3D-printable cases](https://www.raspberrypi.org/blog/3d-printed-raspberry-pi-cases/) that community members have designed.
+Raspberry Pi also sell all the equipment you need to get your Raspberry Pi up and running separately. We recommend using an official Raspberry Pi Power Supply. For the Pi Zero, 1, 2 and 3 use the [Raspberry Pi 1, 2 and 3 Power Supply](https://www.raspberrypi.org/products/raspberry-pi-universal-power-supply/), for the Pi 4B and Pi 400 use the [Raspberry Pi USB-C Power Supply](https://www.raspberrypi.org/products/type-c-power-supply/).
+
+Official cases for the Raspberry Pi range are available separately [from our distributors](https://www.raspberrypi.org/products/). Community members have designed loads of awesome [3D-printable cases](https://www.raspberrypi.org/blog/3d-printed-raspberry-pi-cases/) 
+
+For full details of all of our products, see our [Product page](https://www.raspberrypi.org/products/).
 
 <a name="buying-fake"></a>
 ### I'm worried I have a fake Raspberry Pi!
@@ -215,7 +217,7 @@ The Raspberry Pi 3 Model B+ was launched in March 2018. It uses a 1.4GHz 64-bit 
 
 The Raspberry Pi 4 Model B was launched in June 2019. It uses a 1.5GHz 64-bit quad-core Arm Cortex-A72 CPU, has three RAM options (2GB, 4GB, 8GB), gigabit Ethernet, integrated 802.11ac/n wireless LAN, and Bluetooth 5.0. Originally launched with a 1GB option, this has been superceded by the 2GB at the original 1GB price. The 1GB device is still available as a special order.
 
-The Raspberry Pi 400 was launched in November 2020. It uses a 1.8GHz 64-bit quad-core Arm Cortex-A72 CPU, with 4GB of RAM, gigabit Ethernet, integrated 802.11ac/n wireless LAN, and Bluetooth 5.0. The Raspberry Pi 400 is the first Raspberry Pi built in to a compact keyboard.
+The Raspberry Pi 400 was launched in November 2020. It uses a 1.8GHz 64-bit quad-core Arm Cortex-A72 CPU, with 4GB of RAM, gigabit Ethernet, integrated 802.11ac/n wireless LAN, and Bluetooth 5.0. The Raspberry Pi 400 is the first Raspberry Pi built into a compact keyboard.
 
 The Raspberry Pi Zero and Raspberry Pi Zero W/WH are half the size of a Model A+, with a 1GHz single-core CPU and 512MB RAM, and mini-HDMI and USB On-The-Go ports and a camera connector. The Raspberry Pi Zero W also has integrated 802.11n wireless LAN and Bluetooth 4.1. The Raspberry Pi Zero WH is identical to the Zero W, but comes with a pre-soldered header.
 
@@ -290,7 +292,7 @@ The Raspberry Pi (all models) idles at a lower speed than advertised. If the wor
 <a name="pi-performance-overclock"></a>
 ### Does it overclock?
 
-The Raspberry Pi 1 Model A, A+, B, and B+ operate at 700MHz by default. Most devices will run happily at 800MHz. The Raspberry Pi 2 Model B operates at 900MHz by default and should run quite happily at 1000MHz. The Raspberry Pi 3 Model B runs at 1.2GHz, but this model has no standard overclocking settings. The Raspberry Pi 4 runs at 1.5GHz, and has no official overclocking options, although many people do overclock them manually.
+Overclocking is not officially supported, and in some cases will void your warranty. Having said that, some people do overclock successfully. Due to the way silicon chips are produced, each individual device will differ in how much it can be overclocked. For a fully supported, stable system we recommend that you do not overclock your Raspberry Pi.
 
 <a name="pi-performance-temps"></a>
 ### What is its operating temperature? Does it need a heatsink?
@@ -460,6 +462,7 @@ The device needs to be powered with a 5V power supply with a USB connector; USB-
 | Raspberry Pi 3 Model A+ | 2.5A | Limited by PSU, board, and connector ratings only. | 350mA |
 | Raspberry Pi 3 Model B+ | 2.5A | 1.2A | 500mA |
 | Raspberry Pi 4 Model B | 3.0A | 1.2A | 600mA |
+| Raspberry Pi 400       | 3.0A | 1.2A | 800mA |
 | Raspberry Pi Zero W/WH | 1.2A | Limited by PSU, board, and connector ratings only.| 150mA |
 | Raspberry Pi Zero | 1.2A | Limited by PSU, board, and connector ratings only | 100mA |
 
@@ -563,7 +566,7 @@ The Raspberry Pi 4 does not currently support network booting without an SD card
 
 We have also developed [PiServer](https://www.raspberrypi.org/blog/piserver/), a piece of software that lets you easily set up a network of client Raspberry Pis connected to a single x86-based server via Ethernet. With PiServer, you don’t need SD cards, you can control all clients via the server, and you can add and configure user accounts — ideal for the classroom, your home, or an industrial setting.
 
-Another option is [PiNet](http://pinet.org.uk), which is a free and open-source community-based project initially designed for schools. Each Raspberry Pi boots off a small set of startup files on an SD card and fetches the rest of the data it needs from the PiNet server, thereby allowing you to maintain a single operating system image for all the Raspberry Pis. PiNet also adds network user accounts, shared folders and automated backups.
+Another option is [PiNet](http://pinet.org.uk), which is a free and open-source community-based project initially designed for schools. Each Raspberry Pi boots off a small set of startup files on an SD card and fetches the rest of the data it needs from the PiNet server, thereby allowing you to maintain a single operating system image for all the Raspberry Pis. PiNet also adds network user accounts, shared folders and automated backups. Please do note that PiNet is now [deprecated](http://pinet.org.uk/blog/2020/10/27/PiNet-end-of-life.html) and will no longer be supported at the end of 2020/2021 academic year.
 
 <a name="cameramodule"></a>
 

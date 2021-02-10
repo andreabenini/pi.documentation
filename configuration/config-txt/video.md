@@ -117,6 +117,12 @@ The `hdmi_pixel_encoding` command forces the pixel encoding mode. By default, it
 | 3 | YCbCr limited (16-235) |
 | 4 | YCbCr full (0-255) |
 
+### hdmi_max_pixel_freq
+
+The pixel frequency is used by the firmware and KMS to filter HDMI modes. Note, this is not the same as the frame rate. It specifies the maximum frequency that a valid mode can have, thereby culling out higher frequency modes. The frequencies for all the HDMI modes can he found on the Wiki page [here](https://en.wikipedia.org/wiki/Extended_Display_Identification_Data#CEA_EDID_Timing_Extension_data_format_-_Version_3), section "CEA/EIA-861 standard resolutions and timings".
+
+So for example, if you wish to disable all 4K modes, you could specify a maximum frequency of 200000000, since all 4K modes have frequencies greater than this.
+
 ### hdmi_blanking
 
 The `hdmi_blanking` command controls what happens when the operating system asks for the display to be put into standby mode, using DPMS, to save power. If this option is not set or set to 0, the HDMI output is blanked but not switched off. In order to mimic the behaviour of other computers, you can set the HDMI output to switch off as well by setting this option to 1: the attached display will go into a low power standby mode.
@@ -642,6 +648,14 @@ The options that can be set are:
 |HDMI 0         | 2 |
 |Composite      | 3 | 
 |HDMI 1         | 7 |
+
+### max_framebuffers
+
+This configuration entry sets the maximum number of firmware framebuffers that can be created. Valid options are 0,1, and 2. By default on devices before the Pi4 this is set to 1, so will need to be increased to 2 when using more than one display, for example HDMI and a DSI or DPI display. The Raspberry Pi4 configuration sets this to 2 by default as it has two HDMI ports. 
+
+Generally in most cases it is safe to set this to 2, as framebuffers will only be created when an attached device is actually detected. 
+
+Setting this value to 0 can be used to reduce memory requirements when used in headless mode as it will prevent any framebuffers from being allocated. 
 
 ### test_mode
 
