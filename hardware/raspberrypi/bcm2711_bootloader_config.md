@@ -282,17 +282,21 @@ The `BOOT_UART` property also enables bootloader UART logging but does not enabl
 Default: `0`    
 
 ### eeprom_write_protect
-Controls whether the bootloader and VLI EEPROMs are marked as write protected.
+The `2020-09-03` `recovery.bin` EEPROM updater provides a feature to configure the EEPROM `Write Status Register`. This can be set to either mark the entire EEPROM as write-protected or clear write-protection.
 
-**This has no effect unless the EEPROM `/WP` pin is pulled low (TP5). Similarly, `/WP` low only write protects the EEPROM status register so if EEPROM write protect was not previously defined then the EEPROM would not actually be write protected**
+This option must be used in conjunction with the EEPROM `/WP` pin which controls updates to the EEPROM `Write Status Register`.  Pulling `/WP` low (CM4 `EEPROM_nEP` or Pi4B `TP5`) does NOT write-protect the EEPROM unless the `Write Status Register` has also been configured.
 
 See: [Winbond W25x40cl datasheet](https://www.winbond.com/resource-files/w25x40cl_f%2020140325.pdf)
+
+`eeprom_write_protect` settings in `config.txt` for `recovery.bin`.
 
 | Value | Description                                                      |
 |-------|------------------------------------------------------------------|
 |  1    | Configures the write protect regions to cover the entire EEPROM. |
-|  0    | Clears the write protect regions.                                |  
+|  0    | Clears the write protect regions.                                |
 | -1    | Do nothing.                                                      |
+
+N.B `flashrom` does not support clearing of the write-protect regions and will fail to update the EEPROM if write-protect regions are defined.
 
 Default: `-1`  
 
@@ -346,7 +350,7 @@ When searching for a bootable partition the bootloader scans all USB mass storag
 
 As with earlier Raspberry Pi models there is no method for specifying the boot device according to the USB topology because this would slow down boot and adds unecessary and hard to support configuration complexity.
 
-N.B. config.txt [conditional filters](../configuration/config-txt/conditional.md) can be used to select alternate firmware in complex device configurations.
+N.B. config.txt [conditional filters](../../configuration/config-txt/conditional.md) can be used to select alternate firmware in complex device configurations.
 
 ### Network boot server configuration
 Network boot requires a TFTP and NFS server to be configured. See [Network boot server tutorial](bootmodes/net_tutorial.md)
