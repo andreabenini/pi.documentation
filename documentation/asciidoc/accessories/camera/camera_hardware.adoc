@@ -172,6 +172,8 @@ Then, please follow the relevant setup instructions for the xref:../computers/ca
 | CS- or M12-mount
 |===
 
+NOTE: There is https://github.com/raspberrypi/libcamera/issues/43[some evidence] to suggest that the Camera Module 3 may emit some RFI at a harmonic of the CSI clock rate. This RFI is in a range to interfer with GPS L1 frequences (1575 MHz). Please see the https://github.com/raspberrypi/libcamera/issues/43[thread on Github] for details and proposed workarounds.
+
 === Mechanical Drawings
 
 Available mechanical drawings;
@@ -194,3 +196,17 @@ Other available schematics;
 
 * Camera Module v2 https://datasheets.raspberrypi.com/camera/camera-module-2-schematics.pdf[PDF]
 * HQ Camera Module https://datasheets.raspberrypi.com/hq-camera/hq-camera-schematics.pdf[PDF]
+
+== Filter Transmission
+
+=== Camera Module 3
+
+The Camera Module 3 is built around the IMX708, which has the following spectral sensitivity characteristics.
+
+image::images/cm3-filter.png[Camera Module 3 Transmission Graph]
+
+=== HQ Camera
+
+The HQ Camera uses a Hoya CM500 infrared filter. Its transmission characteristics are as represented in the following graph.
+
+image::images/hoyacm500.png[CM500 Transmission Graph]
