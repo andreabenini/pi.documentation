@@ -23,20 +23,12 @@ def check_no_markdown(filename):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 7:
-        index_json = sys.argv[1]
-        config_yaml = sys.argv[2]
-        github_edit = sys.argv[3]
-        src_adoc = sys.argv[4]
-        includes_dir = sys.argv[5]
-        build_adoc = sys.argv[6]
-    elif len(sys.argv) == 6:
-        index_json = sys.argv[1]
-        config_yaml = sys.argv[2]
-        github_edit = None
-        src_adoc = sys.argv[3]
-        includes_dir = sys.argv[4]
-        build_adoc = sys.argv[5]
+    index_json = sys.argv[1]
+    config_yaml = sys.argv[2]
+    github_edit = sys.argv[3]
+    src_adoc = sys.argv[4]
+    includes_dir = sys.argv[5]
+    build_adoc = sys.argv[6]
 
     output_subdir = os.path.basename(os.path.dirname(build_adoc))
     adoc_filename = os.path.basename(build_adoc)
@@ -54,22 +46,18 @@ if __name__ == "__main__":
                         break
                 if index_title is not None:
                     break
-            elif 'from_json' in tab:
-                index_title = tab['title']
-                break
     if index_title is None:
         raise Exception("Couldn't find title for {} in {}".format(os.path.join(output_subdir, adoc_filename), index_json))
 
     with open(config_yaml) as config_fh:
         site_config = yaml.safe_load(config_fh)
 
-    if github_edit is not None:
-        with open(github_edit) as edit_fh:
-            edit_template = edit_fh.read()
-            template_vars = {
-                'github_edit_link': os.path.join(site_config['githuburl'], 'blob', site_config['githubbranch_edit'], src_adoc)
-            }
-            edit_text = re.sub('{{\s*(\w+)\s*}}', lambda m: template_vars[m.group(1)], edit_template)
+    with open(github_edit) as edit_fh:
+        edit_template = edit_fh.read()
+        template_vars = {
+            'github_edit_link': os.path.join(site_config['githuburl'], 'blob', site_config['githubbranch_edit'], src_adoc)
+        }
+        edit_text = re.sub('{{\s*(\w+)\s*}}', lambda m: template_vars[m.group(1)], edit_template)
 
     new_contents = ''
     seen_header = False
