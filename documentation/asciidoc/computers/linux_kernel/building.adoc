@@ -90,6 +90,14 @@ KERNEL=kernel8
 make bcm2711_defconfig
 ----
 
+For Raspberry Pi 5 default 64-bit build configuration
+[,bash]
+----
+cd linux
+KERNEL=kernel_2712
+make bcm2712_defconfig
+----
+
 ===== Customising the Kernel Version Using `LOCALVERSION`
 
 In addition to your kernel configuration changes, you may wish to adjust the `LOCALVERSION` to ensure your new kernel does not receive the same version string as the upstream kernel. This both clarifies you are running your own kernel in the output of `uname` and ensures existing modules in `/lib/modules` are not overwritten.
@@ -110,10 +118,10 @@ Build and install the kernel, modules, and Device Tree blobs; this step can take
 ----
 make -j4 zImage modules dtbs
 sudo make modules_install
-sudo cp arch/arm/boot/dts/*.dtb /boot/
-sudo cp arch/arm/boot/dts/overlays/*.dtb* /boot/overlays/
-sudo cp arch/arm/boot/dts/overlays/README /boot/overlays/
-sudo cp arch/arm/boot/zImage /boot/$KERNEL.img
+sudo cp arch/arm/boot/dts/*.dtb /boot/firmware/
+sudo cp arch/arm/boot/dts/overlays/*.dtb* /boot/firmware/overlays/
+sudo cp arch/arm/boot/dts/overlays/README /boot/firmware/overlays/
+sudo cp arch/arm/boot/zImage /boot/firmware/$KERNEL.img
 ----
 
 For the 64-bit kernel:
@@ -122,13 +130,13 @@ For the 64-bit kernel:
 ----
 make -j4 Image.gz modules dtbs
 sudo make modules_install
-sudo cp arch/arm64/boot/dts/broadcom/*.dtb /boot/
-sudo cp arch/arm64/boot/dts/overlays/*.dtb* /boot/overlays/
-sudo cp arch/arm64/boot/dts/overlays/README /boot/overlays/
-sudo cp arch/arm64/boot/Image.gz /boot/$KERNEL.img
+sudo cp arch/arm64/boot/dts/broadcom/*.dtb /boot/firmware/
+sudo cp arch/arm64/boot/dts/overlays/*.dtb* /boot/firmware/overlays/
+sudo cp arch/arm64/boot/dts/overlays/README /boot/firmware/overlays/
+sudo cp arch/arm64/boot/Image.gz /boot/firmware/$KERNEL.img
 ----
 
-NOTE: On a Raspberry Pi 2/3/4, the `-j4` flag splits the work between all four cores, speeding up compilation significantly.
+NOTE: On a Raspberry Pi 2/3/4/5, the `-j4` flag splits the work between all four cores, speeding up compilation significantly.
 
 If you now reboot, your Raspberry Pi should be running your freshly-compiled kernel!
 
@@ -217,6 +225,17 @@ cd linux
 KERNEL=kernel8
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig
 ----
+
+For Raspberry Pi 5:
+
+[,bash]
+----
+cd linux
+KERNEL=kernel_2712
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2712_defconfig
+----
+
+NOTE: The standard, `bcm2711_defconfig`-based kernel (`kernel8.img`) also runs on Raspberry Pi 5. For best performance you should use `kernel_2712.img`, but for situations where a 4KB page size is required then `kernel8.img` (`kernel=kernel8.img`) should be used.
 
 ===== Build with Configs
 

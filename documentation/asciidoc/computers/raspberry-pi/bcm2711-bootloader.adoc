@@ -1,4 +1,4 @@
-== Raspberry Pi 4 Bootloader Configuration
+== Raspberry Pi Bootloader Configuration
 
 === Editing the Configuration
 
@@ -10,7 +10,7 @@ To view the current EEPROM configuration: +
 To edit it and apply the updates to latest EEPROM release: +
 `sudo -E rpi-eeprom-config --edit`
 
-Please see the xref:raspberry-pi.adoc#raspberry-pi-4-boot-eeprom[boot EEPROM] page for more information about the EEPROM update process.
+Please see the xref:raspberry-pi.adoc#raspberry-pi-boot-eeprom[boot EEPROM] page for more information about the EEPROM update process.
 
 === Configuration Properties
 
@@ -23,10 +23,21 @@ If `1` then enable UART debug output on GPIO 14 and 15. Configure the receiving 
 
 Default: `0`
 
+[[UART_BAUD]]
+==== UART_BAUD
+Raspberry Pi 5 only.
+
+Changes the baud rate for the bootloader UART. +
+Supported values are `9600`, `19200`, `38400`, `57600`, `115200`, `230400`, `460800`, `921600`
+
+Default: `115200`
+
 [[WAKE_ON_GPIO]]
 ==== WAKE_ON_GPIO
 
 If `1` then `sudo halt` will run in a lower power mode until either GPIO3 or GLOBAL_EN are shorted to ground.
+
+This setting is not relevant on Raspberry Pi 5 because the xref:raspberry-pi-5.adoc#adding-your-own-power-button[dedicated power button] may always be used to wakeup from `HALT` or `STANDBY`.
 
 Default: `1`
 
@@ -36,6 +47,9 @@ Default: `1`
 If `1` and `WAKE_ON_GPIO=0` then `sudo halt` will switch off all PMIC outputs. This is lowest possible power state for halt but may cause problems with some HATs because 5V will still be on. `GLOBAL_EN` must be shorted to ground to boot.
 
 Raspberry Pi 400 has a dedicated power button which operates even if the processor is switched off. This behaviour is enabled by default, however, `WAKE_ON_GPIO=2` may be set to use an external GPIO power button instead of the dedicated power button.
+
+On Raspberry Pi 5 this places the PMIC in `STANDBY` mode where all outputs are switched off. There is no need to set `WAKE_ON_GPIO` and pressing the xref:raspberry-pi-5.adoc#adding-your-own-power-button[dedicated power button] will boot the device.
+
 
 Default: `0`
 
@@ -75,11 +89,11 @@ The BOOT_ORDER property defines the sequence for the different boot modes. It is
 
 | 0x5
 | BCM-USB-MSD
-| USB 2.0 boot from USB Type C socket (CM4: USB type A socket on CM4IO board).
+| USB 2.0 boot from USB Type C socket (CM4: USB type A socket on CM4IO board). Not available on Raspberry Pi 5.
 
 | 0x6
 | NVME
-| CM4 only: boot from an NVMe SSD connected to the PCIe interface. See xref:raspberry-pi.adoc#nvme-ssd-boot[NVMe boot] for more details.
+| CM4 and Pi 5 only: boot from an NVMe SSD connected to the PCIe interface. See xref:raspberry-pi.adoc#nvme-ssd-boot[NVMe boot] for more details.
 
 | 0x7
 | HTTP
@@ -290,10 +304,11 @@ Enables the bootloader to update itself from a TFTP or USB mass storage device (
 
 If self update is enabled then the bootloader will look for the update files (.sig/.upd) in the boot file system. If the update image differs from the current image then the update is applied and system is reset. Otherwise, if the EEPROM images are byte-for-byte identical then boot continues as normal.
 
-Notes:-
+Notes:
 
-* Self-update is not enabled in SD boot; the ROM can already load recovery.bin from the SD card.
 * Bootloader releases prior to 2021 do not support `self-update`.
+* Prior to 2022, self-update was not enabled in SD boot. On a Raspberry Pi 4, the ROM can already load recovery.bin from the SD card. On a CM4, neither self-update nor recovery.bin have any effect and USB boot is required (see the xref:compute-module.adoc#cm4bootloader[CM4 bootloader docs]).
+* Starting in 2022 (https://github.com/raspberrypi/rpi-eeprom/blob/master/firmware-2711/release-notes.md#2022-02-04---network-install---beta[beta] and https://github.com/raspberrypi/rpi-eeprom/blob/master/firmware-2711/release-notes.md#2022-03-10---promote-the-2022-03-10-beta-release-to-lateststable[stable]), self-update from an SD card is enabled.
 * For network boot make sure that the TFTP `boot` directory can be mounted via NFS and that `rpi-eeprom-update` can write to it.
 
 Default: `1`
@@ -425,6 +440,15 @@ PARTITION=2
 
 Default: 0
 
+[[PSU_MAX_CURRENT]]
+==== PSU_MAX_CURRENT
+Raspberry Pi 5 only.
+
+If set, this property instructions the firmware to skip USB power-delivery negotiation and assume that it is connected to a power supply with the given current rating.
+Typically, this would either be set to `3000` or `5000` i.e. low or high-current capable power supply.
+
+Default: ""
+
 [[USB_MSD_EXCLUDE_VID_PID]]
 ==== USB_MSD_EXCLUDE_VID_PID
 
@@ -530,6 +554,8 @@ WARNING: If an invalid configuration which causes boot to fail is specified then
 
 === Configuration Properties in `config.txt`
 
+Raspberry Pi 5 requires a `config.txt` file to be present to indicate that the partition is bootable. 
+
 [[boot_ramdisk]]
 ==== boot_ramdisk
 If this property is set to `1` then the bootloader will attempt load a ramdisk file called `boot.img` containing the boot xref:configuration.adoc#boot-folder-contents[boot file-system]. Subsequent files (e.g. `start4.elf`) are read from the ramdisk instead of the original boot file-system.
@@ -552,6 +578,8 @@ Default: `0`
 Experimental property for custom firmware (bare metal).
 
 Bit 0 (0x1) indicates that the .elf file is custom firmware. This disables any compatibility checks (e.g. is USB MSD boot supported) and resets PCIe before starting the executable.
+
+Not relevant on Raspberry Pi 5 because there is no `start.elf` file.
 
 Default: `0x0`
 
@@ -578,7 +606,7 @@ Configures the EEPROM `Write Status Register`. This can be set to either mark th
 
 This option must be used in conjunction with the EEPROM `/WP` pin which controls updates to the EEPROM `Write Status Register`.  Pulling `/WP` low (CM4 `EEPROM_nWP` or on a Raspberry Pi 4 `TP5`) does NOT write-protect the EEPROM unless the `Write Status Register` has also been configured.
 
-See the https://www.winbond.com/resource-files/w25x40cl_f%2020140325.pdf[Winbond W25x40cl datasheet] for further details.
+See the https://www.winbond.com/resource-files/w25x40cl_f%2020140325.pdf[Winbond W25x40cl] or https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q16JV[Winbond W25Q16JV] datasheets for further details.
 
 `eeprom_write_protect` settings in `config.txt` for `recovery.bin`.
 
@@ -597,7 +625,16 @@ See the https://www.winbond.com/resource-files/w25x40cl_f%2020140325.pdf[Winbond
 
 NOTE: `flashrom` does not support clearing of the write-protect regions and will fail to update the EEPROM if write-protect regions are defined.
 
+On Raspberry Pi 5 `/WP` is pulled low by default and consequently write-protect is enabled as soon as the `Write Status Register` is configured. To clear write-protect pull `/WP` high by connecting `TP14` and `TP1`.
+
 Default: `-1`
+
+[[os_check]]
+==== os_check
+On Raspberry Pi 5 the firmware automatically checks for a compatible device-tree file before attempting to boot from the current partition. Otherwise, older non-compatible kernels would be loaded and then hang.
+To disable this check (e.g. for bare metal development) set `os_check=0` in config.txt
+
+Default: `1`
 
 [[bootloader_update]]
 ==== bootloader_update
@@ -608,17 +645,9 @@ Default: `1`
 
 === Secure Boot configuration properties in `config.txt`
 
-[.whitepaper, title="Raspberry Pi 4 Boot Security", subtitle="", link=https://pip.raspberrypi.com/categories/685-whitepapers-app-notes/documents/RP-004651-WP/Raspberry-Pi-4-Boot-Security.pdf]
+[.whitepaper, title="How To Use Raspberry Pi Secure Boot", subtitle="", link=https://pip.raspberrypi.com/categories/685-whitepapers-app-notes/documents/RP-003466-WP/Boot-Security-Howto.pdf]
 ****
-This whitepaper describes Raspberry Pi Ltd’s approach to boot security on the Raspberry Pi 4 family of devices, based on
-the BCM2711 system on a chip (SoC).
-****
-
-[.whitepaper, title="Boot security howto", subtitle="", link=https://pip.raspberrypi.com/categories/685-whitepapers-app-notes/documents/RP-003466-WP/Boot-Security-Howto.pdf]
-****
-This whitepaper describes how to implement secure boot on devices based on Raspberry Pi 4. For an overview of the secure boot implementation, please see the Raspberry Pi 4 Boot Security whitepaper.
-
-The secure boot system is intended for use with buildroot (or similar)-based OS images; using it with Raspberry Pi OS is not recommended or supported.
+This whitepaper describes how to implement secure boot on devices based on Raspberry Pi 4. For an overview of our approach to implementing secure boot implementation, please see the https://pip.raspberrypi.com/categories/685-whitepapers-app-notes/documents/RP-004651-WP/Raspberry-Pi-4-Boot-Security.pdf[Raspberry Pi 4 Boot Security] whitepaper. The secure boot system is intended for use with `buildroot`-based OS images; using it with Raspberry Pi OS is not recommended or supported.
 ****
 
 The following `config.txt` properties are used to program the `secure-boot` OTP settings. These changes are irreversible and can only be programmed via `RPIBOOT` when flashing the bootloader EEPROM image.  This ensures that `secure-boot` cannot be set remotely or by accidentally inserting a stale SD card image.
@@ -651,50 +680,3 @@ Default: ``
 If this property is set to `1` then `recovery.bin` will program an OTP value that prevents VideoCore JTAG from being used. This option requires that `program_pubkey` and `revoke_devkey` are also set. This option can prevent failure-analysis and should only be set after the device has been fully tested.
 
 Default: `0`
-
-[[bootloader_update_stable]]
-=== Updating to the LATEST / STABLE bootloader
-
-The DEFAULT version of the bootloader is only updated for CRITICAL fixes and major releases. The LATEST / STABLE bootloader is updated more often to include the latest fixes and improvements.
-
-Advanced users can switch to the LATEST / STABLE bootloader to get the latest functionality.
-Open a command prompt and start `raspi-config`.
-
-----
-sudo raspi-config
-----
-
-Navigate to `Advanced Options` and then `Bootloader Version`. Select `Latest` and choose `Yes` to confirm. Select `Finish` and confirm you want to reboot. After the reboot, open a command prompt again and update your system.
-
-----
-sudo apt update
-sudo apt install rpi-eeprom  # Update rpi-eeprom to the latest version
-----
-
-If you run `rpi-eeprom-update`, you should see that a more recent version of the bootloader is available and it's the `stable` release.
-
-----
-*** UPDATE AVAILABLE ***
-BOOTLOADER: update available
-   CURRENT: Tue 25 Jan 14:30:41 UTC 2022 (1643121041)
-    LATEST: Thu 10 Mar 11:57:12 UTC 2022 (1646913432)
-   RELEASE: stable (/lib/firmware/raspberrypi/bootloader/stable)
-            Use raspi-config to change the release.
-----
-
-Now you can update your bootloader.
-
-----
-sudo rpi-eeprom-update -a
-sudo reboot
-----
-
-If you run `rpi-eeprom-update` again after your Raspberry Pi has rebooted, you should now see that the `CURRENT` date has updated to indicate that you are using the latest version of the bootloader.
-
-----
-BOOTLOADER: up to date
-   CURRENT: Thu 10 Mar 11:57:12 UTC 2022 (1646913432)
-    LATEST: Thu 10 Mar 11:57:12 UTC 2022 (1646913432)
-   RELEASE: stable (/lib/firmware/raspberrypi/bootloader/stable)
-            Use raspi-config to change the release.
-----
