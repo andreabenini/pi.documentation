@@ -12,6 +12,12 @@
                     "subpath": "getting-started.adoc"
                 },
                 {
+                    "title": "Raspberry Pi 5",
+                    "description": "Everything you need to know about Raspberry Pi 5",
+                    "image": "full-sized/Pi-5.png",
+                    "subpath": "raspberry-pi-5.adoc"
+                },
+                {
                     "title": "Raspberry Pi OS",
                     "description": "The official Raspberry Pi operating system",
                     "image": "full-sized/Raspberry-Pi-OS.png",
@@ -28,6 +34,12 @@
                     "description": "Low-level settings control",
                     "image": "full-sized/The-config-txt-file.png",
                     "subpath": "config_txt.adoc"
+                },
+                {
+                    "title": "Legacy config.txt options",
+                    "description": "Options which may be useful for OSes other than Raspberry Pi OS",
+                    "image": "full-sized/Legacy-config-txt.png",
+                    "subpath": "legacy_config_txt.adoc"
                 },
                 {
                     "title": "The Linux kernel",
@@ -145,6 +157,12 @@
                     "subpath": "debug-probe.adoc"
                 },
                 {
+                    "title": "RP1",
+                    "description": "Our southbridge for Raspberry Pi 5",
+                    "image": "full-sized/RP1.png",
+                    "subpath": "rp1.adoc"
+                },				
+                {
                     "title": "MicroPython",
                     "description": "Getting started with MicroPython",
                     "image": "full-sized/MP.png",
@@ -165,7 +183,7 @@
                 {
                     "title": "Raspberry Pi ID",
                     "description": "Our identity service",
-                    "image": "full-sized/Getting-Started.png",
+                    "image": "full-sized/Raspberry-Pi-ID.png",
                     "subpath": "id.adoc"
                 }
             ]

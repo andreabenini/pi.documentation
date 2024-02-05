@@ -6,7 +6,7 @@ Before we get started we need to install some tools.
 
 You need to install OpenOCD.
 
-NOTE: SMP support for debugging on both RP2040 cores is not yet available in the release version of `openocd`. However, support is available in the `rp2040` branch and will be enabled if you build from source.
+NOTE: SMP support for debugging on both RP2040 cores is not yet available in the release version of `openocd`. However, support is available in the `rp2040-v0.12.0` branch and will be enabled if you build from source.
 
 ==== Linux (and Raspberry Pi)
 
@@ -21,13 +21,13 @@ You need to be running OpenOCD version 0.11.0 or 0.12.0 to have support for the 
 Start by installing needed dependencies, 
 
 ----
-$ sudo apt install automake autoconf build-essential texinfo libtool libftdi-dev libusb-1.0-0-dev
+$ sudo apt install automake autoconf build-essential texinfo libtool libftdi-dev libusb-1.0-0-dev pkg-config
 ----
 
 and then build OpenOCD.
 
 ----
-$ git clone https://github.com/raspberrypi/openocd.git --branch rp2040 --depth=1 --no-single-branch
+$ git clone https://github.com/raspberrypi/openocd.git --branch rp2040-v0.12.0 --depth=1 --no-single-branch
 $ cd openocd
 $ ./bootstrap
 $ ./configure 
@@ -45,23 +45,17 @@ Install https://brew.sh/[Homebrew] if needed,
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ----
 
-and then OpenOCD.
-
-----
-$ brew install open-ocd
-----
-
-Alternatively you can install needed dependencies,
+install needed dependencies,
 
 ----
 $ brew install libtool automake libusb wget pkg-config gcc texinfo 
 ----
 
-and build OpenOCD from source.
+and then build OpenOCD from source.
 
 ----
 $ cd ~/pico
-$ git clone https://github.com/raspberrypi/openocd.git --branch rp2040 --depth=1
+$ git clone https://github.com/raspberrypi/openocd.git --branch rp2040-v0.12.0 --depth=1
 $ cd openocd
 $ export PATH="/usr/local/opt/texinfo/bin:$PATH"
 $ ./bootstrap
@@ -98,7 +92,7 @@ Pick all when installing the `mingw-w64-x86_64` toolchain by pressing ENTER.
 Close MSYS2 and reopen the 64-bit version to make sure the environment picks up GCC,
 
 ----
-$ git clone https://github.com/raspberrypi/openocd.git --branch rp2040 --depth=1
+$ git clone https://github.com/raspberrypi/openocd.git --branch rp2040-v0.12.0 --depth=1
 $ cd openocd
 $ ./bootstrap
 $ ./configure --disable-werror 

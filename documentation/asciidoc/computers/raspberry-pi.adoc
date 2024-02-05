@@ -16,7 +16,7 @@ include::raspberry-pi/bootflow-legacy.adoc[]
 
 include::raspberry-pi/bootflow-2711.adoc[]
 
-include::raspberry-pi/bcm2711-bootloader.adoc[]
+include::raspberry-pi/eeprom-bootloader.adoc[]
 
 include::raspberry-pi/boot-usb.adoc[]
 
@@ -35,8 +35,6 @@ include::raspberry-pi/display-parallel-interface.adoc[]
 include::raspberry-pi/gpio-on-raspberry-pi.adoc[]
 
 include::raspberry-pi/gpio-pad-controls.adoc[]
-
-include::raspberry-pi/peripheral_addresses.adoc[]
 
 include::raspberry-pi/raspberry-pi-industrial.adoc[]
 
