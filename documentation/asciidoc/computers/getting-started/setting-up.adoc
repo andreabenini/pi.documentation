@@ -68,7 +68,7 @@ image::images/peripherals/sd-card.png[alt="Inserting a microSD card into a Raspb
 
 [[recommended-capacity]]
 
-We recommend using an SD card with at least 16GB of storage with Raspberry Pi OS. If you use Raspberry Pi OS Lite, we recommend at least 4GB.
+We recommend using an SD card with at least 32GB of storage for Raspberry Pi OS installations. For Raspberry Pi OS Lite, we recommend at least 16GB. You can use any SD card with a capacity of less than 2TB. Capacities above 2TB are currently not supported due to limitations in the https://en.wikipedia.org/wiki/Master_boot_record[MBR]. As with any other boot media, you'll see improved performance on SD cards with faster read and write speeds.
 
 Because of a hardware limitation, the following devices will only boot from a boot partition of 256GB or less:
 
@@ -122,6 +122,8 @@ Raspberry Pi models have the following display connectivity:
 |Raspberry Pi Zero (all models)
 |mini HDMI
 |===
+
+NOTE: No Raspberry Pi models support video over USB-C (DisplayPort alt mode).
 
 Most displays don't have micro or mini HDMI ports. However, you can use a https://www.raspberrypi.com/products/micro-hdmi-to-standard-hdmi-a-cable/[micro-HDMI-to-HDMI cable] or https://www.raspberrypi.com/products/standard-hdmi-a-male-to-mini-hdmi-c-male-cable/[mini-HDMI-to-HDMI cable] to connect those ports on your Raspberry Pi to any HDMI display. For displays that don't support HDMI, consider an adapter that translates display output from HDMI to a port supported by your display.
 
