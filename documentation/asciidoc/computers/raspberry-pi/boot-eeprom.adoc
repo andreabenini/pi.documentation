@@ -2,7 +2,7 @@
 
 The following Raspberry Pi models use an EEPROM to boot the system:
 
-* Flagship models since Raspberry Pi 4
+* Flagship models since Raspberry Pi 4B
 * Compute Module models since CM4 (including CM4S)
 * Keyboard models since Pi 400
 
@@ -19,7 +19,7 @@ If an error occurs during boot, then an xref:configuration.adoc#led-warning-flas
 
 There are multiple ways to update the bootloader of your Raspberry Pi.
 
-==== Flagship models since Raspberry Pi 4; Compute Modules since CM5; Keyboard models since Pi 400
+==== Flagship models since Raspberry Pi 4B; Compute Modules since CM5; Keyboard models since Pi 400
 
 Raspberry Pi OS automatically updates the bootloader for important bug fixes. To manually update the bootloader or change the boot order, use xref:configuration.adoc#raspi-config[raspi-config].
 
@@ -68,19 +68,21 @@ The `latest` bootloader updates more often to include the latest fixes and impro
 
 Advanced users can switch to the `latest` bootloader to get the latest functionality.
 
-Run the following command to start `raspi-config`.
+First, ensure that your Raspberry Pi runs the latest software. Run the following command to update:
+
+[source,console]
+----
+$ sudo apt update && sudo apt full-upgrade
+----
+
+Next, run the following command to open `raspi-config`:
 
 [source,console]
 ----
 $ sudo raspi-config
 ----
 
-Navigate to `Advanced Options` and then `Bootloader Version`. Select `Latest` and choose `Yes` to confirm. Select `Finish` and confirm you want to reboot. After the reboot, open a command prompt again and update your system:
-
-[source,console]
-----
-$ sudo apt update
-----
+Navigate to `Advanced Options` > `Bootloader Version`. Select `Latest`, then choose `Yes` to confirm. Select `Finish` and confirm that you want to reboot.
 
 If you run `sudo rpi-eeprom-update`, you should see that a more recent version of the bootloader is available and it's the `latest` release.
 
@@ -275,7 +277,7 @@ For more information, see xref:raspberry-pi.adoc#eeprom-boot-flow[EEPROM bootflo
 | Bootloader EEPROM image
 
 | `pieeprom.bin`
-| Bootloader EEPROM image - same as pieeprom.upd but changes recovery.bin behaviour
+| Bootloader EEPROM image - same as `pieeprom.upd` but changes `recovery.bin` behaviour to not rename itself to `RECOVERY.000`.
 
 | `pieeprom.sig`
 | The sha256 checksum of bootloader image (pieeprom.upd/pieeprom.bin)
