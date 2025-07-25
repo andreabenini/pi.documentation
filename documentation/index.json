@@ -24,13 +24,13 @@
                     "subpath": "configuration.adoc"
                 },
                 {
-                    "title": "The config.txt file",
+                    "title": "`config.txt`",
                     "description": "Low-level settings control",
                     "image": "full-sized/The-config-txt-file.png",
                     "subpath": "config_txt.adoc"
                 },
                 {
-                    "title": "Legacy config.txt options",
+                    "title": "Legacy `config.txt` options",
                     "description": "Options which may be useful for OSes other than Raspberry Pi OS",
                     "image": "full-sized/Legacy-config-txt.png",
                     "subpath": "legacy_config_txt.adoc"
@@ -54,6 +54,12 @@
                     "subpath": "camera_software.adoc"
                 },
                 {
+                    "title": "AI Kit and AI HAT+ software",
+                    "description": "Software and libraries for artificial intelligence on a Raspberry Pi hardware",
+                    "image": "full-sized/ai.png",
+                    "subpath": "ai.adoc"
+                },
+                {
                     "title": "Raspberry Pi hardware",
                     "description": "Technical information about Raspberry Pi hardware",
                     "image": "full-sized/Raspberry-Pi-Hardware.png",
@@ -70,6 +76,12 @@
                     "description": "Technical information about the CPUs used by Raspberry Pi",
                     "image": "full-sized/Processors.png",
                     "subpath": "processors.adoc"
+                },
+                {
+                    "title": "Software sources",
+                    "description": "Open source software by Raspberry Pi",
+                    "image": "full-sized/software-sources.png",
+                    "subpath": "software-sources.adoc"
                 }
             ]
         },
@@ -79,22 +91,64 @@
             "default_tab": "no",
             "subitems": [
                 {
+                    "title": "SD Cards",
+                    "description": "Raspberry Pi's official SD cards",
+                    "image": "full-sized/sd-card.png",
+                    "subpath": "sd-cards.adoc"
+                },
+                {
+                    "title": "SSDs",
+                    "description": "Raspberry Pi's official Solid State Drives",
+                    "image": "full-sized/ssds.png",
+                    "subpath": "ssds.adoc"
+                },
+                {
+                    "title": "SSD Kit",
+                    "description": "Storage for your Raspberry Pi",
+                    "image": "full-sized/ssd-kit.png",
+                    "subpath": "ssd-kit.adoc"
+                },
+                {
+                    "title": "M.2 HAT+",
+                    "description": "Connect storage to your Raspberry Pi via PCIe",
+                    "image": "full-sized/m2-hat-plus.png",
+                    "subpath": "m2-hat-plus.adoc"
+                },
+                {
+                    "title": "Touch Display 2",
+                    "description": "The Raspberry Pi Touch Display 2",
+                    "image": "full-sized/Touch-Display-2.png",
+                    "subpath": "touch-display-2.adoc"
+                },
+                {
+                    "title": "Monitor",
+                    "description": "The Raspberry Pi Monitor",
+                    "image": "full-sized/monitor.png",
+                    "subpath": "monitor.adoc"
+                },
+                {
                     "title": "Camera",
                     "description": "Raspberry Pi camera boards",
                     "image": "full-sized/Camera.png",
                     "subpath": "camera.adoc"
                 },
                 {
-                    "title": "Display",
-                    "description": "The Raspberry Pi Touch Display",
-                    "image": "full-sized/Display.png",
-                    "subpath": "display.adoc"
+                    "title": "AI Camera",
+                    "description": "An AI Camera for your Raspberry Pi",
+                    "image": "full-sized/ai-cam.png",
+                    "subpath": "ai-camera.adoc"
                 },
                 {
                     "title": "Keyboard and mouse",
                     "description": "Official Raspberry Pi keyboard and mouse",
                     "image": "full-sized/Keyboard-and-Mouse.png",
                     "subpath": "keyboard-and-mouse.adoc"
+                },
+                {
+                    "title": "USB Hub",
+                    "description": "Official Raspberry Pi USB hub",
+                    "image": "full-sized/usb-3-hub.png",
+                    "subpath": "usb-3-hub.adoc"
                 },
                 {
                     "title": "Build HAT",
@@ -104,15 +158,21 @@
                 },
                 {
                     "title": "Sense HAT",
-                    "description": "How to use the Sense HAT",
+                    "description": "Monitor and visualise sensor data",
                     "image": "full-sized/Sense-HAT.png",
                     "subpath": "sense-hat.adoc"
                 },
                 {
-                    "title": "TV HAT",
-                    "description": "How to watch TV on your Raspberry Pi",
-                    "image": "full-sized/TV-HAT.png",
-                    "subpath": "tv-hat.adoc"
+                    "title": "AI Kit",
+                    "description": "An NPU that connects to your Raspberry Pi via M.2",
+                    "image": "full-sized/ai-kit.png",
+                    "subpath": "ai-kit.adoc"
+                },
+                {
+                    "title": "AI HAT+",
+                    "description": "An NPU HAT+ for your Raspberry Pi",
+                    "image": "full-sized/ai-hat-plus.png",
+                    "subpath": "ai-hat-plus.adoc"
                 },
                 {
                     "title": "Raspberry Pi Audio",
@@ -124,7 +184,25 @@
                     "title": "Designing a HAT",
                     "description": "Information on the HAT specification",
                     "image": "full-sized/Designing-a-HAT.png",
-                    "url": "https://github.com/raspberrypi/hats"
+                    "url": "https://datasheets.raspberrypi.com/hat/hat-plus-specification.pdf"
+                },
+                {
+                    "title": "Touch Display",
+                    "description": "The Raspberry Pi Touch Display",
+                    "image": "full-sized/Display.png",
+                    "subpath": "display.adoc"
+                },
+                {
+                    "title": "TV HAT",
+                    "description": "Watch TV on your Raspberry Pi",
+                    "image": "full-sized/TV-HAT.png",
+                    "subpath": "tv-hat.adoc"
+                },
+                {
+                    "title": "Bumper",
+                    "description": "A protective case for your Raspberry Pi 5",
+                    "image": "full-sized/bumper.png",
+                    "subpath": "bumper.adoc"
                 }
             ]
         },
@@ -133,29 +211,23 @@
             "path": "microcontrollers",
             "subitems": [
                 {
-                    "title": "RP2040",
-                    "description": "Raspberry Pi's flagship microcontroller device",
-                    "image": "full-sized/RP2040.png",
-                    "subpath": "rp2040.adoc"
+                    "title": "Silicon",
+                    "description": "Raspberry Pi in-house Silicon",
+                    "image": "full-sized/silicon.png",
+                    "subpath": "silicon.adoc"
                 },
                 {
-                    "title": "Raspberry Pi Pico and Pico W",
-                    "description": "Support for Raspberry Pi Pico, Pico H, Pico W, and Pico WH",
-                    "image": "full-sized/Pico.png",
-                    "subpath": "raspberry-pi-pico.adoc"
+                    "title": "Pico-series Microcontrollers",
+                    "description": "Support for Raspberry Pi Pico-series devices",
+                    "image": "full-sized/pico-series.png",
+                    "subpath": "pico-series.adoc"
                 },
                 {
                     "title": "Raspberry Pi Debug Probe",
                     "description": "Supports Arm Serial Wire Debug (SWD), and acts as a UART bridge",
                     "image": "full-sized/Debug-Probe.png",
                     "subpath": "debug-probe.adoc"
-                },
-                {
-                    "title": "RP1",
-                    "description": "Our southbridge for Raspberry Pi 5",
-                    "image": "full-sized/RP1.png",
-                    "subpath": "rp1.adoc"
-                },				
+                },			
                 {
                     "title": "MicroPython",
                     "description": "Getting started with MicroPython",
@@ -179,6 +251,12 @@
                     "description": "Our identity service",
                     "image": "full-sized/Raspberry-Pi-ID.png",
                     "subpath": "id.adoc"
+                },
+                {
+                    "title": "Raspberry Pi Connect",
+                    "description": "Connect to your Raspberry Pi from your browser",
+                    "image": "full-sized/Connect-BIG.png",
+                    "subpath": "connect.adoc"
                 }
             ]
         },

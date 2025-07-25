@@ -11,7 +11,7 @@ The `[all]` filter is the most basic filter. It resets all previously set filter
 
 === Model filters
 
-The conditional model filters are applied according to the following table.
+The conditional model filters apply according to the following table.
 
 |===
 | Filter | Applicable model(s)
@@ -32,16 +32,31 @@ The conditional model filters are applied according to the following table.
 | Model 4B, Pi 400, Compute Module 4, Compute Module 4S
 
 | `[pi5]`
-| Raspberry Pi 5
+| Raspberry Pi 5, Compute Module 5, Pi 500
 
 | `[pi400]`
 | Pi 400 (also sees `[pi4]` contents)
+
+| `[pi500]`
+| Pi 500 (also sees `[pi5]` contents)
+
+| `[cm1]`
+| Compute Module 1 (also sees `[pi1]` contents)
+
+| `[cm3]`
+| Compute Module 3 (also sees `[pi3]` contents)
+
+| `[cm3+]`
+| Compute Module 3+ (also sees `[pi3+]` contents)
 
 | `[cm4]`
 | Compute Module 4 (also sees `[pi4]` contents)
 
 | `[cm4s]`
 | Compute Module 4S (also sees `[pi4]` contents)
+
+| `[cm5]`
+| Compute Module 5 (also sees `[pi5]` contents)
 
 | `[pi0]`
 | Zero, Zero W, Zero 2 W
@@ -60,20 +75,144 @@ The conditional model filters are applied according to the following table.
 These are particularly useful for defining different `kernel`, `initramfs`, and `cmdline` settings, as the Raspberry Pi 1 and Raspberry Pi 2 require different kernels. They can also be useful to define different overclocking settings, as the Raspberry Pi 1 and Raspberry Pi 2 have different default speeds. For example, to define separate `initramfs` images for each:
 
 ----
- [pi1]
- initramfs initrd.img-3.18.7+ followkernel
- [pi2]
- initramfs initrd.img-3.18.7-v7+ followkernel
- [all]
+[pi1]
+initramfs initrd.img-3.18.7+ followkernel
+[pi2]
+initramfs initrd.img-3.18.7-v7+ followkernel
+[all]
 ----
 
 Remember to use the `[all]` filter at the end, so that any subsequent settings aren't limited to Raspberry Pi 2 hardware only.
 
-NOTE: Some models of Raspberry Pi (Zero W, Zero 2 W, Model 3B+, Pi 400, Compute Module 4 and Compute Module 4S) see the settings for multiple filters (as listed in the table above). This means that if you want a setting to apply only to (e.g.) a Model 4B without _also_ applying that setting to a Pi 400, then the setting in the `[pi4]` section would need to be reverted by an alternate setting in a following `[pi400]` section - the ordering of such sections is significant. Alternatively, you could use a `[board-type=0x11]` filter which has a one-to-one mapping to different hardware products.
+[NOTE]
+====
+Some models of Raspberry Pi, including Zero, Compute Module, and Keyboard models, read settings from multiple filters. To apply a setting to only one model:
+
+* apply the setting to the base model (e.g. `[pi4]`), then revert the setting for all models that read the base model's filters (e.g. `[pi400]`, `[cm4]`, `[cm4s]`)
+* use the `board-type` filter with a revision code to target a single model (e.g. `[board-type=0x11]`)
+====
 
 === The `[none]` filter
 
 The `[none]` filter prevents any settings that follow from being applied to any hardware. Although there is nothing that you can't do without `[none]`, it can be a useful way to keep groups of unused settings in config.txt without having to comment out every line.
+
+[source,ini]
+----
+# Bootloader EEPROM config.
+# If PM_RSTS is partition 62 then set bootloader properties to disable
+# SD high speed and show HDMI diagnostics
+# Boot from partition 2 with debug option.
+[partition=62]
+# Only high (>31) partition can be remapped.
+PARTITION=2
+SD_QUIRKS=0x1
+HDMI_DELAY=0
+----
+
+Example `config.txt` - (Currently Raspberry Pi 5 onwards)
+[source,ini]
+----
+# config.txt - If the original requested partition number in PM_RSTS was a
+# special number then use an alternate cmdline.txt
+[partition=62]
+cmdline=cmdline-recovery.txt
+----
+
+The raw value of the `PM_RSTS` register at bootup is available via `/proc/device-tree/chosen/bootloader/rsts` and the final partition number used for booting is available via `/proc/device-tree/chosen/bootloader/partition`. These are big-endian binary values.
+
+=== The expression filter
+
+The expression filter provides support for comparing unsigned integer "boot variables" to constants using a simple set of operators. It is intended to support OTA update mechanisms, debug and test.
+
+* The "boot variables" are `boot_arg1`, `boot_count`, `boot_partition` and `partition`.
+* Boot variables are always lower case.
+* Integer constants may either be written as decimal or as hex.
+* Expression conditional filters have no side-effects e.g. no assignment operators.
+* As with other filter types the expression filter cannot be nested.
+* Use the `[all]` filter to reset expressions and all other conditional filter types.
+
+Syntax:
+[source,ini]
+----
+# ARG is a boot-variable
+# VALUE and MASK are unsigned integer constants
+[ARG=VALUE]      # selected if (ARG == VALUE)
+[ARG&MASK]       # selected if ((ARG & VALUE) != 0)
+[ARG&MASK=VALUE] # selected if ((ARG & MASK) == VALUE)
+[ARG<VALUE]      # selected if (ARG < VALUE)
+[ARG>VALUE]      # selected if (ARG > VALUE)
+
+----
+
+==== `boot_arg1`
+Raspberry Pi 5 and newer devices only.
+
+The `boot_arg1` variable is a 32-bit user defined value which is stored in a reset-safe register allowing parameters to be passed accross a reboot.
+
+Setting `boot_arg1` to 42 via `config.txt`:
+[source,ini]
+----
+set_reboot_arg1=42
+----
+The `set_reboot_arg1` property sets the value for the next boot. It does not change the current value as seen by the config parser.
+
+Setting `boot_arg1` to 42 via vcmailbox:
+[source,console]
+----
+sudo vcmailbox 0x0003808c 8 8 1 42
+----
+
+Reading `boot_arg1` via vcmailbox:
+[source,console]
+----
+sudo vcmailbox 0x0003008c 8 8 1 0
+# Example output - boot_arg1 is 42
+# 0x00000020 0x80000000 0x0003008c 0x00000008 0x80000008 0x00000001 0x0000002a 0x0000000
+----
+The value of the `boot_arg1` variable when the OS was started can be read via xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/arg1`
+
+==== `boot_count`
+Raspberry Pi 5 and newer devices only.
+
+The `boot_count` variable is an 8-bit value stored in a reset-safe register that is incremented at boot (wrapping back to zero at 256). It is cleared if power is disconnected.
+
+To read `boot_count` via vcmailbox:
+[source,console]
+----
+sudo vcmailbox 0x0003008d 4 4 0
+# Example - boot count is 3
+# 0x0000001c 0x80000000 0x0003008d 0x00000004 0x80000004 0x00000003 0x00000000
+----
+
+Setting/clearing `boot_count` via vcmailbox:
+[source,console]
+----
+# Clear boot_count by setting it to zero.
+sudo vcmailbox 0x0003808d 4 4 0
+----
+The value of `boot_count` when the OS was started can be read via xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/count`
+
+==== `boot_partition`
+The `boot_partition` variable can be used to select alternate OS files (e.g. `cmdline.txt`) to be loaded, depending on which partition `config.txt` was loaded from after processing xref:config_txt.adoc#autoboot-txt[autoboot.txt]. This is intended for use with an `A/B` boot-system with `autoboot.txt` where it is desirable to be able to have identical files installed to the boot partition for both the `A` and `B` images.
+
+The value of the `boot_partition` can be different to the requested `partition` variable if it was overriden by setting `boot_partition` in xref:config_txt.adoc#autoboot-txt[autoboot.txt] or if the specified partion was not bootable and xref:raspberry-pi.adoc#PARTITION_WALK[PARTITION_WALK] was enabled in the EEPROM config.
+
+Example `config.txt` - select the matching root filesystem for the `A/B` boot file-system:
+[source,ini]
+----
+# Use different cmdline files to point to different root filesystems based on which partition the system booted from.
+[boot_partition=1]
+cmdline=cmdline_rootfs_a.txt  # Points to root filesystem A
+
+[boot_partition=2]
+cmdline=cmdline_rootfs_b.txt  # Points to root filesystem B
+----
+
+The value of `boot_partition` i.e. the partition used to boot the OS can be read from xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/partition`
+
+==== `partition`
+The `partition` variable can be used to select alternate boot flows according to the requested partition number (`sudo reboot N`) or via direct usage of the `PM_RSTS` watchdog register.
+
 
 === The `[tryboot]` filter
 
@@ -81,20 +220,21 @@ This filter succeeds if the `tryboot` reboot flag was set.
 
 It is intended for use in xref:config_txt.adoc#autoboot-txt[autoboot.txt] to select a different `boot_partition` in `tryboot` mode for fail-safe OS updates.
 
+The value of `tryboot` at the start of boot can be read via xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/tryboot`
+
 === The `[EDID=*]` filter
 
 When switching between multiple monitors while using a single SD card in your Raspberry Pi, and where a blank config isn't sufficient to automatically select the desired resolution for each one, this allows specific settings to be chosen based on the monitors' EDID names.
 
 To view the EDID name of an attached monitor, you need to follow a few steps. Run the following command to see which output devices you have on your Raspberry Pi:
 
-[source]
+[source,console]
 ----
-ls -1 /sys/class/drm/card?-HDMI-A-?/edid
+$ ls -1 /sys/class/drm/card?-HDMI-A-?/edid
 ----
 
 On a Raspberry Pi 4, this will print something like:
 
-[source]
 ----
 /sys/class/drm/card1-HDMI-A-1/edid
 /sys/class/drm/card1-HDMI-A-2/edid
@@ -102,14 +242,13 @@ On a Raspberry Pi 4, this will print something like:
 
 You then need to run `edid-decode` against each of these filenames, for example:
 
-[source]
+[source,console]
 ----
-edid-decode /sys/class/drm/card1-HDMI-A-1/edid
+$ edid-decode /sys/class/drm/card1-HDMI-A-1/edid
 ----
 
 If there's no monitor connected to that particular output device, it'll tell you the EDID was empty; otherwise it will serve you *lots* of information about your monitor's capabilities. You need to look for the lines specifying the `Manufacturer` and the `Display Product Name`. The "EDID name" is then `<Manufacturer>-<Display Product Name>`, with any spaces in either string replaced by underscores. For example, if your `edid-decode` output included:
 
-[source]
 ----
 ....
   Vendor & Product Identification:
@@ -123,7 +262,7 @@ The EDID name for this monitor would be `DEL-DELL_U2422H`.
 
 You can then use this as a conditional-filter to specify settings that only apply when this particular monitor is connected:
 
-[source]
+[source,ini]
 ----
 [EDID=DEL-DELL_U2422H]
 cmdline=cmdline_U2422H.txt
@@ -142,14 +281,13 @@ Sometimes settings should only be applied to a single specific Raspberry Pi, eve
 
 To view the serial number of your Raspberry Pi, run the following command:
 
-[source]
+[source,console]
 ----
-cat /proc/cpuinfo
+$ cat /proc/cpuinfo
 ----
 
 A 16-digit hex value will be displayed near the bottom of the output. Your Raspberry Pi's serial number is the last eight hex-digits. For example, if you see:
 
-[source]
 ----
 Serial          : 0000000012345678
 ----
@@ -160,45 +298,52 @@ NOTE: On some Raspberry Pi models, the first 8 hex-digits contain values other t
 
 You can define settings that will only be applied to this specific Raspberry Pi:
 
-[source]
+[source,ini]
 ----
 [0x12345678]
-# settings here are applied only to the Raspberry Pi with this serial
+# settings here apply only to the Raspberry Pi with this serial
+
 [all]
-# settings here are applied to all hardware
+# settings here apply to all hardware
+
 ----
 
 === The GPIO filter
 
 You can also filter depending on the state of a GPIO. For example:
 
-[source]
+[source,ini]
 ----
 [gpio4=1]
-# Settings here are applied if GPIO 4 is high
+# Settings here apply if GPIO 4 is high
 
 [gpio2=0]
-# Settings here are applied if GPIO 2 is low
+# Settings here apply if GPIO 2 is low
 
 [all]
-# settings here are applied to all hardware
+# settings here apply to all hardware
+
 ----
 
-=== Combining conditional filters
+=== Combine conditional filters
 
 Filters of the same type replace each other, so `[pi2]` overrides `[pi1]`, because it is not possible for both to be true at once.
 
 Filters of different types can be combined by listing them one after the other, for example:
 
-[source]
+[source,ini]
 ----
- # settings here are applied to all hardware
- [EDID=VSC-TD2220]
- # settings here are applied only if monitor VSC-TD2220 is connected
- [pi2]
- # settings here are applied only if monitor VSC-TD2220 is connected *and* on a Raspberry Pi 2
- [all]
- # settings here are applied to all hardware
+# settings here apply to all hardware
+
+[EDID=VSC-TD2220]
+# settings here apply only if monitor VSC-TD2220 is connected
+
+[pi2]
+# settings here apply only if monitor VSC-TD2220 is connected *and* on a Raspberry Pi 2
+
+[all]
+# settings here apply to all hardware
+
 ----
  
 Use the `[all]` filter to reset all previous filters and avoid unintentionally combining different filter types.

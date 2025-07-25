@@ -1,21 +1,21 @@
 == Raspberry Pi bootloader configuration
 
-=== Editing the configuration
+=== Edit the configuration
 
-Before editing the bootloader configuration, xref:os.adoc#updating-and-upgrading-raspberry-pi-os[update your system] to get the latest version of the `rpi-eeprom` package.
+Before editing the bootloader configuration, xref:os.adoc#update-software[update your system] to get the latest version of the `rpi-eeprom` package.
 
 To view the current EEPROM configuration, run the following command:
 
 [source,console]
 ----
-rpi-eeprom-config
+$ rpi-eeprom-config
 ----
 
 To edit the current EEPROM configuration and apply the updates to latest EEPROM release, run the following command:
 
 [source,console]
 ----
-sudo -E rpi-eeprom-config --edit
+$ sudo -E rpi-eeprom-config --edit
 ----
 
 For more information about the EEPROM update process, see xref:raspberry-pi.adoc#raspberry-pi-boot-eeprom[boot EEPROM].
@@ -34,7 +34,7 @@ Default: `0`
 [[UART_BAUD]]
 ==== `UART_BAUD`
 
-Raspberry Pi 5 only.
+Flagship models since Raspberry Pi 5 only.
 
 Changes the baud rate for the bootloader UART.
 
@@ -47,7 +47,7 @@ Default: `115200`
 
 If `1` then `sudo halt` will run in a lower power mode until either GPIO3 or GLOBAL_EN are shorted to ground.
 
-This setting is not relevant on Raspberry Pi 5 because the xref:raspberry-pi.adoc#power-button[dedicated power button] may always be used to wakeup from `HALT` or `STANDBY`.
+This setting is not relevant on Flagship models since Raspberry Pi 5, Compute Modules since CM5, and Keyboard models since Pi 500 because the xref:raspberry-pi.adoc#power-button[dedicated power button] may always be used to wake from `HALT` or `STANDBY`.
 
 Default: `1`
 
@@ -56,9 +56,18 @@ Default: `1`
 
 If `1` and `WAKE_ON_GPIO=0` then `sudo halt` will switch off all PMIC outputs. This is lowest possible power state for halt but may cause problems with some HATs because 5V will still be on. `GLOBAL_EN` must be shorted to ground to boot.
 
-Raspberry Pi 400 has a dedicated power button which operates even if the processor is switched off. This behaviour is enabled by default, however, `WAKE_ON_GPIO=2` may be set to use an external GPIO power button instead of the dedicated power button.
+The dedicated power button on Pi 400 operates even if the processor is switched off. This behaviour is enabled by default, however, `WAKE_ON_GPIO=2` may be set to use an external GPIO power button instead of the dedicated power button.
 
-On Raspberry Pi 5 this places the PMIC in `STANDBY` mode where all outputs are switched off. There is no need to set `WAKE_ON_GPIO` and pressing the xref:raspberry-pi.adoc#power-button[dedicated power button] will boot the device.
+On Flagship models since Raspberry Pi 5 and Keyboard models since Pi 500, this places the PMIC in `STANDBY` mode where all outputs are switched off. There is no need to set `WAKE_ON_GPIO` and pressing the xref:raspberry-pi.adoc#power-button[dedicated power button] boots the device.
+
+Default: `1` on Compute Modules since CM5 and Keyboard models; otherwise `0`
+
+[[WAIT_FOR_POWER_BUTTON]]
+==== `WAIT_FOR_POWER_BUTTON`
+
+Flagship models since Raspberry Pi 5 only.
+
+If this property and `POWER_OFF_ON_HALT` are both set to `1` then the bootloader will immediately power-off and wait for the power to be pressed on the first boot after the power supply has been removed. This means that instead of booting immediately after power-loss the system will wait for the power button to be pressed.
 
 Default: `0`
 
@@ -69,14 +78,15 @@ The `BOOT_ORDER` setting allows flexible configuration for the priority of diffe
 
 ===== `BOOT_ORDER` fields
 
-The BOOT_ORDER property defines the sequence for the different boot modes. It is read right to left, and up to eight digits may be defined.
+The `BOOT_ORDER` property defines the sequence for the different boot modes. It is read right to left, and up to eight digits may be defined.
 
+[cols="1m,1m,2"]
 |===
 | Value | Mode | Description
 
 | 0x0
 | SD CARD DETECT
-| Try SD then wait for card-detect to indicate that the card has changed. Deprecated now that 0xf (RESTART) is available.
+| Try SD then wait for card-detect to indicate that the card has changed. Deprecated now that `0xf` (`RESTART`) is available.
 
 | 0x1
 | SD CARD
@@ -112,24 +122,28 @@ The BOOT_ORDER property defines the sequence for the different boot modes. It is
 
 | 0xf
 | RESTART
-| Restart from the first boot-mode in the BOOT_ORDER field i.e. loop.
+| Restart from the first boot-mode in the `BOOT_ORDER` field i.e. loop.
 |===
 
 `RPIBOOT` is intended for use with Compute Module 4 to load a custom debug image (e.g. a Linux RAM-disk) instead of the normal boot. This should be the last boot option because it does not currently support timeouts or retries.
 
 ===== `BOOT_ORDER` examples
 
+[cols="1m,2"]
 |===
 | BOOT_ORDER | Description
 
 | 0xf41
-| Try SD first, followed by USB-MSD then repeat (default if BOOT_ORDER is empty)
+| Try SD first, followed by USB-MSD then repeat (default if `BOOT_ORDER` is empty)
 
 | 0xf14
 | Try USB first, followed by SD then repeat
 
 | 0xf21
 | Try SD first, followed by NETWORK then repeat
+
+| 0xf46
+| Try NVMe first, followed by USB-MSD then repeat
 |===
 
 [[MAX_RESTARTS]]
@@ -145,6 +159,24 @@ Default: `-1` (infinite)
 The number of times that SD boot will be retried after failure before moving to the next boot-mode defined by `BOOT_ORDER`.
 
 `-1` means infinite retries.
+
+Default: `0`
+
+[[SD_QUIRKS]]
+==== `SD_QUIRKS`
+
+The `SD_QUIRKS` property provides a set of options to support device bringup and workaround interoperability issues.
+
+The flags are implemented as a bit-field. Undefined bits are reserved for future use and should be set to zero.
+
+[cols="1m,3"]
+|===
+| Value | Behaviour
+
+| 0x1
+| Disable SD High Speed modes. The card clock is limited to 12.5 MHz
+|===
+
 
 Default: `0`
 
@@ -196,9 +228,9 @@ Default: `""`
 [[TFTP_PREFIX]]
 ==== `TFTP_PREFIX`
 
-In order to support unique TFTP boot directories for each Raspberry Pi the bootloader prefixes the filenames with a device specific directory. If neither start4.elf nor start.elf are found in the prefixed directory then the prefix is cleared.
+In order to support unique TFTP boot directories for each Raspberry Pi, the bootloader prefixes the filenames with a device-specific directory. If neither start4.elf nor start.elf are found in the prefixed directory then the prefix is cleared.
 
-On earlier models the serial number is used as the prefix, however, on Raspberry Pi 4 the MAC address is no longer generated from the serial number making it difficult to automatically create tftpboot directories on the server by inspecting DHCPDISCOVER packets. To support this the TFTP_PREFIX may be customized to either be the MAC address, a fixed value or the serial number (default).
+On earlier models the serial number is used as the prefix, however on Raspberry Pi 4 and 5 the MAC address is no longer generated from the serial number, making it difficult to automatically create tftpboot directories on the server by inspecting DHCPDISCOVER packets. To support this the TFTP_PREFIX may be customized to either be the MAC address, a fixed value or the serial number (default).
 
 |===
 | Value | Description
@@ -207,7 +239,7 @@ On earlier models the serial number is used as the prefix, however, on Raspberry
 | Use the serial number e.g. `9ffefdef/`
 
 | 1
-| Use the string specified by TFTP_PREFIX_STR
+| Use the string specified by `TFTP_PREFIX_STR`
 
 | 2
 | Use the MAC address e.g. `dc-a6-32-01-36-c2/`
@@ -234,10 +266,10 @@ Default: `Raspberry Pi Boot`
 [[DHCP_OPTION97]]
 ==== `DHCP_OPTION97`
 
-In earlier releases the client GUID (Option97) was just the serial number repeated four times. By default, the new GUID format is the concatenation of the four-character code (FourCC) for `RPi4` (0x34695052 - little endian), the board revision (e.g. 0x00c03111) (4-bytes), the least significant 4 bytes of the mac address and the 4-byte serial number.
-This is intended to be unique but also provides structured information to the DHCP server, allowing Raspberry Pi 4 computers to be identified without relying upon the Ethernet MAC OUID.
+In earlier releases the client GUID (Option97) was just the serial number repeated four times. By default, the new GUID format is the concatenation of the four-character code (FourCC) (`RPi4` `0x34695052` for Raspberry Pi 4  or `RPi5` `0x35695052` for Raspberry Pi 5), the board revision (e.g. `0x00c03111` or `0x00d04170`) (4-bytes), the least significant 4 bytes of the mac address and the 4-byte serial number.
+This is intended to be unique but also provides structured information to the DHCP server, allowing Raspberry Pi 4 and 5 computers to be identified without relying upon the Ethernet MAC OUID.
 
-Specify DHCP_OPTION97=0 to revert the old behaviour or a non-zero hex-value to specify a custom 4-byte prefix.
+Specify `DHCP_OPTION97=0` to revert the old behaviour or a non-zero hex-value to specify a custom 4-byte prefix.
 
 Default: `0x34695052`
 
@@ -254,6 +286,8 @@ Default: `""`
 Overrides the Raspberry Pi Ethernet MAC address with a value stored in the xref:raspberry-pi.adoc#write-and-read-customer-otp-values[Customer OTP] registers.
 
 For example, to use a MAC address stored in rows 0 and 1 of the `Customer OTP`.
+
+[source,ini]
 ----
 MAC_ADDRESS_OTP=0,1
 ----
@@ -300,7 +334,7 @@ Default: `""`
 [[DISABLE_HDMI]]
 ==== `DISABLE_HDMI`
 
-The xref:raspberry-pi.adoc#boot-diagnostics-on-the-raspberry-pi-4[HDMI boot diagnostics] display is disabled if `DISABLE_HDMI=1`. Other non-zero values are reserved for future use.
+The xref:raspberry-pi.adoc#boot-diagnostics[HDMI boot diagnostics] display is disabled if `DISABLE_HDMI=1`. Other non-zero values are reserved for future use.
 
 Default: `0`
 
@@ -321,7 +355,7 @@ If self-update is enabled then the bootloader will look for the update files (.s
 Notes:
 
 * Bootloader releases prior to 2021 do not support `self-update`.
-* Prior to 2022, self-update was not enabled in SD boot. On a Raspberry Pi 4, the ROM can already load recovery.bin from the SD card. On a CM4, neither self-update nor recovery.bin have any effect and USB boot is required (see the xref:compute-module.adoc#cm4bootloader[CM4 bootloader docs]).
+* Prior to 2022, self-update was not enabled in SD boot. On a Raspberry Pi 4, the ROM can already load recovery.bin from the SD card. On a CM4, neither self-update nor recovery.bin have any effect and USB boot is required (see the xref:compute-module.adoc#compute-module-eeprom-bootloader[Compute Module EEPROM bootloader docs]).
 * Starting in 2022 (https://github.com/raspberrypi/rpi-eeprom/blob/master/firmware-2711/release-notes.md#2022-02-04---network-install---beta[beta] and https://github.com/raspberrypi/rpi-eeprom/blob/master/firmware-2711/release-notes.md#2022-03-10---promote-the-2022-03-10-beta-release-to-lateststable[stable]), self-update from an SD card is enabled.
 * For network boot make sure that the TFTP `boot` directory can be mounted via NFS and that `rpi-eeprom-update` can write to it.
 
@@ -373,9 +407,9 @@ Default: `net_install`
 [[IMAGER_REPO_URL]]
 ==== `IMAGER_REPO_URL`
 
-The embedded Raspberry Pi Imager application is configured with a json file downloaded at startup.
+The embedded Raspberry Pi Imager application is configured with a JSON file downloaded at startup.
 
-You can change the URL of the json file used by the embedded Raspberry Pi Imager application to get it to offer your own images.
+You can change the URL of the JSON file used by the embedded Raspberry Pi Imager application to get it to offer your own images.
 You can test this with the standard https://www.raspberrypi.com/software/[Raspberry Pi Imager] application by passing the URL via the `--repo` argument.
 
 Default: `\http://downloads.raspberrypi.org/os_list_imagingutility_v3.json`
@@ -391,7 +425,22 @@ This setting is ignored and network install is disabled if `DISABLE_HDMI=1` is s
 
 In order to detect the keyboard, network install must initialise the USB controller and enumerate devices. This increases boot time by approximately 1 second so it may be advantageous to disable network install in some embedded applications.
 
-Default: `1` on Raspberry Pi 4 and Raspberry Pi 400, and `0` on Compute Module 4.
+Default: `1` on Flagship models since Raspberry Pi 4B and Keyboard models; `0` on Compute Modules since CM4 (including CM4S).
+
+[[NET_INSTALL_AT_POWER_ON]]
+==== `NET_INSTALL_AT_POWER_ON`
+
+When set to `1`, displays the network install UI briefly after a cold boot to make this feature more obvious to new users. Overrides `NET_INSTALL_ENABLED` if the settings conflict.
+
+The default bootloader images set this value to `1` in the bootloader config. To disable the brief network install UI display, use the `Advanced Options` menu in `raspi-config` or manually delete this line in `rpi-eeprom-config`:
+
+[source,console]
+----
+$ sudo rpi-eeprom-config --edit
+----
+
+
+Default: `0`
 
 [[NET_INSTALL_KEYBOARD_WAIT]]
 ==== `NET_INSTALL_KEYBOARD_WAIT`
@@ -409,11 +458,11 @@ Default: `900`
 
 `NETCONSOLE` duplicates debug messages to the network interface. The IP addresses and ports are defined by the `NETCONSOLE` string.
 
-NOTE: NETCONSOLE blocks until the ethernet link is established or a timeout occurs. The timeout value is `DHCP_TIMEOUT` although DHCP is not attempted unless network boot is requested.
+NOTE: NETCONSOLE blocks until the Ethernet link is established or a timeout occurs. The timeout value is `DHCP_TIMEOUT` although DHCP is not attempted unless network boot is requested.
 
 ===== Format
 
-See https://wiki.archlinux.org/index.php/Netconsole
+For more information, see the https://wiki.archlinux.org/index.php/Netconsole[Netconsole documentation].
 
 [source]
 ----
@@ -421,19 +470,19 @@ src_port@src_ip/dev_name,dst_port@dst_ip/dst_mac
 E.g. 6665@169.254.1.1/,6666@/
 ----
 
-In order to simplify parsing, the bootloader requires every field separator to be present. The source IP address must be specified but the following fields may be left blank and assigned default values.
+In order to simplify parsing, the bootloader requires every field separator to be present. You must specify the source IP address, but you can leave the following fields blank to use their default values:
 
-* src_port - 6665
-* dev_name - "" (the device name is always ignored)
-* dst_port - 6666
-* dst_ip - 255.255.255.255
-* dst_mac - 00:00:00:00:00
+* `src_port` - `6665`
+* `dev_name` - `""` (the device name is always ignored)
+* `dst_port` - `6666`
+* `dst_ip` - `255.255.255.255`
+* `dst_mac` - `00:00:00:00:00`
 
-One way to view the data is to connect the test Raspberry Pi 4 to another Raspberry Pi running WireShark and select "`udp.srcport == 6665`" as a filter and select *Analyze -> Follow -> UDP stream* to view as an ASCII log.
+One way to view the data is to connect the test Raspberry Pi 4 to another Raspberry Pi running WireShark and select `udp.srcport == 6665` as a filter and select *Analyze -> Follow -> UDP stream* to view as an ASCII log.
 
 `NETCONSOLE` should not be enabled by default because it may cause network problems. It can be enabled on demand via a GPIO filter:
 
-[source]
+[source,ini]
 ----
 # Enable debug if GPIO 7 is pulled low
 [gpio7=0]
@@ -449,6 +498,21 @@ Max length: 32 characters
 
 The `PARTITION` option may be used to specify the boot partition number, if it has not explicitly been set by the `reboot` command (e.g. `sudo reboot N`) or by `boot_partition=N` in `autoboot.txt`.
 This could be used to boot from a rescue partition if the user presses a button.
+
+The latest firmware also allows high partition numbers (> 31) to be overriden. This allows a custom setup of the system hardware watchdog to trigger a reboot with a special high partition number (e.g. 62) which can be detected by the bootloader (using a conditional filter) and remapped to a recovery partition.
+
+Example:
+[source,ini]
+----
+# System watchdog fired - boot the rescue partition with additional options
+# Disable SD high speed mode and enable HDMI diagnostics immediately.
+[partition=62]
+PARTITION=2
+HDMI_DELAY=0
+SD_QUIRKS=1
+----
+
+[source,ini]
 ----
 # Boot from partition 2 if GPIO 7 is pulled low
 [gpio7=0]
@@ -456,6 +520,14 @@ PARTITION=2
 ----
 
 Default: 0
+
+[[PARTITION_WALK]]
+==== `PARTITION_WALK`
+This property is designed to improve the reliability of `A/B` boot schemes using `autoboot.txt` by searching for bootable partitions if the specified partition does not appear to be bootable. If `PARTITION_WALK=1` and the requested partition is not bootable and does not have a valid `autoboot.txt` then the bootloader will check each partition in turn (up to 8 and wrapping to 0) to see if it is bootable (contains `start4.elf` on a Pi4, or `config.txt` and a suitable device-tree on Pi 5 or newer).
+
+During the "partition walk" `autoboot.txt` files are not processed to avoid cycling dependencies. It is assumed that the requested boot partition has failed and the system is attempting recovery. 
+
+Default: `0`
 
 [[PSU_MAX_CURRENT]]
 ==== `PSU_MAX_CURRENT`
@@ -501,18 +573,11 @@ Default: `2000` (2 seconds)
 
 Raspberry Pi 4 only.
 
-When the Pi is rebooted power USB power is switched off by the hardware. A short power off time can
-cause problems with some USB devices so this parameter may be used to force a longer power off
-as though the cable was physically removed.
+When the Pi is rebooted power USB power is switched off by the hardware. A short power off time can cause problems with some USB devices so this parameter may be used to force a longer power off as though the cable was physically removed.
 
-On Pi4 v1.3 and older the configurable/long power off requires the XHCI controller to be enabled
-so there is actually a short power off followed by a longer configurable power off. The longer
-configurable power off may be skipped by setting this parameter to zero.
+On RaspberryPi 4 version 1.3 and older, the configurable/long power off requires the XHCI controller to be enabled so there is actually a short power off followed by a longer configurable power off. The longer configurable power off may be skipped by setting this parameter to zero.
 
-On newer revisions the hardware ensures that USB power is off from reboot and the bootloader
-only enables power after this timeout has elapsed. This is happens after memory is initialised
-ensuring that USB power is off for at least two seconds. Therefore, this parameter generally
-has no effect on newer hardware revisions.
+On newer revisions the hardware ensures that USB power is off from reboot and the bootloader only enables power after this timeout has elapsed. This is happens after memory is initialised ensuring that USB power is off for at least two seconds. Therefore, this parameter generally has no effect on newer hardware revisions.
 
 Minimum: `0`
 
@@ -549,6 +614,7 @@ Default: `0`
 
 This property is a bit-field which controls the verbosity of USB debug messages for mass storage boot-mode. Enabling all of these messages generates a huge amount of log data which will slow down booting and may even cause boot to fail. For verbose logs it's best to use `NETCONSOLE`.
 
+[cols="1m,3"]
 |===
 | Value | Log
 
@@ -576,6 +642,7 @@ This property is a bit-field which controls the verbosity of USB debug messages 
 
 To combine values, add them together. For example:
 
+[source,ini]
 ----
 # Enable mass storage and USB descriptor logging
 XHCI_DEBUG=0x3
@@ -588,139 +655,6 @@ Default: `0x0` (no USB debug messages enabled)
 
 After reading `config.txt` the GPU firmware `start4.elf` reads the bootloader EEPROM config and checks for a section called `[config.txt]`. If the `[config.txt]` section exists then the contents from the start of this section to the end of the file is appended in memory, to the contents of the `config.txt` file read from the boot partition.  This can be used to automatically apply settings to every operating system, for example, dtoverlays.
 
-WARNING: If an invalid configuration which causes boot to fail is specified, then the bootloader EEPROM will have to be re-flashed.
+WARNING: If you configure the bootloader with an invalid configuration that fails to boot, you must re-flash the bootloader EEPROM with a valid configuration to boot.
 
-=== Configuration Properties in `config.txt`
-
-Raspberry Pi 5 requires a `config.txt` file to be present to indicate that the partition is bootable. 
-
-[[boot_ramdisk]]
-==== `boot_ramdisk`
-
-If this property is set to `1` then the bootloader will attempt load a ramdisk file called `boot.img` containing the xref:configuration.adoc#the-boot-folder[boot filesystem]. Subsequent files (e.g. `start4.elf`) are read from the ramdisk instead of the original boot file system.
-
-The primary purpose of `boot_ramdisk` is to support `secure-boot`, however, unsigned `boot.img` files can also be useful to Network Boot or `RPIBOOT` configurations.
-
-* The maximum size for a ramdisk file is 96MB.
-* `boot.img` files are raw disk `.img` files. The recommended format is a plain FAT32 partition with no MBR.
-* The memory for the ramdisk filesystem is released before the operating system is started.
-* If xref:raspberry-pi.adoc#fail-safe-os-updates-tryboot[TRYBOOT] is selected then the bootloader will search for `tryboot.img` instead of `boot.img`.
-* See also xref:config_txt.adoc#autoboot-txt[autoboot.txt].
-
-For more information about `secure-boot` and creating `boot.img` files please see https://github.com/raspberrypi/usbboot/blob/master/Readme.md[USBBOOT].
-
-Default: `0`
-
-[[boot_load_flags]]
-==== `boot_load_flags`
-
-Experimental property for custom firmware (bare metal).
-
-Bit 0 (0x1) indicates that the .elf file is custom firmware. This disables any compatibility checks (e.g. is USB MSD boot supported) and resets PCIe before starting the executable.
-
-Not relevant on Raspberry Pi 5 because there is no `start.elf` file.
-
-Default: `0x0`
-
-[[uart_2ndstage]]
-==== `uart_2ndstage`
-
-If `uart_2ndstage` is `1` then enable debug logging to the UART. This option also automatically enables UART logging in `start.elf`. This is also described on the xref:config_txt.adoc#boot-options[Boot options] page.
-
-The `BOOT_UART` property also enables bootloader UART logging but does not enable UART logging in `start.elf` unless `uart_2ndstage=1` is also set.
-
-Default: `0`
-
-[[erase_eeprom]]
-==== `erase_eeprom`
-
-If `erase_eeprom` is set to `1` then `recovery.bin` will erase the entire SPI EEPROM instead of flashing the bootloader image. This property has no effect during a normal boot.
-
-Default: `0`
-
-[[eeprom_write_protect]]
-==== `eeprom_write_protect`
-
-Configures the EEPROM `write status register`. This can be set either to mark the entire EEPROM as write-protected, or to clear write-protection.
-
-This option must be used in conjunction with the EEPROM `/WP` pin which controls updates to the EEPROM `Write Status Register`.  Pulling `/WP` low (CM4 `EEPROM_nWP` or on a Raspberry Pi 4 `TP5`) does NOT write-protect the EEPROM unless the `Write Status Register` has also been configured.
-
-See the https://www.winbond.com/resource-files/w25x40cl_f%2020140325.pdf[Winbond W25x40cl] or https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=en&partNo=W25Q16JV[Winbond W25Q16JV] datasheets for further details.
-
-`eeprom_write_protect` settings in `config.txt` for `recovery.bin`.
-
-|===
-| Value | Description
-
-| 1
-| Configures the write protect regions to cover the entire EEPROM.
-
-| 0
-| Clears the write protect regions.
-
-| -1
-| Do nothing.
-|===
-
-NOTE: `flashrom` does not support clearing of the write-protect regions and will fail to update the EEPROM if write-protect regions are defined.
-
-On Raspberry Pi 5 `/WP` is pulled low by default and consequently write-protect is enabled as soon as the `Write Status Register` is configured. To clear write-protect pull `/WP` high by connecting `TP14` and `TP1`.
-
-Default: `-1`
-
-[[os_check]]
-==== `os_check`
-
-On Raspberry Pi 5 the firmware automatically checks for a compatible Device Tree file before attempting to boot from the current partition. Otherwise, older non-compatible kernels would be loaded and then hang.
-To disable this check (e.g. for bare-metal development), set `os_check=0` in config.txt
-
-Default: `1`
-
-[[bootloader_update]]
-==== `bootloader_update`
-
-This option may be set to 0 to block self-update without requiring the EEPROM configuration to be updated. This is sometimes useful when updating multiple Raspberry Pis via network boot because this option can be controlled per Raspberry Pi (e.g. via a serial number filter in `config.txt`).
-
-Default: `1`
-
-=== Secure Boot configuration properties in `config.txt`
-
-[.whitepaper, title="How to use Raspberry Pi Secure Boot", subtitle="", link=https://pip.raspberrypi.com/categories/685-whitepapers-app-notes/documents/RP-003466-WP/Boot-Security-Howto.pdf]
-****
-This whitepaper describes how to implement secure boot on devices based on Raspberry Pi 4. For an overview of our approach to implementing secure boot implementation, please see the https://pip.raspberrypi.com/categories/685-whitepapers-app-notes/documents/RP-004651-WP/Raspberry-Pi-4-Boot-Security.pdf[Raspberry Pi 4 Boot Security] whitepaper. The secure boot system is intended for use with `buildroot`-based OS images; using it with Raspberry Pi OS is not recommended or supported.
-****
-
-The following `config.txt` properties are used to program the `secure-boot` OTP settings. These changes are irreversible and can only be programmed via `RPIBOOT` when flashing the bootloader EEPROM image. This ensures that `secure-boot` cannot be set remotely or by accidentally inserting a stale SD card image.
-
-For more information about enabling `secure-boot` please see the https://github.com/raspberrypi/usbboot/blob/master/Readme.md#secure-boot[Secure Boot readme] and the https://github.com/raspberrypi/usbboot/blob/master/secure-boot-example/README.md[Secure Boot tutorial] in the https://github.com/raspberrypi/usbboot[USBBOOT] repo.
-
-
-[[program_pubkey]]
-==== `program_pubkey`
-
-If this property is set to `1` then `recovery.bin` will write the hash of the public key in the EEPROM image to OTP.  Once set, the bootloader will reject EEPROM images signed with different RSA keys or unsigned images.
-
-Default: `0`
-
-[[revoke_devkey]]
-==== `revoke_devkey`
-
-If this property is set to `1` then `recovery.bin` will write a value to OTP that prevents the ROM from loading old versions of the second stage bootloader which do not support `secure-boot`. This prevents `secure-boot` from being turned off by reverting to an older release of the bootloader.
-
-Default: `0`
-
-[[program_rpiboot_gpio]]
-==== `program_rpiboot_gpio`
-
-Since there is no dedicated `nRPIBOOT` jumper on Raspberry Pi 4B or Raspberry Pi 400, an alternative GPIO must be used to select `RPIBOOT` mode by pulling the GPIO low. Only one GPIO may be selected and the available options are `2, 4, 5, 7, 8`. This property does not depend on `secure-boot`, but verify that this GPIO configuration does not conflict with any HATs which might pull the GPIO low during boot.
-
-Since for safety this property can only be programmed via `RPIBOOT`, the bootloader EEPROM must first be cleared using `erase_eeprom`. This causes the BCM2711 ROM to failover to `RPIBOOT` mode, which then allows this option to be set.
-
-Default: ``
-
-[[program_jtag_lock]]
-==== `program_jtag_lock`
-
-If this property is set to `1` then `recovery.bin` will program an OTP value that prevents VideoCore JTAG from being used. This option requires that `program_pubkey` and `revoke_devkey` are also set. This option can prevent failure analysis, and should only be set after the device has been fully tested.
-
-Default: `0`
+TIP: Some configuration properties live in `config.txt`. For more information about those properties, see xref:config_txt.adoc#configuration-properties[configuration properties].

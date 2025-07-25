@@ -1,19 +1,18 @@
 <!doctype html>
 <html lang="en">
   <head>
-    {% include head.html %} 
-    <link rel="stylesheet" href="{{ site.baseurl }}/css/boxes.css?ver={{ site.time | date: '%s' }}">
+    {% include head.html %}
   </head>
   <body>
-    {% include header.html %}      
-    {% if page.name == "404.adoc" %}
-      {% include toptitle404.html %}
-      {% include subtitle404.html %}
-    {% else %}
-      {% include toptitle.html %}
-      {% include subtitle.html %}
-    {% endif %}
-    {% include tabs.html %}
+    {% include header.html %}
+
+    <div class="toptitle">
+      <h1><a href="/documentation/"><b>Raspberry Pi</b> Documentation</a></h1>
+      <div id="search-container">
+        <div id="docsearch"></div>
+      </div>
+      {% include tabs.html %}
+    </div>
 
     <div id="container">
       <section id="box-content">
@@ -26,7 +25,7 @@
             <a class="box" href="{{ entry.url }}">
             {% endif %}
               <span><img src="{{ site.baseurl }}{{ entry.imagepath }}" width="121" height="121" alt=""></span>
-              <span class="title">{{ entry.title }}</span>
+              <span class="title">{{ entry.title | markdownify }}</span>
               <span>{{ entry.description }}</span>
             </a>
             {% endfor %}
@@ -35,9 +34,8 @@
       </section>
     </div>
 
-    {% include contribute.html %} 
-    {% include copyright.html %} 
-    {% include footer.html %}  
+    {% include legal.html %}
+    {% include footer.html %}
     {% include search.html %}
 
   </body>

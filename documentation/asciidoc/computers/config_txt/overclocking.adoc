@@ -6,10 +6,11 @@ Overclocking and overvoltage will be disabled at runtime when the SoC reaches `t
 
 NOTE: For more information xref:raspberry-pi.adoc#frequency-management-and-thermal-control[see the section on frequency management and thermal control].
 
-WARNING: Setting any overclocking parameters to values other than those used by xref:configuration.adoc#overclock[raspi-config] may set a permanent bit within the SoC, making it possible to detect that your Raspberry Pi has been overclocked. The specific circumstances where the overclock bit is set are if `force_turbo` is set to `1` and any of the `over_voltage_*` options are set to a value of less than `0`. See the https://www.raspberrypi.com/news/introducing-turbo-mode-up-to-50-more-performance-for-free/[blog post on Turbo mode] for more information.
+WARNING: Setting any overclocking parameters to values other than those used by xref:configuration.adoc#overclock[`raspi-config`] may set a permanent bit within the SoC. This makes it possible to detect that your Raspberry Pi was once overclocked. The overclock bit sets when `force_turbo` is set to `1` and any of the `over_voltage_*` options are set to a value of more than `0`. See the https://www.raspberrypi.com/news/introducing-turbo-mode-up-to-50-more-performance-for-free/[blog post on Turbo mode] for more information.
 
 === Overclocking
 
+[cols="1m,3"]
 |===
 | Option | Description
 
@@ -59,7 +60,11 @@ WARNING: Setting any overclocking parameters to values other than those used by 
 | Forces turbo mode frequencies even when the ARM cores are not busy. Enabling this may set the warranty bit if `over_voltage_*` is also set.
 
 | initial_turbo
-| Enables https://forums.raspberrypi.com/viewtopic.php?f=29&t=6201&start=425#p180099[turbo mode from boot] for the given value in seconds, or until cpufreq sets a frequency. The maximum value is `60`.
+| Enables https://forums.raspberrypi.com/viewtopic.php?f=29&t=6201&start=425#p180099[turbo mode from boot] for the given value in seconds, or until `cpufreq` sets a frequency. The maximum value is `60`. The November 2024 firmware update made the following changes:
+
+* changed the default from `0` to `60` to reduce boot time
+* switched the kernel CPU performance governor from `powersave` to `ondemand`
+
 
 | arm_freq_min
 | Minimum value of `arm_freq` used for dynamic frequency clocking. Note that reducing this value below the default does not result in any significant power savings, and is not currently supported.
@@ -96,11 +101,15 @@ WARNING: Setting any overclocking parameters to values other than those used by 
 
 | temp_soft_limit
 | *3A+/3B+ only*. CPU speed throttle control. This sets the temperature at which the CPU clock speed throttling system activates. At this temperature, the clock speed is reduced from 1400MHz to 1200MHz.  Defaults to `60`, can be raised to a maximum of `70`, but this may cause instability.
+
+| core_freq_fixed
+| Setting to 1 disables active scaling of the core clock frequency and ensures that any peripherals that use the core clock will maintain a consistent speed. The fixed clock speed is the higher/turbo frequency for the platform in use. Use this in preference to setting specific core_clock frequencies as it provides portability of config files between platforms.
+
 |===
 
-This table gives the default values for the options on various Raspberry Pi models, all frequencies are stated in mHz.
+This table gives the default values for the options on various Raspberry Pi models, all frequencies are stated in MHz.
 
-[cols=",^,^,^,^,^,^,^,^,^,^"]
+[cols="m,^,^,^,^,^,^,^,^,^,^"]
 |===
 | Option | Pi 0/W | Pi1 | Pi2 | Pi3 | Pi3A+/Pi3B+ | CM4 & Pi4B <= R1.3 | Pi4B R1.4 | Pi 400 | Pi Zero 2 W | Pi 5
 
@@ -111,7 +120,7 @@ This table gives the default values for the options on various Raspberry Pi mode
 | 1200
 | 1400
 | 1500
-| 1500 or 1800 if arm_boost=1
+| 1500 or 1800 if `arm_boost`=1
 | 1800
 | 1000
 | 2400
@@ -275,7 +284,7 @@ This table gives the default values for the options on various Raspberry Pi mode
 
 This table gives defaults for options which are the same across all models.
 
-[cols=",^"]
+[cols="m,^"]
 |===
 | Option | Default
 
@@ -317,11 +326,11 @@ The minimum core frequency when the system is idle must be fast enough to suppor
 | Default
 | 500
 
-| hdmi_enable_4kp60
+| `hdmi_enable_4kp60`
 | 550
 |===
 
-NOTE: Raspberry Pi 5 supports dual-4Kp60 displays with the idle-clock settings so `hdmi_enable_4kp60` is redundant.
+NOTE: There is no need to use `hdmi_enable_4kp60` on Flagship models since Raspberry Pi 5, Compute Modules since CM5, and Keyboard models since Pi 500; they support dual-4Kp60 displays by default.
 
 * Overclocking requires the latest firmware release.
 * The latest firmware automatically scales up the voltage if the system is overclocked. Manually setting `over_voltage` disables automatic voltage scaling for overclocking.
@@ -337,6 +346,7 @@ By default (`force_turbo=0`) the on-demand CPU frequency driver will raise clock
 === Clocks relationship
 
 ==== Raspberry Pi 4
+
 The GPU core, CPU, SDRAM and GPU each have their own PLLs and can have unrelated frequencies. The h264, v3d and ISP blocks share a PLL.
 
 To view the Raspberry Pi's current frequency in KHz, type: `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq`. Divide the result by 1000 to find the value in MHz. Note that this frequency is the kernel _requested_ frequency, and it is possible that any throttling (for example at high temperatures) may mean the CPU is actually running more slowly than reported. An instantaneous measurement of the actual ARM CPU frequency can be retrieved using the vcgencmd `vcgencmd measure_clock arm`. This is displayed in Hertz.
@@ -347,9 +357,16 @@ To view the Raspberry Pi's current frequency in KHz, type: `cat /sys/devices/sys
 This white paper goes through the reasons why your Raspberry Pi may get hot and why you might want to cool it back down, offering options on the cooling process.
 ****
 
-To view the Raspberry Pi's temperature, type `cat /sys/class/thermal/thermal_zone0/temp`. Divide the result by 1000 to find the value in degrees Celsius. Alternatively, there is a vcgencmd, `vcgencmd measure_temp`, that interrogates the GPU directly for its temperature.
+To view the temperature of a Raspberry Pi, run the following command:
 
-Hitting the temperature limit is not harmful to the SoC, but it will cause the CPU to throttle. A heatsink can help to control the core temperature, and therefore performance. This is especially useful if the Raspberry Pi is running inside a case. Airflow over the heatsink will make cooling more efficient.
+[source,console]
+----
+$ cat /sys/class/thermal/thermal_zone0/temp
+----
+
+Divide the result by 1000 to find the value in degrees Celsius. Alternatively, you can use `vcgencmd measure_temp` to report the GPU temperature.
+
+Hitting the temperature limit is not harmful to the SoC, but it will cause the CPU to throttle. A heat sink can help to control the core temperature, and therefore performance. This is especially useful if the Raspberry Pi is running inside a case. Airflow over the heat sink will make cooling more efficient.
 
 When the core temperature is between 80°C and 85°C, the ARM cores will be throttled back. If the temperature exceeds 85°C, the ARM cores and the GPU will be throttled back.
 
@@ -363,8 +380,18 @@ To monitor the Raspberry Pi's PSU voltage, you will need to use a multimeter to 
 
 If the voltage drops below 4.63V (±5%), the ARM cores and the GPU will be throttled back, and a message indicating the low voltage state will be added to the kernel log.
 
-The Raspberry Pi 5 PMIC has built in ADCs that allow the supply voltage to be measured. To do this run `vcgencmd pmic_read_adc EXT5V_V`
+The Raspberry Pi 5 PMIC has built in ADCs that allow the supply voltage to be measured. To view the current supply voltage, run the following command:
+
+[source,console]
+----
+$ vcgencmd pmic_read_adc EXT5V_V
+----
 
 === Overclocking problems
 
-Most overclocking issues show up immediately with a failure to boot. If this occurs, hold down the `shift` key during the next boot. This will temporarily disable all overclocking, allowing you to boot successfully and then edit your settings.
+Most overclocking issues show up immediately, when the device fails to boot. If your device fails to boot due to an overclocking configuration change, use the following steps to return your device to a bootable state:
+
+. Remove any clock frequency overrides from `config.txt`.
+. Increase the core voltage using `over_voltage_delta`.
+. Re-apply overclocking parameters, taking care to avoid the previous known-bad overclocking parameters.
+

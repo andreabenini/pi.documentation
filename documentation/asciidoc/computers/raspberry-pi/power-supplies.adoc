@@ -2,6 +2,8 @@
 
 The power supply requirements differ by Raspberry Pi model. All models require a 5.1V supply, but the current required generally increases according to model. All models up to the Raspberry Pi 3 require a micro USB power connector, while Raspberry Pi 4, Raspberry Pi 400, and Raspberry Pi 5 use a USB-C connector.
 
+[[powering-raspberry-pi-5]]
+
 The current consumed by each Raspberry Pi depends on the peripherals connected.
 
 === Recommended power supplies
@@ -12,12 +14,16 @@ NOTE: No Raspberry Pi models support USB-PPS.
 
 NOTE: If you use a third-party USB-PD multi-port power supply, plugging an additional device into the supply when your Raspberry Pi is connected causes a renegotiation between the supply and the Raspberry Pi. If the Raspberry Pi is powered, this happens seamlessly. If the Raspberry Pi is powered down, this renegotiation may cause the Raspberry Pi to boot.
 
-== Power over Ethernet (PoE) connector
-
-The Ethernet jack on Raspberry Pi 5 is PoE+ capable, supporting the IEEE 802.3at-2009 PoE standard. The Raspberry Pi 5 has a 4-pin Power-over-Ethernet (PoE) header block, located between the Ethernet jack and the two MIPI connectors.
+=== Power over Ethernet (PoE) connector
 
 .Raspberry Pi 5 PoE header
 image::images/poe.jpg[alt="The PoE connector,width="70%"]
+
+The Ethernet jack on Raspberry Pi 5 is PoE+ capable, supporting the IEEE 802.3at-2009 PoE standard.
+
+The Ethernet jack on Raspberry Pi 4B and Pi 3B+ is PoE capable, supporting the IEEE 802.3af-2003 PoE standard.
+
+All Raspberry Pi models with a PoE-capable Ethernet jack require a HAT to draw power through the Ethernet port. For models that support PoE, we recommend the https://www.raspberrypi.com/products/poe-hat/[PoE HAT]. For models that support PoE+, we recommend the https://www.raspberrypi.com/products/poe-plus-hat/[PoE+ HAT].
 
 === Typical power requirements
 
@@ -74,22 +80,27 @@ image::images/poe.jpg[alt="The PoE connector,width="70%"]
 | 1.6A (600mA if using a 3A power supply)
 | 800mA
 
-| Raspberry Pi 400
+| Pi 400
 | 3.0A
 | 1.2A
 | 800mA
 
-| Raspberry Pi Zero
+| Pi 500
+| 5.0A
+| 1.6A (600mA if using a 3A power supply)
+| 800mA
+
+| Zero
 | 1.2A
 | Limited by PSU, board, and connector ratings only
 | 100mA
 
-| Raspberry Pi Zero W
+| Zero W
 | 1.2A
 | Limited by PSU, board, and connector ratings only.
 | 150mA
 
-| Raspberry Pi Zero 2 W
+| Zero 2 W
 | 2A
 | Limited by PSU, board, and connector ratings only.
 | 350mA
@@ -101,11 +112,11 @@ Most Raspberry Pis provide enough current to USB peripherals to power most USB d
 
 The power requirements of the Raspberry Pi increase as you make use of the various interfaces on the Raspberry Pi. Combined, the GPIO pins can draw 50mA safely; each pin can individually draw up to 16mA. The HDMI port uses 50mA. The Camera Module requires 250mA. USB keyboards and mice can take as little as 100mA or as much as 1000mA. Check the power rating of the devices you plan to connect to the Raspberry Pi and purchase a power supply accordingly. If you're not sure, use an externally-powered USB hub.
 
-You can check the status of power output to the USB ports using `vcgencmd`.
+Run the following command to check the status of power output to the USB ports:
 
-[source,bash]
+[source,console]
 ----
-vcgencmd get_config usb_max_current_enable
+$ vcgencmd get_config usb_max_current_enable
 ----
 
 The following table describes the amount of power (in amps) drawn by different Raspberry Pi models during various workloads:
@@ -133,7 +144,7 @@ A number of different PMIC devices have been used on both Raspberry Pi 4 and CM4
 
 By default, the Raspberry Pi 5 consumes around 1W to 1.4W of power when turned off. This can be decreased by manually editing the EEPROM configuration with `sudo rpi-eeprom-config -e`. Change the settings to the following:
 
-[source]
+[source,ini]
 ----
 BOOT_UART=1
 POWER_OFF_ON_HALT=1
@@ -169,12 +180,12 @@ reset_event:: The PMIC reset reason e.g. watchdog, over- or under-voltage, over-
 
 The PMIC has built-in ADCs that, among other things, can measure the supply voltage `EXT5V_V`. Use the following command to view ADC measurements:
 
-[source,bash]
+[source,console]
 ----
-vcgencmd pmic_read_adc
+$ vcgencmd pmic_read_adc
 ----
 
-NOTE: You can't see USB current or anything else connected directly to 5V, because this bypasses the PMIC. You should not expect this to add up to the wattage of the source power supply. However, it can be useful to monitor things like the core voltage.
+You can't see USB current or anything else connected directly to 5V, because this bypasses the PMIC. You should not expect this to add up to the wattage of the source power supply. However, it can be useful to monitor things like the core voltage.
 
 === Back-powering
 
