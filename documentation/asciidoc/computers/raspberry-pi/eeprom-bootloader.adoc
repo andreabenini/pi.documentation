@@ -446,12 +446,19 @@ Default: `net_install`
 [[IMAGER_REPO_URL]]
 ==== `IMAGER_REPO_URL`
 
-The embedded Raspberry Pi Imager application is configured with a JSON file downloaded at startup.
+The Raspberry Pi Imager application is configured with a JSON file downloaded at startup. By default, Raspberry Pi Imager uses the JSON at https://downloads.raspberrypi.com/os_list_imagingutility_v4.json.
 
-You can change the URL of the JSON file used by the embedded Raspberry Pi Imager application to get it to offer your own images.
-You can test this with the standard https://www.raspberrypi.com/software/[Raspberry Pi Imager] application by passing the URL via the `--repo` argument.
+Set `IMAGER_REPO_URL` in the EEPROM configuration to specify the location of the JSON file to use during a network install with the embedded Raspberry Pi Imager.
 
-Default: `\http://downloads.raspberrypi.org/os_list_imagingutility_v3.json`
+You can also change the URL of the JSON file used by the Raspberry Pi Imager application to get it to offer your own images by one of the following methods:
+
+* Pass the `--repo` argument when starting Imager, for example: `rpi-imager --repo https://downloads.raspberrypi.com/os_list_imagingutility_v4.json`
+* In the Raspberry Pi Imager UI.
+.. Go to the **App Options** dialog box.
+.. For **Content Repository**, select **Edit**.
+** To use a JSON file on your computer, choose **Use custom file** and browse to the file location.
+** To use a JSON file hosted at a URL, choose **Use custom URL** and enter the URL.
+.. Click **Apply & Restart**. Imager resets your device and OS selections, and returns to the **Device** tab.
 
 [[NET_INSTALL_ENABLED]]
 ==== `NET_INSTALL_ENABLED`
@@ -538,7 +545,7 @@ Max length: 32 characters
 The `PARTITION` option may be used to specify the boot partition number, if it has not explicitly been set by the `reboot` command (e.g. `sudo reboot N`) or by `boot_partition=N` in `autoboot.txt`.
 This could be used to boot from a rescue partition if the user presses a button.
 
-The latest firmware also allows high partition numbers (> 31) to be overriden. This allows a custom setup of the system hardware watchdog to trigger a reboot with a special high partition number (e.g. 62) which can be detected by the bootloader (using a conditional filter) and remapped to a recovery partition.
+The latest firmware also allows high partition numbers (> 31) to be overridden. This allows a custom setup of the system hardware watchdog to trigger a reboot with a special high partition number (e.g. 62) which can be detected by the bootloader (using a conditional filter) and remapped to a recovery partition.
 
 Example:
 [source,ini]

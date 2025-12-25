@@ -30,24 +30,28 @@ NOTE: Compute Module 4 and Compute Module 4S do not support automatic bootloader
 
 Raspberry Pi Imager provides a GUI for updating the bootloader and selecting the boot mode.
 
-. Download https://www.raspberrypi.com/software/[Raspberry Pi Imager]
-. Select a spare SD card (bootloader images overwrite the entire card)
-. Launch Raspberry Pi Imager
-. Select `Choose OS`
-. Select `Misc utility images`
-+ 
+. Download https://www.raspberrypi.com/software/[Raspberry Pi Imager].
+. Select an unused SD card. All data on this SD card is overwritten by Imager.
+. Connect the SD card to the computer where Imager runs.
+. Launch Raspberry Pi Imager.
+. In the **Device** tab, select your Raspberry Pi model from the list. Select **Next**.
+. In the **OS** tab, choose **Misc utility images**
++
 image::images/misc-utility-images.png[alt="Select Misc utility images",width="60%"]
-. Select `Bootloader` for your version of Raspberry Pi (Pi 400 is part of the 4 family)
-+ 
+. Select **Bootloader** for your version of Raspberry Pi.
++
 image::images/bootloader-family-select.png[alt="Choose a family for your bootloader",width="60%"]
-. Select a boot mode: `SD` (recommended), `USB` or `Network`
-+ 
+. Select a boot mode. We recommend **SD Card Boot**. Select **Next**.
++
 image::images/bootloader-storage-select.png[alt="Choose the storage from which you'd like to boot",width="60%"]
-. Select `SD card` and then `Write`
-. Click `Yes` to continue
-. Boot the Raspberry Pi with the new image and wait for at least ten seconds
-. When the green activity LED blinks with a steady pattern and the HDMI display shows a green screen, you have successfully written the bootloader
-. Power off the Raspberry Pi and remove the SD card
+. In the **Storage** tab, select your SD card. Select **Next**.`
+. In the **Writing** tab, review your choices and select **Write** to proceed.
+. You're prompted to confirm overwriting the data on the SD card. To continue, select **I understand, erase and write**.
+. Wait until Imager has finished writing and verifying the SD card
+. Connect the SD card to the Raspberry Pi device where you want to update the bootloader.
+. Boot the Raspberry Pi with the new image and wait for at least ten seconds.
+. When the green activity LED blinks with a steady pattern and the HDMI display shows a green screen, you've successfully written the bootloader.
+. Power off the Raspberry Pi and remove the SD card.
 
 [[raspi-config]]
 ==== Use `raspi-config` to update the bootloader
@@ -280,7 +284,7 @@ For more information, see xref:raspberry-pi.adoc#eeprom-boot-flow[EEPROM bootflo
 | Bootloader EEPROM image - same as `pieeprom.upd` but changes `recovery.bin` behaviour to not rename itself to `RECOVERY.000`.
 
 | `pieeprom.sig`
-| The sha256 checksum of bootloader image (pieeprom.upd/pieeprom.bin)
+| The sha256 checksum (and optional timestamp) of bootloader image (`pieeprom.upd`/`pieeprom.bin`)
 
 | `vl805.bin`
 | The VLI805 USB firmware EEPROM image - Raspberry Pi 4B revision 1.3 and earlier only.
@@ -291,7 +295,7 @@ For more information, see xref:raspberry-pi.adoc#eeprom-boot-flow[EEPROM bootflo
 
 * If the bootloader update image is called `pieeprom.upd` then `recovery.bin` is renamed to `recovery.000` once the update has completed, then the system is rebooted. Since `recovery.bin` is no longer present the ROM loads the newly updated bootloader from SPI flash and the OS is booted as normal.
 * If the bootloader update image is called `pieeprom.bin` then `recovery.bin` will stop after the update has completed. On success the HDMI output will be green and the green activity LED is flashed rapidly. If the update fails, the HDMI output will be red and an xref:configuration.adoc#led-warning-flash-codes[error code] will be displayed via the activity LED.
-* The `.sig` files contain the hexadecimal sha256 checksum of the corresponding image file; additional fields may be added in the future.
+* The `.sig` files contain the hexadecimal sha256 checksum of the corresponding image file on the first line, optionally followed by the timestamp of the image (`ts: unixtime`) on the next line; additional fields may be added in the future.
 * The ROM found on BCM2711 and BCM2712 does not support loading `recovery.bin` from USB mass storage or TFTP. Instead, newer versions of the bootloader support a self-update mechanism where the bootloader is able to reflash the SPI flash itself. See `ENABLE_SELF_UPDATE` on the xref:raspberry-pi.adoc#raspberry-pi-bootloader-configuration[bootloader configuration] page.
 * The temporary EEPROM update files are automatically deleted by the `rpi-eeprom-update` service at startup.
 
