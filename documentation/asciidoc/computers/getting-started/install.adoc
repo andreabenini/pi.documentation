@@ -120,11 +120,8 @@ image::images/imager/user-subtab.png[alt="Imager OS Customisation User tab.",wid
 The username must be lowercase and contain only letters, numbers, underscores, and hyphens.
 
 * For a headless setup, your Raspberry Pi uses these credentials to connect to the network on first boot.
-* By default, the password you set here is required when running `sudo` commands. If you prefer not to enter a password for these commands, you can turn off this requirement by deselecting *Enable passwordless sudo*. You can also turn this off later. For instructions, see xref:../computers/configuration.adoc#disable-sudo-password[Turn off password for superuser commands] in the *Configuration* page.
 
 Creating a username and password at this stage doesn't require these credentials to be entered whenever you boot your Raspberry Pi. To require a password on boot, turn off Auto Login. For instructions, see xref:../computers/configuration.adoc#auto-login[Require a password from startup].
-
-image::images/imager/passwordless-sudo.png[alt="Imager OS Customisation User tab passwordless sudo.",width="80%"]
 
 ===== Wi-Fi
 In the *Wi-Fi* subtab, select whether to connect to a *secure network* or an *open network*. Before this, if you're on a Mac computer, you might be asked whether you'd like to pre-fill the Wi-Fi password from the system keychain. Confirm whether you want to do this and sign in with your Mac computer credentials.
@@ -140,12 +137,14 @@ In the *Remote Access* subtab, configure your SSH settings and then select *Next
 
 image::images/imager/ssh-subtab.png[alt="Imager OS Customisation Remote Access tab.",width="80%"]
 
-To use your Raspberry Pi remotely over your network, turn on *Enable SSH* using the corresponding toggle. If you plan to run a headless Raspberry Pi (rather than using it like a desktop computer), you can either turn this option on or configure *Raspberry Pi Connect* for your device. Choosing SSH or Raspberry Pi Connect is especially important for headless setups, because this is the entry way to your Raspberry Pi from another computer.
+To use your Raspberry Pi remotely over your network, turn on *Enable SSH* using the corresponding toggle.
 
-If you enable SSH, choose an authentication method:
+If you plan to run a headless Raspberry Pi (rather than using it like a desktop computer), you can either turn on SSH, or configure *Raspberry Pi Connect* for your device.
 
-* Choose *Use password authentication* to sign in to your Raspberry Pi over the network using the username and password you provided in the *Customisation > User* tab.
-* Choose *Use public key authentication* to configure your Raspberry Pi to use SSH key-based authentication. Imager reveals a field to provide a public key. If you already have a public RSA key in your SSH configuration, Imager uses that public key. If you don't you can copy a public key into Imager or select *Browse* to locate a public key file on your computer.
+If you enable SSH, choose one of the following authentication methods:
+
+* *Use password authentication*: To sign in to your Raspberry Pi over the network using the username and password you provided in the *Customisation > User* tab.
+* *Use public key authentication*: To configure your Raspberry Pi to use SSH key-based authentication. Imager reveals a field to provide a public key. If you already have a public RSA key in your SSH configuration, Imager uses that public key. If you don't you can copy a public key into Imager or select *Browse* to locate a public key file on your computer.
 
 ===== Raspberry Pi Connect
 Some operating systems also show the *Raspberry Pi Connect* subtab. To link your device to your Raspberry Pi Connect account, complete the following steps:
@@ -157,7 +156,7 @@ image::images/imager/connect-subtab.png[alt="Imager OS Customisation Raspberry P
 +
 image::images/imager/os-customisation-site.png[alt="Raspberry Pi Connect page.",width="60%"]
 . Sign in to your Raspberry Pi ID account or, if you don't have an account yet, sign up.
-. In the *New auth key* page, create your auth key. This is a single-use, temporary token. The Raspberry Pi Connect website displays how long after its creation the token expires. To use the token, boot your Raspberry Pi and connect it to the internet before the expiry time.
+. In the *New auth key* page, create your auth key. This is a single-use, temporary token. Personal auth keys expire six hours after creation, and organisation auth keys expire between 1 and 90 days after creation (1 day by default). To use the token, boot your Raspberry Pi and connect it to the internet before the expiry time.
 +
 image::images/imager/connect-auth-key.png[alt="Raspberry Pi Connect new auth key page.",width="60%"]
 ** If you're a member of one or more organisations, select the organisation or account to associate the key with. Then select *Create auth key and launch Raspberry Pi Imager*. 
@@ -225,12 +224,12 @@ Network Install requires the following:
 * A compatible Raspberry Pi model running firmware that supports *Network Install*. Network Install only runs on flagship models since Raspberry Pi 4B and Raspberry Pi keyboard computers (400, 500, and 500+).
 * A monitor and keyboard physically connected to your Raspberry Pi device.
 * A wired internet connection.
-* A blank, compatible storage device, such as an SD card or USB drive, attached to your Raspberry Pi device. This is the destination that Network Install writes the OS image to. If the storage device already has an OS (or any bootable system) installed, your Raspberry Pi boots normally instead of entering into Network Install.
+* A blank, compatible storage device, such as an SD card or USB drive, attached to your Raspberry Pi device. This is the destination that Network Install writes the OS image to. If the storage device already has an OS (or any bootable system) installed, and if you don't hold down the *Shift* key, your Raspberry Pi boots normally instead of entering into Network Install.
 
 ==== Launch Network Install
 
 . Connect a monitor and keyboard to your Raspberry Pi device, then either:
-.. Connect a blank (non-bootable) storage device, such as an SD card or USB drive, to your Raspberry Pi device, 
+.. Connect a blank (non-bootable) storage device, such as an SD card or USB drive, to your Raspberry Pi device,
 +
 or
 +

@@ -9,8 +9,6 @@ On startup, each Raspberry Pi loads various files from the boot partition in ord
 
 On boot, Linux mounts the boot partition as `/boot/firmware/`.
 
-NOTE: Before *Bookworm*, Raspberry Pi OS stored the boot partition at `/boot/`. Since Bookworm, the boot partition is located at `/boot/firmware/`.
-
 ==== `bootcode.bin`
 
 The bootloader, loaded by the SoC on boot. It performs some very basic setup, and then loads one of the `start*.elf` files.
@@ -24,7 +22,7 @@ Binary firmware blobs loaded onto the VideoCore GPU in the SoC, which then take 
 `start.elf`:: the basic firmware.
 `start_x.elf`:: includes additional codecs.
 `start_db.elf`:: used for debugging.
-`start_cd.elf`:: a cut-down version of the firmware that removes support for hardware blocks such as codecs and 3D as well as debug logging support; it also imposes initial frame buffer limitations. The cut-down firmware is automatically used when `gpu_mem=16` is specified in `config.txt`.
+`start_cd.elf`:: a cut-down version of the firmware that removes support for hardware blocks such as codecs and 3D as well as debug logging support. It also imposes initial frame buffer limitations.
 
 `start4.elf`, `start4x.elf`, `start4db.elf` and `start4cd.elf` are equivalent firmware files specific to the Raspberry Pi 4-series (Model 4B, Pi 400, Compute Module 4 and Compute Module 4S).
 
@@ -38,7 +36,7 @@ Linker files found in matched pairs with the `start*.elf` files listed in the pr
 
 ==== `cmdline.txt`
 
-The xref:../computers/configuration.adoc#kms[kernel command line] passed into the kernel at boot.
+The xref:../computers/configuration.adoc#cmdline[kernel command line] passed into the kernel at boot.
 
 ==== `config.txt`
 
@@ -83,7 +81,7 @@ Various xref:linux_kernel.adoc#kernel[kernel] image files that correspond to Ras
 | `kernel7.img`
 | BCM2836, BCM2837
 | Pi Zero 2 W, Pi 2, Pi 3, CM3, Pi 3+, CM3+
-| Later revisions of Pi 2 use BCM2837
+| Early revisions of Pi 2 used BCM2836
 
 | `kernel7l.img`
 | BCM2711
@@ -118,7 +116,9 @@ User-provided parameters in `config.txt` are scanned, along with any overlays an
 [[part1]]
 ==== Device Trees
 
-A Device Tree (DT) is a description of the hardware in a system. It should include the name of the base CPU, its memory configuration, and any peripherals (internal and external). A DT should not be used to describe the software, although by listing the hardware modules it does usually cause driver modules to be loaded.
+A Device Tree (DT) is a description of the hardware in a system.
+
+It includes the name of the base CPU, its memory configuration, and any peripherals (internal and external). It is not used to describe the software, although by listing the hardware modules it can cause driver modules to be loaded.
 
 NOTE: It helps to remember that DTs are supposed to be OS-neutral, so anything which is Linux-specific shouldn't be there.
 
@@ -963,6 +963,10 @@ printf "%d" "0x$(od "/proc/device-tree/chosen/bootloader/partition" -v -An -t x1
 
 `rpi-duid`:: _(string)_ Raspberry Pi 5 only. A string representation of the QR code on the PCB.
 
+`rpi-sdram-size-gbit`:: The physical SDRAM size in gigabits. Unlike `/proc/meminfo`, this value isn't affected by memory carveouts or the `total_mem` parameter. In scripts reporting device capabilities, use this value (if defined) instead of the *Memory size* field in the board revision code, which cannot represent non-power-of-two sizes such as 3 GB.
+
+`rpi-machine-id`:: _(string)_ A 128-bit machine identifier represented as a 32-character hexadecimal string, generated from a hash of the 64-bit serial number and, on Raspberry Pi 4 and Raspberry Pi 5, the Ethernet MAC address provisioned at manufacture. This provides a stable, unique identity suitable for use in automated or provisioning systems.
+
 `rpi-serial64`:: _(string)_ A string representation of the 64-bit serial number. On flagship models since Raspberry Pi 5 this is same as the normal serial number (`/proc/device-tree/serial-number`). On earlier models the default serial number is still 32-bit but with newer firmware a 64-bit serial number is now available and is visible through this node.
 
 ===== Common bootloader properties `/chosen/bootloader`
@@ -1024,7 +1028,7 @@ The format is defined by the https://usb.org/document-library/usb-power-delivery
 
 The following properties are specific to the BCM2711 and BCM2712 SPI EEPROM bootloaders.
 
-`build_timestamp`:: The UTC build time for the EEPROM bootloader.
+`build_timestamp`:: The UTC build time for the EEPROM bootloader, stored as a Unix epoch value. The build timestamp is embedded in the EEPROM binary and can be extracted with `strings pieeprom.bin | grep BUILD_TIMESTAMP`.
 
 `capabilities`:: This bit-field describes the features supported by the current bootloader. This may be used to check whether a feature (e.g. USB boot) is supported before enabling it in the bootloader EEPROM config.
 
@@ -1056,7 +1060,7 @@ The following properties are specific to the BCM2711 and BCM2712 SPI EEPROM boot
 | https://github.com/raspberrypi/usbboot/blob/master/Readme.md#secure-boot[Secure Boot]
 |===
 
-`update_timestamp`:: The UTC update timestamp set by `rpi-eeprom-update`.
+`update_timestamp`:: The UTC time when the EEPROM update was applied, stored as a Unix epoch value. This value is set by `rpi-eeprom-update` and stored in the `.sig` file alongside the EEPROM image. The bootloader uses this to avoid applying stale updates during self-update.
 
 `signed`:: If Secure Boot is enabled, this bit-field will be non-zero. The individual bits indicate the current Secure Boot configuration.
 
@@ -1393,11 +1397,13 @@ There are a number of separate `pins_*` sections, based on particular Raspberry 
 * `pins_pi0`: Raspberry Pi Zero
 * `pins_pi0w`: Raspberry Pi Zero W
 * `pins_pi02w`: Raspberry Pi Zero 2 W
+* `pins_cm0`: Raspberry Pi Compute Module Zero
 * `pins_cm`: Raspberry Pi Compute Module 1. The default for this is the default for the chip, so it is a useful source of information about default pull-ups/pull-downs on the chip.
 * `pins_cm3`: Raspberry Pi Compute Module 3
 * `pins_cm3plus`: Raspberry Pi Compute Module 3+
-* `pins_cm4s`: Raspberry Pi Compute Module 4S
 * `pins_cm4`: Raspberry Pi Compute Module 4
+* `pins_4b`: Raspberry Pi 4 Model B
+* `pins_cm4s`: Raspberry Pi Compute Module 4S
 
 Each `pins_*` section can contain `pin_config` and `pin_defines` sections.
 
