@@ -127,6 +127,12 @@
                     "subpath": "m2-hat-plus.adoc"
                 },
                 {
+                    "title": "Touch Display",
+                    "description": "The Raspberry Pi Touch Display",
+                    "image": "full-sized/Display.png",
+                    "subpath": "display.adoc"
+                },
+                {
                     "title": "Touch Display 2",
                     "description": "The Raspberry Pi Touch Display 2",
                     "image": "full-sized/Touch-Display-2.png",
@@ -199,12 +205,6 @@
                     "url": "https://pip.raspberrypi.com/documents/RP-008281-DS"
                 },
                 {
-                    "title": "Touch Display",
-                    "description": "The Raspberry Pi Touch Display",
-                    "image": "full-sized/Display.png",
-                    "subpath": "display.adoc"
-                },
-                {
                     "title": "TV HAT",
                     "description": "Watch TV on your Raspberry Pi",
                     "image": "full-sized/TV-HAT.png",
@@ -275,6 +275,12 @@
                     "description": "Connect to your Raspberry Pi from your browser",
                     "image": "full-sized/Connect-BIG.png",
                     "subpath": "connect.adoc"
+                },
+                {
+                    "title": "Raspberry Pi Connect for Organisations",
+                    "description": "Manage and share your Raspberry Pi devices across your team",
+                    "image": "full-sized/Organisations.png",
+                    "subpath": "connect-for-organisations.adoc"
                 },
                 {
                     "title": "Bookshelf",
