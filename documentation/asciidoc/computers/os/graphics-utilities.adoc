@@ -120,7 +120,7 @@ This returns the current frequency of the specified clock. Accepts the following
 | Display Parallel Interface
 |===
 
-e.g. `vcgencmd measure_clock arm`
+For example, `vcgencmd measure_clock arm`
 
 ==== `measure_volts [block]`
 
@@ -163,7 +163,7 @@ Reports on the amount of memory addressable by the Arm and the GPU. To show the 
 
 ===== `codec_enabled [type]`
 
-Reports whether the specified codec type is enabled. Possible options for type are AGIF, FLAC, H263, H264, MJPA, MJPB, MJPG, MPG2, MPG4, MVC0, PCM, THRA, VORB, VP6, VP8, WMV9, WVC1. Because the H.265 HW block on the Raspberry Pi 4 and Pi 400 is not part of the VideoCore GPU, its status is not accessed via this command.
+Reports whether the specified codec type is enabled. Possible options for type are AGIF, FLAC, H263, H264, MJPA, MJPB, MJPG, MPG2, MPG4, MVC0, PCM, THRA, VORB, VP6, VP8, WMV9, WVC1. Because the H.265 HW block on the Raspberry Pi 4 and later device families isn't part of the VideoCore GPU, its status isn't accessed by this command.
 
 ===== `mem_oom`
 

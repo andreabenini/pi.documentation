@@ -412,17 +412,24 @@ tags:: The tags that are applied to the device when the identity is exchanged.
 created_at:: The date and time when the device identity was created (in ISO 8601 format).
 public_key:: The PEM-encoded public key for the device identity.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the device identity can't be created, you get a **422 Unprocessable Content** response.
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
 
-[source,http]
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
+
+| **422 Unprocessable Content**
+| The device identity can't be created.
+a|
+[source,json]
 ----
-HTTP/2 422
-Content-Type: application/json; charset=utf-8
-
 {"message":"Validation failed: Public key is invalid"}
 ----
+|===
 
 [[list-device-identities]]
 === List device identities
@@ -501,7 +508,7 @@ per_page:: The number of device identities for each page (maximum 100).
 total_count:: The total number of device identities in the organisation.
 total_pages:: The total number of pages of device identities for the organisation.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+If the management API access token is invalid, you get a **401 Unauthorized** response.
 
 The `+page+` and `+per_page+` query parameters work the same way as for <<list-devices,listing devices>>.
 
@@ -551,9 +558,18 @@ Content-Type: application/json; charset=utf-8
 }
 ----
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the device identity isn't found in the organisation, you get a **404 Not Found** response.
+[cols="1,3", options="header"]
+|===
+| Response | Description
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+
+| **404 Not Found**
+| The device identity isn't found in the organisation.
+|===
 
 === Update a device identity
 
@@ -613,19 +629,28 @@ Content-Type: application/json; charset=utf-8
 
 NOTE: Once a device identity has been exchanged for a device, only the `+description+` can be updated. Any `+device_name+` or `+tags+` values in the request body are ignored, because those fields are only applied when the identity is first exchanged.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the device identity isn't found in the organisation, you get a **404 Not Found** response.
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
 
-If the device identity can't be updated, you get a **422 Unprocessable Content** response containing the reason why the device identity couldn't be updated:
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
 
-[source,http]
+| **404 Not Found**
+| The device identity isn't found in the organisation.
+|
+
+| **422 Unprocessable Content**
+| The device identity can't be updated.
+a|
+[source,json]
 ----
-HTTP/2 422
-Content-Type: application/json; charset=utf-8
-
 {"message":"Validation failed: Description can't be blank"}
 ----
+|===
 
 === Delete a device identity
 
@@ -660,9 +685,18 @@ If the device identity has already been exchanged for a device, the linked devic
 
 If successful, you get a **204 No Content** response with an empty response body.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the device identity isn't found in the organisation, you get a **404 Not Found** response.
+[cols="1,3", options="header"]
+|===
+| Response | Description
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+
+| **404 Not Found**
+| The device identity isn't found in the organisation.
+|===
 
 === Create an auth key
 
@@ -729,7 +763,9 @@ Content-Type: application/json; charset=utf-8
     "device_name": "pi5-001",
     "tags": ["production", "kiosk"],
     "secret": "rpoak_123456",
-    "expires_at": "2025-01-01T00:00:30Z"
+    "expires_at": "2025-01-01T00:00:30Z",
+    "exchanged_at": null,
+    "created_at": "2024-12-31T00:00:30Z"
 }
 ----
 
@@ -741,22 +777,310 @@ device_name:: The name that is assigned to the device when the auth key is excha
 tags:: The tags that are applied to the device when the auth key is exchanged.
 secret:: A random token prefixed with `+rpoak_+`.
 expires_at:: The date and time when the key expires (in ISO 8601 format).
+exchanged_at:: The date and time when the auth key was exchanged to link a device (in ISO 8601 format), or `+null+` if it hasn't been exchanged yet.
+created_at:: The date and time when the auth key was created (in ISO 8601 format).
 
 The `+secret+` can then be used to xref:../services/connect.adoc#link-connect[link a device with Connect] before it expires.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the auth key can't be created, you get a **422 Unprocessable Content** response.
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
+
+| **422 Unprocessable Content**
+| The auth key can't be created.
+a|
+[source,json]
+----
+{"message":"Validation failed: Description can't be blank"}
+----
+|===
+
+NOTE: You can also manually create an auth key on your organisation's **Settings** page.
+
+[[list-auth-keys]]
+=== List auth keys
+
+To list all auth keys in your organisation, use a <<management-api-access-tokens, management API access token>> to make the following HTTP request.
+
+Replace these values in the code below:
+
+* `+rporg_accesstokenhere+`: your management API access token.
+
+[tabs]
+======
+HTTP::
++
+[source,http]
+----
+GET /organisation/auth-keys HTTP/1.1
+Host: api.connect.raspberrypi.com
+Authorization: Bearer rporg_accesstokenhere
+----
+
+curl::
++
+[source,console]
+----
+$ curl --header 'Authorization: Bearer rporg_accesstokenhere' https://api.connect.raspberrypi.com/organisation/auth-keys
+----
+
+======
+
+If successful, you get a **200 OK** response with up to 100 of the organisation's auth keys in JSON format, sorted with usable auth keys first, followed by expired and then exchanged auth keys, with the most recent first in each group. For example:
 
 [source,http]
 ----
-HTTP/2 422
+HTTP/2 200
 Content-Type: application/json; charset=utf-8
 
-{"message":"Validation failed: Description can't be blank"}
+{
+    "auth_keys": [
+        {
+            "id": "096ce472-2cbd-412a-8295-6c03a1a07ba4",
+            "description": "my-auth-key",
+            "device_name": "pi5-001",
+            "tags": ["production", "kiosk"],
+            "expires_at": "2026-02-26T16:09:52Z",
+            "exchanged_at": null,
+            "created_at": "2026-02-25T16:09:52Z"
+        }
+    ],
+    "meta": {
+        "page": 1,
+        "per_page": 100,
+        "total_count": 1,
+        "total_pages": 1
+    }
+}
 ----
 
-NOTE: You can also manually create an auth key on your organisation's **Settings** page.
+The response contains the following fields:
+
+auth_keys:: List of auth keys in the organisation (up to 100 for each page).
+meta:: Pagination details.
+
+Each item in the `+auth_keys+` list contains the following fields:
+
+id:: A unique identifier for the auth key.
+description:: The description used to create the auth key.
+device_name:: The name that is assigned to the device when the auth key is exchanged.
+tags:: The tags that are applied to the device when the auth key is exchanged.
+expires_at:: The date and time when the key expires (in ISO 8601 format).
+exchanged_at:: The date and time when the auth key was exchanged to link a device (in ISO 8601 format), or `+null+` if it hasn't been exchanged yet.
+created_at:: The date and time when the auth key was created (in ISO 8601 format).
+
+NOTE: The `+secret+` is only included in the response when an auth key is first created and can't be viewed again later.
+
+The `+meta+` object contains the following fields:
+
+page:: The current page number of the response.
+per_page:: The number of auth keys for each page (maximum 100).
+total_count:: The total number of auth keys in the organisation.
+total_pages:: The total number of pages of auth keys for the organisation.
+
+If the management API access token is invalid, you get a **401 Unauthorized** response.
+
+The `+page+` and `+per_page+` query parameters work the same way as for <<list-devices,listing devices>>.
+
+=== Show an auth key
+
+To show a single auth key in your organisation, use a <<management-api-access-tokens, management API access token>> to make the following HTTP request.
+
+Replace these values in the code below:
+
+* `+rporg_accesstokenhere+`: your management API access token.
+* `+auth-key-id+`: the unique identifier for the auth key.
+
+[tabs]
+======
+HTTP::
++
+[source,http]
+----
+GET /organisation/auth-keys/auth-key-id HTTP/1.1
+Host: api.connect.raspberrypi.com
+Authorization: Bearer rporg_accesstokenhere
+----
+
+curl::
++
+[source,console]
+----
+$ curl --header 'Authorization: Bearer rporg_accesstokenhere' https://api.connect.raspberrypi.com/organisation/auth-keys/auth-key-id
+----
+
+======
+
+If successful, you get a **200 OK** response with the auth key's details in JSON format. For example:
+
+[source,http]
+----
+HTTP/2 200
+Content-Type: application/json; charset=utf-8
+
+{
+    "id": "096ce472-2cbd-412a-8295-6c03a1a07ba4",
+    "description": "my-auth-key",
+    "device_name": "pi5-001",
+    "tags": ["production", "kiosk"],
+    "expires_at": "2026-02-26T16:09:52Z",
+    "exchanged_at": null,
+    "created_at": "2026-02-25T16:09:52Z"
+}
+----
+
+Otherwise, you get one of the following responses:
+
+[cols="1,3", options="header"]
+|===
+| Response | Description
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+
+| **404 Not Found**
+| The auth key isn't found in the organisation.
+|===
+
+=== Update an auth key
+
+To update an existing auth key in your organisation, use a <<management-api-access-tokens, management API access token>> to make the following HTTP request.
+
+Replace these values in the code below:
+
+* `+rporg_accesstokenhere+`: your management API access token.
+* `+auth-key-id+`: the unique identifier for the auth key.
+* `+my-renamed-auth-key+`: the new description for the auth key.
+* `+pi5-001+`: the new name that is assigned to the device when the auth key is exchanged (optional).
+* `+production+`, `+kiosk+`: tags applied to the device when the auth key is exchanged (optional).
+
+[tabs]
+======
+JSON::
++
+[source,http]
+----
+PATCH /organisation/auth-keys/auth-key-id HTTP/1.1
+Host: api.connect.raspberrypi.com
+Authorization: Bearer rporg_accesstokenhere
+Content-Type: application/json
+
+{
+    "description": "my-renamed-auth-key",
+    "device_name": "pi5-001",
+    "tags": ["production", "kiosk"]
+}
+----
+
+curl::
++
+[source,console]
+----
+$ curl --request PATCH --header 'Authorization: Bearer rporg_accesstokenhere' --header 'Content-Type: application/json' --data '{"description":"my-renamed-auth-key","device_name":"pi5-001","tags":["production","kiosk"]}' https://api.connect.raspberrypi.com/organisation/auth-keys/auth-key-id
+----
+
+======
+
+If successful, you get a **200 OK** response with the updated auth key in JSON format:
+
+[source,http]
+----
+HTTP/2 200
+Content-Type: application/json; charset=utf-8
+
+{
+    "id": "096ce472-2cbd-412a-8295-6c03a1a07ba4",
+    "description": "my-renamed-auth-key",
+    "device_name": "pi5-001",
+    "tags": ["production", "kiosk"],
+    "expires_at": "2026-02-26T16:09:52Z",
+    "exchanged_at": null,
+    "created_at": "2026-02-25T16:09:52Z"
+}
+----
+
+Otherwise, you get one of the following responses:
+
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
+
+| **404 Not Found**
+| The auth key isn't found in the organisation.
+|
+
+| **422 Unprocessable Content**
+| The auth key has expired or has already been exchanged.
+a|
+[source,json]
+----
+{"message":"This auth key can no longer be edited."}
+----
+
+| **422 Unprocessable Content**
+| The auth key can't be updated for any other reason.
+a|
+[source,json]
+----
+{"message":"Validation failed: Description can't be blank"}
+----
+|===
+
+=== Delete an auth key
+
+To delete an auth key in your organisation, use a <<management-api-access-tokens, management API access token>> to make the following HTTP request.
+
+Replace these values in the code below:
+
+* `+rporg_accesstokenhere+`: your management API access token.
+* `+auth-key-id+`: the unique identifier for the auth key.
+
+[tabs]
+======
+HTTP::
++
+[source,http]
+----
+DELETE /organisation/auth-keys/auth-key-id HTTP/1.1
+Host: api.connect.raspberrypi.com
+Authorization: Bearer rporg_accesstokenhere
+----
+
+curl::
++
+[source,console]
+----
+$ curl --request DELETE --header 'Authorization: Bearer rporg_accesstokenhere' https://api.connect.raspberrypi.com/organisation/auth-keys/auth-key-id
+----
+
+======
+
+You can delete any auth key, including ones that have expired or have already been exchanged. Deleting an auth key that has been exchanged doesn't affect the linked device.
+
+If successful, you get a **204 No Content** response with an empty response body.
+
+Otherwise, you get one of the following responses:
+
+[cols="1,3", options="header"]
+|===
+| Response | Description
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+
+| **404 Not Found**
+| The auth key isn't found in the organisation.
+|===
 
 [[list-devices]]
 === List devices
@@ -852,7 +1176,7 @@ per_page:: The number of devices for each page (maximum 100).
 total_count:: The total number of devices in the organisation.
 total_pages:: The total number of pages of devices for the organisation.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+If the management API access token is invalid, you get a **401 Unauthorized** response.
 
 To fetch subsequent pages of devices, use the `+page+` parameter in the query string:
 
@@ -1068,9 +1392,18 @@ $ curl --request DELETE --header 'Authorization: Bearer rporg_accesstokenhere' h
 
 If successful, you get a **204 No Content** response with an empty response body.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the given device ID is not found in the organisation, you get a **404 Not Found** response.
+[cols="1,3", options="header"]
+|===
+| Response | Description
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+
+| **404 Not Found**
+| The given device ID is not found in the organisation.
+|===
 
 === List artefacts
 
@@ -1149,7 +1482,7 @@ $ curl --header 'Authorization: Bearer rporg_accesstokenhere' --get --data-urlen
 
 The `+page+` and `+per_page+` query parameters work the same way as for <<list-devices,listing devices>>, and compose with the `+name+` parameter so you can paginate through a filtered list.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+If the management API access token is invalid, you get a **401 Unauthorized** response.
 
 [[create-artefact]]
 === Create an artefact
@@ -1205,17 +1538,24 @@ Content-Type: application/json; charset=utf-8
 }
 ----
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the artefact can't be created, you get a **422 Unprocessable Content** response containing the reason why the artefact couldn't be created:
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
 
-[source,http]
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
+
+| **422 Unprocessable Content**
+| The artefact can't be created.
+a|
+[source,json]
 ----
-HTTP/2 422
-Content-Type: application/json; charset=utf-8
-
 {"message":"Validation failed: Name can't be blank"}
 ----
+|===
 
 === Delete an artefact
 
@@ -1248,19 +1588,28 @@ $ curl --request DELETE --header 'Authorization: Bearer rporg_accesstokenhere' h
 
 If successful, you get a **204 No Content** response with an empty response body.
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the given artefact ID is not found in the organisation, you get a **404 Not Found** response.
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
 
-If the artefact has been deployed to a device, you get a **422 Unprocessable Content** response containing the reason why the artefact couldn't be deleted:
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
 
-[source,http]
+| **404 Not Found**
+| The given artefact ID is not found in the organisation.
+|
+
+| **422 Unprocessable Content**
+| The artefact has been deployed to a device.
+a|
+[source,json]
 ----
-HTTP/2 422
-Content-Type: application/json; charset=utf-8
-
 {"message":"Cannot delete artefacts that have been deployed"}
 ----
+|===
 
 === List deployments
 
@@ -1343,21 +1692,30 @@ $ curl --header 'Authorization: Bearer rporg_accesstokenhere' 'https://api.conne
 
 ======
 
-If the `+state+` parameter isn't one of the recognised states, you get a **400 Bad Request** response:
+The `+page+` and `+per_page+` query parameters work the same way as for <<list-devices,listing devices>>.
 
-[source,http]
+Otherwise, you get one of the following responses:
+
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
+
+| **400 Bad Request**
+| The `+state+` parameter isn't one of the recognised states.
+a|
+[source,json]
 ----
-HTTP/2 400
-Content-Type: application/json; charset=utf-8
-
 {"message":"Unknown state \"exploded\""}
 ----
 
-The `+page+` and `+per_page+` query parameters work the same way as for <<list-devices,listing devices>>.
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
-
-If the given device ID is not found in the organisation, you get a **404 Not Found** response.
+| **404 Not Found**
+| The given device ID is not found in the organisation.
+|
+|===
 
 === Show a deployment
 
@@ -1406,9 +1764,18 @@ Content-Type: application/json; charset=utf-8
 }
 ----
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the deployment isn't found in the organisation, you get a **404 Not Found** response.
+[cols="1,3", options="header"]
+|===
+| Response | Description
+
+| **401 Unauthorized**
+| The management API access token is invalid.
+
+| **404 Not Found**
+| The deployment isn't found in the organisation.
+|===
 
 === Create a deployment
 
@@ -1417,8 +1784,8 @@ To deploy an artefact to a device, use a <<management-api-access-tokens, managem
 Replace these values in the code below:
 
 * `+rporg_accesstokenhere+`: your management API access token.
-* `+device-id+`: the unique identifier for the target device.
-* `+artefact-id+`: the artefact's `+id+` (as returned by <<create-artefact, Create an artefact>>).
+* `+device-id+`: the unique identifier for the recipient device.
+* `+artefact-id+`: the artefact's `+id+` (as returned by <<create-artefact,Create an artefact>>.
 
 [tabs]
 ======
@@ -1463,21 +1830,32 @@ Content-Type: application/json; charset=utf-8
 }
 ----
 
-If `+artefact_id+` is missing, you get a **400 Bad Request** response.
+Otherwise, you get one of the following responses:
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
 
-If the device or artefact is not found in the organisation, you get a **404 Not Found** response.
+| **400 Bad Request**
+| `+artefact_id+` is missing.
+|
 
-If your organisation's free trial has ended and billing has not been set up, you get a **403 Forbidden** response:
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
 
-[source,http]
+| **404 Not Found**
+| The device or artefact is not found in the organisation.
+|
+
+| **403 Forbidden**
+| Your organisation's free trial has ended and billing has not been set up.
+a|
+[source,json]
 ----
-HTTP/2 403
-Content-Type: application/json; charset=utf-8
-
 {"message":"Deployments are blocked until billing has been set up"}
 ----
+|===
 
 === Cancel a deployment
 
@@ -1526,54 +1904,168 @@ Content-Type: application/json; charset=utf-8
 }
 ----
 
-If your management API access token is invalid, you get a **401 Unauthorized** response.
+Otherwise, you get one of the following responses:
 
-If the deployment isn't found in the organisation, you get a **404 Not Found** response.
+[cols="1,2,2a", options="header"]
+|===
+| Response | Description | Example
 
-If the deployment can't be cancelled (because it's already cancelled, succeeded, or failed), you get a **422 Unprocessable Content** response containing the reason why the deployment couldn't be cancelled:
+| **401 Unauthorized**
+| The management API access token is invalid.
+|
 
-[source,http]
+| **404 Not Found**
+| The deployment isn't found in the organisation.
+|
+
+| **422 Unprocessable Content**
+| The deployment can't be cancelled because it's already cancelled, succeeded, or failed.
+a|
+[source,json]
 ----
-HTTP/2 422
-Content-Type: application/json; charset=utf-8
-
 {"message":"Cannot cancel deployment in state \"succeeded\""}
 ----
+|===
 
 [[bulk-provisioning]]
 == Bulk provisioning
 
-You can script auth key creation using the Management API to provision multiple devices without manual interaction. This approach combines the Management API with the methods described in xref:../services/connect.adoc#link-connect[link a device with Connect].
+You can provision multiple Raspberry Pi 5 family devices (Raspberry Pi 5, Raspberry Pi 500, and Raspberry Pi 500+) in succession by setting up a single Raspberry Pi 5 family device to act as a provisioning host.
 
-The following example creates an auth key for each device and saves the secret to a file. Replace `+rporg_accesstokenhere+` with your management API access token.
+=== Requirements
 
-WARNING: Run this script on a trusted provisioning machine, not on the Raspberry Pi devices themselves. The management API access token must stay on the provisioning machine — only the per-device auth-key secret it produces (the `.key` file) should be copied to a device.
+To bulk provision using device identities, you must have the following:
 
-TIP: If you can program devices ahead of deployment, consider <<device-identities, device identities>> instead. The private key lives in the Raspberry Pi's one-time programmable memory, so no secret ever needs to be copied to the device.
+* Two Raspberry Pi 5 family devices (one as the host, one as the recipient).
+* A Raspberry Pi Connect organisation account.
+* An Ethernet cable (this workflow does not yet support Wi-Fi).
+* A short, high-quality USB-A to USB-C cable to carry power and data during provisioning. Do not use a flimsy, charge-only, or long cable because these can cause provisioning failures.
+* For the recipient device boot media: a 32 GB or larger microSD card.
+* For the host device: a 32 GB or larger microSD card. For faster provisioning, use a 32 GB or larger SSD.
 
-[source,bash]
+=== Step 1: Prepare the devices
+
+. Disconnect or remove external USB devices or HATs from the recipient and host devices.
++
+USB devices and HATs create additional power draw that can interfere with the provisioning process.
+
+=== Step 2: Install `rpi-sb-provisioner` on the host device
+
+TIP: Image generation consumes significant disk space (multiple gigabytes per build or more), and the build process is noticeably faster on an SSD than on a microSD card. A Raspberry Pi 500+ or a Raspberry Pi 5 with an M.2 HAT+ are good choices for the host.
+
+. Download the latest firmware to the host device by entering the following into the command line:
++
+[source,console]
 ----
-for DEVICE in pi5-001 pi5-002 pi5-003; do
-  SECRET=$(curl --silent --fail \
-    --header 'Authorization: Bearer rporg_accesstokenhere' \
-    --data-urlencode "description=${DEVICE}" \
-    --data-urlencode "device_name=${DEVICE}" \
-    --data-urlencode "tags[]=production" \
-    https://api.connect.raspberrypi.com/organisation/auth-keys \
-    | jq -r '.secret')
-  if [ -z "${SECRET}" ]; then
-    echo "Failed to create auth key for ${DEVICE}" >&2
-    continue
-  fi
-  echo "${SECRET}" > "${DEVICE}.key"
-  echo "Created auth key for ${DEVICE}: ${DEVICE}.key"
-done
+sudo apt update
+sudo apt upgrade
+----
++
+. Install Raspberry Pi Secure Boot Provisioner (`rpi-sb-provisioner`) on the host device by entering the following into the command line:
++
+[source,console]
+----
+sudo apt update
+sudo apt install rpi-sb-provisioner=2.3.0
+----
+. Once installed, access the Raspberry Pi Secure Boot web provisioner UI from the host device's web browser: http://localhost:3142.
++
+.The web provisioner UI provides confirmation that `rpi-sb-provisioner` has been successfully installed.
+image::images/provisioner-webui.png[alt="An image showing the Raspberry Pi Secure Boot Provisioner web interface", width="100%"]
+
+=== Step 3: Install `rpi-image-gen`
+
+`rpi-image-gen` builds the OS image that is flashed to recipient devices.
+
+. On the host device, from the command line, run the following command to clone the `rpi-image-gen` repository from GitHub:
++
+[source,console]
+----
+$ git clone https://github.com/raspberrypi/rpi-image-gen.git
+----
++
+. Navigate to the cloned directory, then install the dependencies by running the following commands:
++
+[source,console]
+----
+$ cd rpi-image-gen
+$ sudo ./install_deps.sh
 ----
 
-Each `.key` file contains an auth key secret (prefixed with `+rpoak_+`). Organisation auth keys expire after one day by default, so generate keys shortly before devices are first powered on. To provision a device:
+=== Step 4: Prepare and configure the image on the host device
 
-. On the device, run `+loginctl enable-linger+` and `+rpi-connect on+` as your desired user to enable Connect.
-. Copy the contents of the corresponding `.key` file to `+~/.config/com.raspberrypi.connect/auth.key+`.
-. Delete the `.key` file from your provisioning machine. These files contain sensitive secrets.
+TIP: rpi-image-gen contains an example application with layers and configuration. For more information, see xref:../services/connect.adoc[remote update.].
 
-When the file is detected, Connect automatically signs the device in and then deletes the file. For more information, see xref:../services/connect.adoc#link-connect[Link a Raspberry Pi device with a Connect account].
+To prepare the image on the host device:
+
+. Navigate to the `rpi-image-gen` installation folder.
+. Define additional packages to install at build time. For more information, see https://raspberrypi.github.io/rpi-image-gen/config/index.html#_packages[Packages].
+. Add wireless networking credentials. For more information, see https://github.com/raspberrypi/rpi-image-gen/tree/master/examples/ota[Wireless Networking].
+. Set a user account and password from the command line, and generate the build:
++
+[source,console]
+----
+./rpi-image-gen build -S ./examples/ota/ -c ota.yaml -- \
+  IGconf_device_user1=admin \
+  IGconf_device_user1pass='R@spb3rry*pi'
+----
++
+`rpi-image-gen` creates a `.tar.zst` image file in the `rpi-image-gen/work/deploy` folder.
+
+=== Step 5: Import the image into provisioner and configure the device
+
+. On the host device, either open the provisioner web UI at http://localhost:3142/options/get, or select *Get* from the tab at the top of the UI.
+. In the *Gold Master OS Image* box, select *Upload New Image*, then drag and drop the `.tar.zst` file you just created (for example, `rpi-image-gen/work/deploy-1.0.0/myapp-1.0.0.tar.zst`) into the box.
++
+.The image you created is shown in the *Available Images* table of the provisioner's web interface.
+image::images/provisioner-osimages.png[alt="An image of the provisioner web UI showing OS images listed in the available images table", width="100%"]
++
+. Select the image in the *Available Images* table.
+. Scroll down to the *Device & Firmware* table, then selected the following:
+- Device Family: *Raspberry Pi 5*.
++
+.Set the recipient device type, storage and firmware in the *Device & Firmware* table.
+image::images/provisioner-firmware.png[alt="The Device & Firmware table showing the device type, storage type and firmware settings of the recipient device.", width="100%"]
++
+- Storage Type: *SD Card*.
+- Device Firmware: *2026-05-26*.
+. Scroll down to the *Security Configuration* table, then select *Naked*.
++
+.The *Naked* security configuration provides a basic provisioning configuration without encryption.
+image::images/provisioner-security.png[alt="The provisioning web UI showing naked security configuration selected", width="100%"]
++
+Your changes are automatically saved.
+
+=== Step 6: Create a management API token
+
+To allow provisioner to automatically register device identities with your Connect organisation during provisioning, create a <<management-api-access-tokens, management API access token>>.
+
+. Open Raspberry Pi Connect, then select your organisation.
+. Navigate to the *API access tokens* section, then select the *Provisioning* tab.
+. Select *New* in the *Auth keys* section, follow the on-screen prompts to configure the key, then select *Create Auth key*.
+. Copy the key.
+. Open the provisioner web UI at http://localhost:3142/options/get.
+. Scroll down to the *Cloud Services* section, then paste the key into the *Connect Management API Access Token* field.
++
+.Enter the API access token in the *Cloud Services* table.
+image::images/provisioner-API.png[alt="The Cloud Services section of the provisioning web UI showing the field for the API access token and an optional prefix field", width="100%"]
+
+=== Step 7: Connect the recipient device to the host device
+
+Next, put the recipient device into USB boot mode so the host device can take over.
+
+. Plug the USB-A end of the cable into the host device.
+. Hold down the power button on the recipient device while plugging in the USB-C end of the cable. Release the power button when power is applied.
++
+The recipient device appears in the provisioner UI on the host device. Provisioning starts automatically.
+
+=== Step 8: Boot the recipient device
+
+When provisioning is complete:
+
+. Unplug the recipient device from the host device.
+. Connect the recipient device to its own power supply.
+. Connect an Ethernet cable.
+. Turn on the recipient device.
++
+After the recipient device has booted, it appears in the Raspberry Pi Connect *Devices* tab.
