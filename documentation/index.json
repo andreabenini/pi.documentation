@@ -211,6 +211,12 @@
                     "subpath": "tv-hat.adoc"
                 },
                 {
+                    "title": "Compute Module 5 Programming Jig",
+                    "description": "A single-head provisioning system that programs Compute Module 5 devices",
+                    "image": "full-sized/cm5-programming-jig.png",
+                    "subpath": "cm5-programming-jig.adoc"
+                },
+                {
                     "title": "Bumper",
                     "description": "A protective case for your Raspberry Pi 5",
                     "image": "full-sized/bumper.png",
@@ -287,6 +293,43 @@
                     "description": "Read titles published by Raspberry Pi Press",
                     "image": "full-sized/Bookshelf.png",
                     "subpath": "bookshelf.adoc"
+                }
+            ]
+        },
+        {
+            "title": "Security",
+            "path": "security",
+            "default_tab": "no",
+            "subitems": [
+                {
+                    "title": "Security overview",
+                    "description": "Overview of security options inside the Raspberry Pi hardware and software ecosystem",
+                    "image": "full-sized/security-overview.png",
+                    "subpath": "security.adoc"
+                },
+                {
+                    "title": "Security architecture",
+                    "description": "Security architecture inside the Raspberry Pi hardware and software ecosystem",
+                    "image": "full-sized/security-architecture.png",
+                    "subpath": "security-architecture.adoc"
+                },
+                {
+                    "title": "Secure Boot Provisioner",
+                    "description": "Raspberry Pi Secure Boot Provisioner for verified boot and disk encryption",
+                    "image": "full-sized/secure-boot-provisioner.png",
+                    "subpath": "secure-boot-provisioner.adoc"
+                },
+                {
+                    "title": "Operational security",
+                    "description": "Operational security options for your Raspberry Pi",
+                    "image": "full-sized/operational-security.png",
+                    "subpath": "operational-security.adoc"
+                },
+                {
+                    "title": "Firewalls using UFW",
+                    "description": "Using UFW to protect your Raspberry Pi",
+                    "image": "full-sized/ufw.png",
+                    "subpath": "ufw.adoc"
                 }
             ]
         },

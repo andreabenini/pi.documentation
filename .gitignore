@@ -8,3 +8,5 @@ venv
 .venv
 .env
 .vscode
+live_urls.csv
+dead_urls.csv

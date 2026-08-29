@@ -41,7 +41,7 @@ In a debug build you will get more information when you run it under the debugge
 
 NOTE: For computers that are _not_ Raspberry Pis, a variant of GDB that can debug Arm processors is required. Use one of the following alternatives depending on your operating system and device:
 * On Linux devices, use `gdb-multiarch`.
-* On macOS and Windows devices, use `arm-none-eabi-gdb` from the toolchain on https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads[Arm's website]
+* On macOS and Windows devices, use `arm-none-eabi-gdb` from the toolchain on https://gitlab.arm.com/tooling/gnu-toolchains-for-arm[Arm's Gitlab repository]
 
 To start an OpenOCD server, run the following command:
 

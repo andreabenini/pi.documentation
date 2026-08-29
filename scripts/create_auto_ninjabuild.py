@@ -275,9 +275,6 @@ if __name__ == "__main__":
         dest = os.path.join('$out_dir', '.htaccess')
         source = '$HTACCESS_EXTRA'
         extra_sources = ['$scripts_dir/create_htaccess.py']
-        for file in sorted(os.listdir(redirects_dir)):
-            if os.path.splitext(file)[1] == '.csv':
-                extra_sources.append(os.path.join('$redirects_dir', file))
         ninja.build(dest, 'create_htaccess', source, extra_sources)
         targets.append(dest)
         if targets:

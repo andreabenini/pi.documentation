@@ -220,3 +220,33 @@ $ chmod 644 .ssh/authorized_keys
 ----
 
 You can now connect to your Raspberry Pi without entering a password.
+
+=== Restrict which users can connect
+
+If you want to limit SSH access to specific user accounts, edit the SSH server configuration:
+
+[source,console]
+----
+$ sudo nano /etc/ssh/sshd_config
+----
+
+Locate the `AllowUsers` directive and add the usernames you want to permit. If the line doesn't exist, add it to the bottom of the file:
+
+[source,bash]
+----
+AllowUsers alice bob
+----
+
+You can also use `DenyUsers` to explicitly stop specific usernames from signing in:
+
+[source,bash]
+----
+DenyUsers jane john
+----
+
+Save the file and restart the SSH service to apply your changes:
+
+[source,console]
+----
+$ sudo systemctl restart ssh
+----

@@ -20,8 +20,6 @@ include::configuration/firmware.adoc[]
 
 include::configuration/external-storage.adoc[]
 
-include::configuration/securing-the-raspberry-pi.adoc[]
-
 include::configuration/reference.adoc[]
 
 

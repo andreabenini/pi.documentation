@@ -42,11 +42,7 @@ TIP: To build artefacts on a computer other than a Raspberry Pi, download `otama
 
 ===== To host the artefact for remote deployment to a recipient device:
 
-* A web server accessible from the recipient device.
-+
-Remote update supports HTTP, HTTPS, FTP, SFTP, and File URI.
-+
-The location doesn't have to be open to the internet, but it must be accessible from the recipient Raspberry Pi device.
+* Somewhere to host the artefact that the recipient device can download it from. For the hosting options Connect supports, see <<host-the-update-artefact,Host the update artefact>>.
 
 ==== Step 1: Create the script
 
@@ -117,14 +113,14 @@ $ otamaker aptupgrade.yaml
 
 This creates a Zstandard-compressed update artefact (`.tar.zst` file) containing the manifest and the script, and outputs the artefact's SHA-256 checksum.
 
-Copy down the checksum: you need it to register the artefact on the Raspberry Pi Connect website.
+Copy down the checksum: you need it when you deploy the artefact from the Raspberry Pi Connect website.
 
-==== Step 4: Host, register, and deploy the artefact
+==== Step 4: Host and deploy the artefact
 
-Deploy a script artefact in the same way as an A/B boot update artefact:
+Deploy a script artefact in the same way as any other update artefact:
 
-. Host the `.tar.zst` file somewhere the recipient device can download it from, then register its URI and SHA-256 checksum on the Raspberry Pi Connect website, as described in <<host-the-update-artefact,Host the update artefact>>. You can skip the step that calculates the checksum: `otamaker` already output it when it built the artefact.
-. Select the recipient device and deploy the artefact to it, as described in <<update-remotely,Update remotely>>. Skip the final verification step, which applies only to A/B boot updates: verify a script artefact as described in Step 5 below.
+. Host the `.tar.zst` file somewhere that the recipient device can download it from, as described in <<host-the-update-artefact,Host the update artefact>>. You can skip the step that calculates the checksum; `otamaker` already output it when it built the artefact.
+. Select the recipient device and deploy the artefact to it, as described in <<update-remotely,Deploy the update artefact>>.
 
 ==== Step 5: Verify the update
 

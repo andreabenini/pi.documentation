@@ -18,7 +18,7 @@ The default values when a motor is created is 0.7 for the power limit and 0.3 fo
 
 ==== Passive Motors
 
-.Train motor, https://www.bricklink.com/v2/catalog/catalogitem.page?S=88011-1&name=Train%20Motor&category=%5BPower%20Functions%5D%5BPowered%20Up%5D#T=S&O={%22iconly%22:0}[Image from Bricklink]
+.Train motor, https://www.bricklink.com/v2/catalog/catalogitem.page?P=bb0896c01[Image from Bricklink]
 image::images/train-motor.png[Train motor,width="60%"]
 
 The typical passive motor is a train and older Powered Up motors. The `Speed` property can be set and read. It is the target and the measured speed at the same time as those sensors do not have a way to measure them. The value is from -100 to +100.
@@ -53,7 +53,7 @@ NOTE: When the train is started, you can adjust the speed and the motor adjusts 
 
 ==== Active Motors
 
-.Active motor, https://www.bricklink.com/v2/catalog/catalogitem.page?S=88014-1&name=Technic%20XL%20Motor&category=%5BPower%20Functions%5D%5BPowered%20Up%5D#T=S&O={%22iconly%22:0}[Image from Bricklink]
+.Active motor, https://www.bricklink.com/v2/catalog/catalogitem.page?P=bb0960c01[Image from Bricklink]
 image::images/active-motor.png[Active motor,width="60%"]
 
 Active motors have `Speed`, `AbsolutePosition`, `Position` and `TargetSpeed` as special properties. They are read continuously even when the motor is stopped.

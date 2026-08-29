@@ -27,7 +27,7 @@ On Raspberry Pi OS, the bootloader version is automatically updated when importa
 
 [source,console]
 ----
-$ `rpi-eeprom-update -h`
+$ rpi-eeprom-update -h
 ----
 
 On Raspberry Pi 4 and later, you can manually switch to the latest boot ROM software. Alternatively, you can revert to the factory default. Specifically, bootloader version updates are supported on:
@@ -140,12 +140,12 @@ $ rpi-eeprom-config pieeprom.bin
 ----
 
 ==== Edit the bootloader configuration
-The following commands load the current bootloader configuration into a text editor. The text editor is selected by the `EDITOR` environment variable.
+The following commands load the current bootloader configuration into a text editor.
 
 When the editor is closed, `rpi-eeprom-config` applies the updated configuration to the latest available bootloader release and uses `rpi-eeprom-update` to schedule an update when the system is rebooted:
 [source,console]
 ----
-$ sudo -E rpi-eeprom-config --edit
+$ sudo rpi-eeprom-config --edit
 $ sudo reboot
 ----
 

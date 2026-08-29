@@ -60,83 +60,62 @@ This section describes how to apply the default configuration when you build a k
 * xref:linux_kernel.adoc#configure-the-kernel[enable and disable kernel features]
 * xref:linux_kernel.adoc#patch-the-kernel[apply patches from another source]
 
-To prepare the default configuration, run the appropriate commands from the table below for your Raspberry Pi model.
+To prepare the default configuration, run the appropriate commands from the sections below depending on your architecture and Raspberry Pi model.
 
-[cols="8,<.^20a,60a"]
-|===
-| Architecture | Raspberry Pi Model | Command
+===== 64-bit architecture
 
-.12+^.^| 64-bit
-| 3
-.9+.^|
+[tabs]
+======
+Raspberry Pi 3, 3+, CM3, CM3+, Zero 2 W, 4, 400, CM4, CM4S::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel8
 $ make bcm2711_defconfig
 ----
-| Compute Module 3
-| 3+
-| Compute Module 3+
-| Zero 2 W
-| 4
-| 400
-| Compute Module 4
-| Compute Module 4S
 
-
-.^| 5
-.3+.^|
+Raspberry Pi 5, 500, 500+, CM5::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel_2712
 $ make bcm2712_defconfig
 ----
-| 500/500+
-| Compute Module 5
+======
 
-.14+^.^| 32-bit
-| 1
-.4+.^|
+===== 32-bit architecture
+
+[tabs]
+======
+Raspberry Pi 1, CM1, Zero, Zero W::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel
 $ make bcmrpi_defconfig
 ----
-| Compute Module 1
-| Zero
-| Zero W
 
-
-| 2
-.6+.^|
+Raspberry Pi 2, 3, 3+, CM3, CM3+, Zero 2 W::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel7
 $ make bcm2709_defconfig
 ----
-| 3
-| Compute Module 3
-| 3+
-| Compute Module 3+
-| Zero 2 W
 
-
-| 4
-.4+.^|
+Raspberry Pi 4, 400, CM4, CM4S::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel7l
 $ make bcm2711_defconfig
 ----
-| 400
-| Compute Module 4
-| Compute Module 4S
-|===
+======
 
 [NOTE]
 ====
@@ -292,78 +271,62 @@ This section describes how to apply the default configuration when you build a k
 * xref:linux_kernel.adoc#configure-the-kernel[enable and disable kernel features]
 * xref:linux_kernel.adoc#patch-the-kernel[apply patches from another source]
 
-Enter the following commands to build the sources and Device Tree files:
+To build the sources and Device Tree files, run the appropriate commands from the sections below depending on your architecture and Raspberry Pi model.
 
-[cols="8,<.^20a,60a"]
-|===
-| Target Architecture | Target Raspberry Pi Model | Command
+===== 64-bit architecture
 
-.12+^.^| 64-bit
-| 3
-.9+.^| [source,console]
+[tabs]
+======
+Raspberry Pi 3, 3+, CM3, CM3+, Zero 2 W, 4, 400, CM4, CM4S::
++
+[source,console]
 ----
 $ cd linux
 $ KERNEL=kernel8
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig
 ----
-| Compute Module 3
-| 3+
-| Compute Module 3+
-| Zero 2 W
-| 4
-| 400
-| Compute Module 4
-| Compute Module 4S
 
-.^| 5
-.3+.^|
+Raspberry Pi 5, 500, 500+, CM5::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel_2712
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2712_defconfig
 ----
-| 500/500+
-| Compute Module 5
+======
 
-.14+^.^| 32-bit
-| 1
-.4+.^| [source,console]
+===== 32-bit architecture
+
+[tabs]
+======
+Raspberry Pi 1, CM1, Zero, Zero W::
++
+[source,console]
 ----
 $ cd linux
 $ KERNEL=kernel
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcmrpi_defconfig
 ----
-| Compute Module 1
-| Zero
-| Zero W
 
-| 2
-.6+.^|
+Raspberry Pi 2, 3, 3+, CM3, CM3+, Zero 2 W::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel7
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2709_defconfig
 ----
-| 3
-| Compute Module 3
-| 3+
-| Compute Module 3+
-| Zero 2 W
 
-| 4
-.4+.^|
+Raspberry Pi 4, 400, CM4, CM4S::
++
 [source,console]
 ----
 $ cd linux
 $ KERNEL=kernel7l
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig
 ----
-| 400
-| Compute Module 4
-| Compute Module 4S
-|===
+======
 
 [[cross-compiled-customisation]]
 ==== Customise the kernel version using `LOCALVERSION`

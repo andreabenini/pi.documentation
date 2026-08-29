@@ -123,3 +123,7 @@ serve_html: run_ninja
 # Delete all the files created by the 'html' target
 clean_html:
 	rm -rf $(HTML_DIR)
+
+# Check external links in all adoc files.
+link_check:
+	python3 $(SCRIPTS_DIR)/link_check.py

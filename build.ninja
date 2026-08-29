@@ -32,7 +32,7 @@ rule create_build_adoc_include
   command = $scripts_dir/create_build_adoc_include.py $site_config $GITHUB_EDIT_TEMPLATE $in $out
 
 rule create_htaccess
-  command = $scripts_dir/create_htaccess.py $in $redirects_dir $out
+  command = $scripts_dir/create_htaccess.py $in $out
 
 rule create_index_json
   command = $scripts_dir/create_output_index_json.py $in $out $src_dir $DOCUMENTATION_IMAGES_DIR

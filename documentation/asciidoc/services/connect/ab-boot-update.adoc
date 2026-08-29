@@ -33,11 +33,7 @@ You must have at least 16 GB of space, but you must decide exactly how much disk
 
 ===== To host the artefact for remote deployment to a recipient device:
 
-* A web server accessible from the recipient device.
-+
-Remote update supports HTTP, HTTPS, FTP, SFTP, and File URI.
-+
-The location doesn't have to be open to the internet, but it must be accessible from the recipient Raspberry Pi device.
+* Somewhere to host the artefact from which the recipient device can download it. For the hosting options that Connect supports, see <<host-the-update-artefact,Host the update artefact>>.
 
 ===== For the recipient device receiving the update artefact:
 
@@ -52,8 +48,8 @@ Follow the four stages below to implement the A/B configuration and send updates
 
 . Stage 1: Prepare the recipient Raspberry Pi 4 and later device for remote updates by creating an A/B boot file, then deploy it to the device.
 . Stage 2: Create an update artefact file for deployment to the recipient device.
-. Stage 3: Host the update artefact and register it on the Raspberry Pi Connect website.
-. Stage 4: Use Raspberry Pi Connect's remote update feature to select the recipient device, then deploy the update artefact to that device.
+. Stage 3: Host the update artefact so that the recipient device can download it.
+. Stage 4: Use Raspberry Pi Connect's remote update feature to deploy the update artefact to the recipient device, then verify the update.
 
 ==== Stage 1: Create A/B boot configuration
 
@@ -254,22 +250,9 @@ ${EDITOR:-vi} ./examples/ota/config/ota.yaml
 $ ./rpi-image-gen build -S ./examples/ota/ -c ota.yaml
 ----
 
-[[host-the-update-artefact]]
 ==== Stage 3: Host the update artefact
 
-Now that you’ve created an update artefact to deploy using Raspberry Pi Connect, you can host it on an FTP/SFTP server, save it locally using a `file://` URI, put it on a public web server, an S3 bucket, or any other website that the recipient device can download from using HTTP.
-
-Next, you register the URI and SHA-256 checksum with Raspberry Pi Connect. This is so that Connect can tell the device – which you select in Stage 4 – where to find the update file.
-
-The URI you provide is used to find and push the update artefact to the recipient device. This location must therefore be accessible to the recipient device, but it doesn't have to be accessible to the Raspberry Pi Connect servers.
-
-Here is an example URI: http://192.168.0.1:8080/path/to/update.tar.zst
-
-It contains the following required information:
-
-* The host IP: 192.168.0.1
-* The port: 8080
-* The path: /path/to/update.tar.zst
+Now that you’ve created an update artefact to deploy using Raspberry Pi Connect, host it somewhere that the recipient device can download it from. For the hosting options Connect supports, and the details you need to collect, see <<host-the-update-artefact,Host the update artefact>>.
 
 In the procedures that follow, we show you how to serve an update artefact from a Raspberry Pi host computer that is on the same network as the Raspberry Pi recipient.
 
@@ -285,10 +268,6 @@ $ python -m http.server 8080 --directory ./work/image-myapp-1.1.0
 ----
 
 ===== Step 2: Calculate the SHA-256 checksum of the update file
-
-Next, provide both the artefact's SHA-256 checksum to ensure it hasn’t been corrupted or tampered with, and the host IP address so that it can be sent to the recipient device in Stage 4.
-
-To find the checksum and IP address:
 
 . Run this command from the terminal:
 +
@@ -313,67 +292,17 @@ $ hostname -I
 ----
 . Copy down the IP address.
 
-===== Step 4: Register the artefact on the Raspberry Pi Connect website
-
-Now that you have hosted the update artefact, and have its IP address and checksum copied down, register the details on the https://connect.raspberrypi.com/[Raspberry Pi Connect website].
-
-To register the update artefact, follow these steps or <<update-remotely,go to Stage 4, Step 1>> if you want to both register it and select the recipient device in one go.
-
-For personal devices:
-
-. Log in to Raspberry Pi Connect.
-. Choose your organisation or *Personal* account from the account switcher at the top right.
-. Go to the *Remote update* tab, then select *New*.
-. Enter a name for the artefact, then paste in the URI and SHA-256 (from Steps 2 and 3).
-
-.The create deployment artefact screen, showing the required fields: Name, URI, and SHA-256 checksum.
-image::images/create-deployment-artefact.png[alt="The create deployment artefact screen, showing the required fields: Name, URI, and SHA-256 checksum", width="100%"]
-
-[[update-remotely]]
 ==== Stage 4: Update remotely
 
 Use Raspberry Pi Connect to deploy the update artefact to the recipient Raspberry Pi device.
 
-The Raspberry Pi Connect website is used to choose which device to deploy the update artefact to, so make sure the recipient device is registered to your personal or organisation account before you proceed.
+===== Step 1: Deploy the artefact to the recipient device
 
-NOTE: You cannot delete an artefact once you have deployed it or attempted to deploy it. This is to provide traceability in the event that your account is compromised.
-
-To deploy the artefact:
-
-===== Step 1: Select the recipient device, then deploy the artefact
-
-. Log in to Raspberry Pi Connect.
-. Select the *Personal* or organisations account to which the recipient device is registered, using the account switcher at the top right.
-. Go to the *Devices* tab, then select the recipient device.
-+
-.The device list displays a Deploy button for the devices that have remote update enabled.
-image::images/devices-deploy-button.png[alt="The Raspberry Pi Connect device screen, showing a list of devices, one of which has a deploy button next to it", width="100%"]
-+
-. Select *Deploy*
-. If you have one or more existing update artefacts already registered in your *Remote update* tab, select one of the following, otherwise select *New*:
-- *Existing*: select the deployment artefact from the drop-down list, then select *Deploy*.
-- *New*: follow the procedures in Stage 3 (above) to create a new update artefact, then select *Create and deploy*.
-+
-Refresh your browser to see deployment updates. The progression is *Pending*, *In Progress*, and eventually *Succeeded*.
-+
-If the deployment displays *Failed*, select it to reveal the error message, then see <<ab-troubleshooting, Troubleshooting>>.
-+
-.After you've selected Deploy, the New deployment screen gives you the choice of selecting an existing deployment, or creating a new one.
-image::images/new-deployment-view.png[alt="The new deployment screen in Raspberry Pi Connect, showing the option to select an existing artefact or create a new one", width="100%"]
-+
-NOTE: a Pending deployment can be cancelled by selecting the deployment and then selecting *Cancel*. Pending deployments are also automatically cancelled when another deployment is queued up.
+Deploy the artefact from the https://connect.raspberrypi.com/[Raspberry Pi Connect website], using the URI and checksum you copied down in Stage 3, as described in <<update-remotely,Deploy the update artefact>>.
 
 ===== Step 2: Verify the update
 
-When the deployment shows as *Succeeded*, verify the update.
-
-To verify the update:
-
-. Sign in to Raspberry Pi Connect.
-. Choose your organisation or *Personal* account from the account switcher at the top right.
-. Select the *Devices* tab.
-. Find the recipient device you just updated, then select *Connect*.
-. From the command line, enter:
+When the deployment shows as *Succeeded*, connect to the recipient device using Raspberry Pi Connect and confirm the deployed version, as in Stage 1, Step 7:
 
 [source,console]
 ----

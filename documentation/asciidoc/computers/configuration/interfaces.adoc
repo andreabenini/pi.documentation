@@ -203,7 +203,7 @@ Raspberry Pi supports two types of UART:
 * *PL011.* A full-featured, 16550-compatible UART that provides hardware-timed serial communication.
 * *Mini UART.* A lightweight UART that provides a simple and efficient serial interface.
 
-Unlike https://developer.arm.com/documentation/ddi0183/g/[PL011], the mini UART has no break detection, no framing errors detection, no parity bit, and no receive timeout interrupt. The mini UART also has smaller FIFOs. Combined with the lack of flow control, this makes the mini UART more prone to losing characters at higher baud rates. It's also generally less capable than PL011, mainly due to its baud rate link to the VPU clock speed. Further information about the mini UART can be found in the https://pip.raspberrypi.com/documents/RP-008249-DS[SoC peripherals document].
+Unlike https://support.arm.com/documentation/ddi0183/g/[PL011], the mini UART has no break detection, no framing errors detection, no parity bit, and no receive timeout interrupt. The mini UART also has smaller FIFOs. Combined with the lack of flow control, this makes the mini UART more prone to losing characters at higher baud rates. It's also generally less capable than PL011, mainly due to its baud rate link to the VPU clock speed. Further information about the mini UART can be found in the https://pip.raspberrypi.com/documents/RP-008249-DS[SoC peripherals document].
 
 Neither the mini UART nor the BCM2835 implementation of PL011 has DCD, DSR, DTR, or RI signals.
 
@@ -225,7 +225,7 @@ The available UART interfaces vary by Raspberry Pi model. The following table su
   `UART2` through to `UART5`: PL011 (disabled by default)
 
 | Raspberry Pi 5, 500, 500+, and Compute Module 5
-| `UART0` through to `UART4`: PL011 (disabled by default) +
+| `UART0` through to `UART4` and `UART10` (also called the debug UART): PL011 (disabled by default) +
   No mini UART
 |===
 
@@ -238,18 +238,24 @@ $ dtoverlay=uart1,txd1_pin=32,rxd1_pin=33
 
 [[primary-and-secondary-uart]]
 ===== Primary and secondary UARTs
-The *primary UART* is the main serial interface that a Raspberry Pi exposes. This is the UART that you typically use when you connect external devices and for a Linux serial console. For all Raspberry Pis other than Raspberry Pi 5, the primary UART is routed to specific GPIO pins:
+
+The *primary UART* is the main serial interface that a Raspberry Pi exposes. This is the UART that you typically use when you connect external devices and for a Linux serial console.
+
+For all Raspberry Pi devices other than Raspberry Pi 5, the primary UART is routed to specific GPIO pins:
 
 * *GPIO 14* (transmit) is pin 8 on the GPIO header.
 * *GPIO 15* (receive) is pin 10 on the GPIO header.
 
-On Raspberry Pi 5, the primary UART is exposed through the dedicated debug header instead.
+On Raspberry Pi 5, by default the primary UART is exposed through the dedicated debug header instead (`UART10`). This dedicated debug header is a three-pin header labelled `UART`. However, the following `config.txt` settings can change the primary UART:
+
+- If xref:../computers/config_txt.adoc#enable_rp1_uart[`enable_rp1_uart`] is set to 1, Raspberry Pi 5 routes later firmware debug messages, including all file accesses, through the UART on GPIO 14 and 15.
+- If there is no UART cable plugged into the dedicated debug header and xref:../computers/config_txt.adoc#enable_uart[`enable_uart`] is set to 1, Raspberry Pi 5 automatically routes kernel logging debug output to the UART on GPIO 14 and 15.
 
 The *secondary UART* is another serial interface available internally on the system; it isn't typically exposed through the GPIO header pins by default. On models with built-in wireless, this UART is commonly connected internally to the Bluetooth controller. This allows the system to communicate with Bluetooth hardware without using the external GPIO pins.
 
 .Primary and secondary UARTs
 |===
-| Model | Primary (Linux console) | Secondary (Bluetooth on Raspberry Pis with wireless)
+| Model | Primary (Linux console) | Secondary (Bluetooth on Raspberry Pi devices with wireless)
 
 | Raspberry Pi Zero
 | `UART0`
@@ -474,7 +480,7 @@ This can reduce the maximum usable baud rate for Bluetooth.
 The overlays `uart2`, `uart3`, `uart4`, and `uart5` are used to enable the four additional UARTs on Raspberry Pi 4, 400, Compute Module 4, and Compute Module 4S.
 
 For Raspberry Pi 5, 500, 500+ and Compute Module 5,
-`uart0-pi5``, `uart1-pi5`, `uart2-pi5`, `uart3-pi5` and `uart4-pi5` overlays are used.
+`uart0-pi5`, `uart1-pi5`, `uart2-pi5`, `uart3-pi5` and `uart4-pi5` overlays are used.
 
 To see the available pins and options for these UARTs, use the following help command, replacing `x` in `uartx` with the UART number you want to investigate:
 

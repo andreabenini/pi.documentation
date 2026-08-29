@@ -4,13 +4,13 @@ All Raspberry Pi products have undergone extensive compliance testing. For more 
 
 === Flammability rating
 
-The PCBs used in Raspberry Pi devices adhere to UL94-V0. 
+The PCBs used in Raspberry Pi devices adhere to UL94-V0.
 
 NOTE: This applies to the PCBs only.
 
 === Raspberry Pi Compliance Support
 
-The Compliance Support programme is designed to eliminate the burden of navigating compliance issues and make it easier for companies to bring new products to consumers. It provides access to the same test engineers who worked on our Raspberry Pis during their compliance testing, connecting the user to a dedicated team at https://www.ul-certification.com/[UL] who assess and test the user's product, facilitated by their in-depth knowledge of Raspberry Pi.
+The Compliance Support programme is designed to eliminate the burden of navigating compliance issues and make it easier for companies to bring new products to consumers. It provides access to the same test engineers who worked on our Raspberry Pis during their compliance testing, connecting the user to a dedicated team at https://www.ul.com/services/certification[UL] who assess and test the user's product, facilitated by their in-depth knowledge of Raspberry Pi.
 
 Find out more about the https://www.raspberrypi.com/for-industry/integrator-programme/[Raspberry Pi Compliance Support Programme].
 

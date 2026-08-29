@@ -7,5 +7,5 @@ NOTE: The peripheral specification document contains a number of errors. However
 Other information regarding the processor can be found in the following documents;
 
 * https://docs.broadcom.com/docs/12358545[GPU documentation] and https://docs.broadcom.com/docs/12358546[open-source driver]
-* https://developer.arm.com/documentation/ddi0301[ARM1176JZF-S]
+* https://support.arm.com/documentation/ddi0301[ARM1176JZF-S]
 

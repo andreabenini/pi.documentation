@@ -135,5 +135,5 @@ To configure shutdown behaviour using the interactive `raspi-config` TUI:
 . Choose between:
 ** `B1 Full power off`
 ** `B2 VPU sleep mode`
-. Select `<OK>`` to continue and then `<Finish>` when you're done.
+. Select `<OK>` to continue and then `<Finish>` when you're done.
 . Reboot your Raspberry Pi for the change to take effect.

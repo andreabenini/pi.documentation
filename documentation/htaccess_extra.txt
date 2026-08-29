@@ -1,5 +1,7 @@
 <IfModule mod_alias.c>
 Redirect 302 "/documentation/hardware/raspberrypi/conformity.md" "https://pip.raspberrypi.com"
+Redirect 410 "/documentation/configuration/wireless/access-point-routed.md"
+Redirect 410 "/documentation/configuration/wireless/access-point-bridged.md"
 RedirectMatch 302 "^/documentation/faqs" "/documentation/"
 RedirectMatch 302 "^/documentation/rp2040" "/documentation/microcontrollers/"
 RedirectMatch 302 "^/documentation/hardware/raspberrypi/compliance/" "https://pip.raspberrypi.com"
@@ -35,4 +37,3 @@ RedirectMatch 302 "^/documentation/microcontrollers/rp2040.html" "/documentation
 RedirectMatch 302 "^/documentation/microcontrollers/rp2350.html" "/documentation/microcontrollers/microcontroller-chips.html"
 RedirectMatch 302 "^/documentation/microcontrollers/silicon.html" "/documentation/microcontrollers/microcontroller-chips.html"
 </IfModule>
-

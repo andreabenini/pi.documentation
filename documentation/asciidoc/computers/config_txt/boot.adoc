@@ -141,7 +141,7 @@ If this property is set to `1` then the bootloader will attempt load a ramdisk f
 
 The primary purpose of `boot_ramdisk` is to support `secure-boot`, however, unsigned `boot.img` files can also be useful to Network Boot or `RPIBOOT` configurations.
 
-* The maximum size for a ramdisk file is 96 MB.
+* The maximum size for a ramdisk file is 180 MB for Raspberry Pi 4 and later, and 128 MB for earlier devices. However, on devices with limited memory, for example, 256 MB, we recommend that you use a small ramdisk file, for example, 32 MB.
 * `boot.img` files are raw disk `.img` files. The recommended format is a plain FAT32 partition with no MBR.
 * The memory for the ramdisk filesystem is released before the operating system is started.
 * If xref:raspberry-pi.adoc#fail-safe-os-updates-tryboot[TRYBOOT] is selected then the bootloader will search for `tryboot.img` instead of `boot.img`.
@@ -167,7 +167,7 @@ Default: `0x0`
 
 Raspberry Pi 5 only.
 
-When set to `1`, firmware initialises RP1 UART0 to 115200bps and doesn't reset RP1 before starting the OS (separately configurable using `pciex4_reset=1`).
+When set to `1`, firmware initialises RP1 UART0 to 115200 bps and doesn't reset RP1 before starting the OS (separately configurable using `pciex4_reset=1`).
 This makes it easier to get UART output on the 40-pin header in early boot-code, for instance during bare-metal debug.
 
 Default: `0x0`
@@ -242,7 +242,7 @@ Default: ``
 
 If set to a non-zero value (in seconds), this property enables a hardware watchdog timer that is handed over to the operating system (OS) at boot. If the OS does not regularly "kick" or reset the watchdog, the system will be reset after the specified timeout.
 
-This property sets the `systemd` `watchdog.open_timeout` parameter, which controls how long the OS has to initialize and start servicing the watchdog. The value is passed to the OS via the kernel command line. For ongoing operation, the OS must also regularly reset the watchdog, typically controlled by the `RuntimeWatchdogSec` parameter in `systemd`. For more information, see https://www.freedesktop.org/software/systemd/man/systemd-system.conf.html#RuntimeWatchdogSec=[systemd watchdog documentation].
+This property sets the `systemd` `watchdog.open_timeout` parameter, which controls how long the OS has to initialize and start servicing the watchdog. The value is passed to the OS via the kernel command line. For ongoing operation, the OS must also regularly reset the watchdog, typically controlled by the `RuntimeWatchdogSec` parameter in `systemd`. For more information, see https://www.freedesktop.org/software/systemd/man/latest/systemd-system.conf.html#RuntimeWatchdogSec=[systemd watchdog documentation].
 
 [NOTE]
 ====

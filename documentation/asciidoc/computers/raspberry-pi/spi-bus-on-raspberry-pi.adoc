@@ -293,7 +293,7 @@ In bidirectional SPI mode the same SPI standard is implemented, except that a si
 
 ===== Low speed serial interface (LoSSI) mode
 
-The LoSSI standard allows issuing of commands to peripherals (LCD) and to transfer data to and from them. LoSSI commands and parameters are 8 bits long, but an extra bit is used to indicate whether the byte is a command or parameter/data. This extra bit is set high for data and low for a command. The resulting 9-bit value is serialised to the output. LoSSI is commonly used with http://mipi.org/specifications/display-interface[MIPI DBI] type C compatible LCD controllers.
+The LoSSI standard allows issuing of commands to peripherals (LCD) and to transfer data to and from them. LoSSI commands and parameters are 8 bits long, but an extra bit is used to indicate whether the byte is a command or parameter/data. This extra bit is set high for data and low for a command. The resulting 9-bit value is serialised to the output. LoSSI is commonly used with https://mipi.org/specifications/display-interface[MIPI DBI] type C compatible LCD controllers.
 
 NOTE: Some commands trigger an automatic read by the SPI controller, so this mode cannot be used as a multipurpose 9-bit SPI.
 

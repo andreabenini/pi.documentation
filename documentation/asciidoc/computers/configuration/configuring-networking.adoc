@@ -12,7 +12,7 @@ Raspberry Pi OS provides flexible options for configuring network settings. This
 === Change the hostname
 Setting a hostname is useful for the following reasons:
 
-* When you set a hostname (for example, `my-pi`), you can access your Raspberry Pi through *mDNS* rather than the longer, changeable IP address. For example, instead of `ssh pi@192.168.1.42`, you can use `ssh pi@my-pi.local`. 
+* When you set a hostname (for example, `my-pi`), you can access your Raspberry Pi through *mDNS* rather than the longer, changeable IP address. For example, instead of `ssh pi@192.168.1.42`, you can use `ssh pi@my-pi.local`.
 * If you have multiple Raspberry Pi devices on the same network, you can ensure you're always connecting to the right Raspberry Pi by using unique hostnames (for example, `my-pi`, `pi-hole`, and `retro-pi`).
 
 Your hostname isn't case sensitive and may only contain:
@@ -154,7 +154,7 @@ For options `P1` through to `P4`, enter the proxy in the following format, repla
 
 [source]
 ----
-http://<proxy_ip_address>:<proxy_port>`
+http://<proxy_ip_address>:<proxy_port>
 ----
 
 If your proxy requires a username and password, add them using the following format, replacing `<username>` and `<password>` with the username and password you use to authenticate to your proxy.
