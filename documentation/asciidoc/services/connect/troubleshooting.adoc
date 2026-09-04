@@ -1,4 +1,4 @@
-== Raspberry Pi Connect Troubleshooting
+== Troubleshooting
 
 === Known issues
 

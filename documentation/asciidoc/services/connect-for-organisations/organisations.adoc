@@ -2,7 +2,7 @@
 
 **Connect for Organisations** lets multiple users share access to devices using xref:../services/connect.adoc[Raspberry Pi Connect].
 
-Devices in an organisation support all of Connect's features, including xref:../services/connect.adoc#screen-sharing[screen sharing], xref:../services/connect.adoc#remote-shell[remote shell] access, and xref:../services/connect.adoc#remoteupdate-intro[remote updates].
+Devices in an organisation support all of Connect's features, including xref:../services/connect.adoc#screen-sharing-interface[screen sharing.], xref:../services/connect.adoc#remote-shell[remote shell] access, and xref:../services/connect.adoc#remoteupdate-intro[remote updates].
 
 Creating your first organisation automatically starts a free, four-week trial for that organisation.
 
