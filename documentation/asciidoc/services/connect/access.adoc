@@ -117,10 +117,10 @@ To re-allow screen sharing:
 ----
 $ rpi-connect vnc on
 ----
-+
+====
 
-[[remote-shell]]
 === Remote shell
+[[remote-shell]]
 
 To access the remote shell:
 
