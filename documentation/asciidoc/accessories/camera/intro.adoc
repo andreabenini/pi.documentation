@@ -9,7 +9,7 @@ There are several official Raspberry Pi camera modules.
 +
 The Camera Module 3 sensor assembly is also available separately to enable you to fit these capabilities into smaller devices.
 - xref:../accessories/camera.adoc#hq-camera[*High Quality Camera.*] A 12-megapixel camera that comes with CS- or M12-mount variants for use with external lenses. This model is unavailable as a NoIR version.
-- xref:../accessories/ai-camera.adoc[*AI Camera.*] A 12-megapixel camera that provides low-latency and high-performance AI capabilities to any camera application. Tight integration with xref:../computers/camera_software.adoc[Raspberry Pi's camera software stack] enables users to deploy their own neural network models with minimal effort. This model is unavailable as a NoIR version.
+- xref:../accessories/ai-camera.adoc[*AI Camera.*] A 12-megapixel camera that provides low-latency and high-performance AI capabilities to any camera application. Tight integration with xref:../computers/camera_software.adoc[the Raspberry Pi camera software stack] enables users to deploy their own neural network models with minimal effort. This model is unavailable as a NoIR version.
 - xref:../accessories/camera.adoc#gs-camera[*Global Shutter Camera.*] A 1.5-megapixel camera that uses a global shutter mechanism. It captures light from every pixel in the scene at once and is ideal for fast-motion photography. It comes with a CS-mount for use with external lenses. This model is unavailable as a NoIR version.
 
 To compare the hardware characteristics of these cameras, see the xref:../accessories/camera.adoc#hardware-specification[hardware specifications].

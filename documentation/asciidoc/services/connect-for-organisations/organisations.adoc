@@ -142,7 +142,7 @@ image::images/transfer.png[alt="The Raspberry Pi Connect interface, showing the 
 [[tag-devices]]
 == Tag devices
 
-Tags help you categorise and find devices in your organisation. For example, you could tag devices by location (`london`, `leeds`), environment (`production`, `staging`), or function (`point-of-sale`, `kiosk`).
+Tags help you categorise and find devices in your organisation. For example, you can tag devices by location (`london`, `leeds`), environment (`production`, `staging`), or function (`point-of-sale`, `kiosk`).
 
 Tags appear beneath the device name on both the device page and the device list.
 
@@ -1229,7 +1229,7 @@ tags:: The tags applied to the device.
 board:: The device's board model, revision, and memory. `+null+` if unknown.
 os:: The operating system name and version running on the device. `+null+` if unknown.
 kernel_architecture:: The kernel architecture reported by the device (for example, `+aarch64+`). `+null+` if unknown.
-filters:: The qualifiers that match this device, for use with the `+query+` parameter (see below). Only includes attributes that are known for the device, so this object may be empty.
+filters:: The qualifiers that match this device, for use with the `+query+` parameter (see below). Only includes attributes that are known for the device, so this object might be empty.
 
 The `+board+`, `+os+`, `+kernel_architecture+`, and `+filters+` fields are only populated for devices running Connect client version 2.9.0 or later.
 

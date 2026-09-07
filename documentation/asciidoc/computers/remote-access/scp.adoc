@@ -3,11 +3,11 @@
 
 Secure Copy Protocol (`scp`) sends files over SSH. You can use `scp` to copy files between your Raspberry Pi and another computer.
 
-To use `scp`, xref:remote-access.adoc#ip-address[find your Raspberry Pi's IP address].
+To use `scp`, xref:remote-access.adoc#ip-address[find your Raspberry Pi device's IP address].
 
 === Copy files to your Raspberry Pi
 
-To copy a file named `myfile.txt` from your personal computer to a user's home folder on your Raspberry Pi, run the following command from the directory containing `myfile.txt`, replacing the `<username>` placeholder with the username you use to log in to your Raspberry Pi and the `<pi_ip_address>` placeholder with your Raspberry Pi's IP address:
+To copy a file named `myfile.txt` from your personal computer to a user's home folder on your Raspberry Pi, run the following command from the directory containing `myfile.txt`, replacing the `<username>` placeholder with the username you use to log in to your Raspberry Pi and the `<pi_ip_address>` placeholder with your Raspberry Pi device's IP address:
 
 [source,console]
 ----

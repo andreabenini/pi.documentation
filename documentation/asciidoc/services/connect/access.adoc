@@ -49,7 +49,7 @@ image::images/devices.png[alt="The Connect page, showing devices listed as avail
 . Select the **Connect via** button to the right of the device you want to access.
 . Select the **Screen sharing** option from the menu.
 +
-A browser window opens that displays your device's desktop, and you can now use your device as you would locally.
+A browser window opens that displays your device's desktop, and you can now use your device in the same way as a local device.
 +
 image::images/waiting-for-screen-sharing.png[alt="A browser window open with a message indicating that a response is being awaited from the Raspberry Pi device.",width="100%"]
 +
@@ -136,7 +136,7 @@ image::images/devices.png[alt="The Connect interface, showing the Devices list d
 +
 image::images/waiting-for-remote-shell.png[alt="The waiting screen that is displayed during connection.",width="100%"]
 +
-You can now use your device as you would locally.
+You can now use your device in the same way as a local device.
 
 image::images/remote-shell.png[alt="Window showing an open connection using the remote shell.",width="100%"]
 

@@ -5,7 +5,7 @@ image::images/sd-hero.jpg[width="80%"]
 
 SD card quality is a critical factor in determining the overall user experience for a Raspberry Pi. Slow bus speeds and lack of command queueing can reduce the performance of even the most powerful Raspberry Pi models.
 
-Raspberry Pi's official microSD cards support DDR50 and SDR104 bus speeds. Additionally, Raspberry Pi SD cards support the command queueing (CQ) extension, which permits some pipelining of random read operations, ensuring optimal performance.
+Raspberry Pi official microSD cards support DDR50 and SDR104 bus speeds. Additionally, Raspberry Pi SD cards support the command queueing (CQ) extension, which permits some pipelining of random read operations, ensuring optimal performance.
 
 You can even buy Raspberry Pi SD cards pre-programmed with the latest version of Raspberry Pi OS.
 

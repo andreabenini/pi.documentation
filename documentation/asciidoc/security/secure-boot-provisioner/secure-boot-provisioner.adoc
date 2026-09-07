@@ -1,4 +1,4 @@
-This page introduces Raspberry Pi *Secure Boot Provisioner* (`rpi-sb-provisioner`). Secure Boot Provisioner automates the secure (verified) boot and disk encryption setup process, and supports the provisioning of multiple Raspberry Pi devices. As part of its workflow, Secure Boot Provisioner automates tasks that would otherwise require manual, multi-step setup, including firmware flashing, OS image writing, key generation, and activating hardware-level protection mechanisms.
+This page introduces Raspberry Pi *Secure Boot Provisioner* (`rpi-sb-provisioner`). Secure Boot Provisioner automates the secure (verified) boot and disk encryption setup process, and supports the provisioning of multiple Raspberry Pi devices. As part of its workflow, Secure Boot Provisioner automates tasks that otherwise require manual, multi-step setup, including firmware flashing, OS image writing, key generation, and activating hardware-level protection mechanisms.
 
 IMPORTANT: This tool is in active development, which means it's currently being improved and updated. If you find any bugs or if you want to suggest features, let us know on GitHub: https://github.com/raspberrypi/rpi-sb-provisioner.
 
@@ -6,11 +6,11 @@ IMPORTANT: This tool is in active development, which means it's currently being 
 
 Provisioning is the process of preparing a device for use by installing an operating system (OS), configuring security settings, and ensuring the device is ready for use. Doing this manually for multiple devices is time-consuming and introduces risk of error.
 
-Raspberry Pi's Secure Boot Provisioner is a tool that automates these steps for provisioning so that you don't have to do them manually, and allows you to provision multiple Raspberry Pi devices. It ensures that each client device is provisioned with a trusted OS image, configured security settings, and encryption keys.
+Raspberry Pi Secure Boot Provisioner is a tool that automates these steps for provisioning so that you don't have to do them manually, and allows you to provision multiple Raspberry Pi devices. It ensures that each client device is provisioned with a trusted OS image, configured security settings, and encryption keys.
 
 === Key features
 
-With Raspberry Pi's Secure Boot Provisioner, you can prepare each client device with the following:
+With Raspberry Pi Secure Boot Provisioner, you can prepare each client device with the following:
 
 * *Secure boot protection.* Secure boot ensures that only firmware and OS images signed with trusted cryptographic keys run on each device during its startup sequence. The secure boot chain verifies each component before running it, from bootloader through to OS. This prevents unauthorised software from running on the device. Secure Boot Provisioner programs and configures the low-level firmware that initialises the device, forming the foundation of the secure (verified) boot process. For more information, see <<secure-boot>> on this page.
 * *Encrypted storage.* To protect data, you can configure Secure Boot Provisioner to encrypt each device's storage using full-disk encryption. This is recommended because encryption ensures that data remains inaccessible even if someone bypasses the boot media or removes the storage. The encryption key is unique and tied to the hardware, so the data remains protected and unreadable on other systems. For more information, see <<encryption>> on this page.
@@ -210,7 +210,7 @@ Next, open the *Options* tab of the web UI, and complete each of the following s
 . Under *Device & Firmware > Device Family*, select which Raspberry Pi devices you want your provisioning device to prepare (for example, Compute Module 4).
 . Under *Device & Firmware > Storage Type*, select the storage type that your client devices are using: *SD card* (a standard microSD card), *eMMC* (embedded flash storage on Compute Modules), or *NVMe* (NVMe SSD storage).
 . Optionally, under *Device & Firmware > Device Firmware*, select the bootloader version you want to deploy to your client devices. This change might affect the performance or security of your client device. We recommend choosing the latest default release.
-. Optionally, under *Device & Firmware > Bootloader Configuration*, specify a path to a custom bootloader configuration file. This allows you to define additional EEPROM parameters that aren't offered with Raspberry Pi's secure boot provisioner. For more information, see xref:../computers/raspberry-pi.adoc#raspberry-pi-bootloader-configuration[Raspberry Pi bootloader configuration].
+. Optionally, under *Device & Firmware > Bootloader Configuration*, specify a path to a custom bootloader configuration file. This allows you to define additional EEPROM parameters that aren't offered with Raspberry Pi Secure Boot Provisioner. For more information, see xref:../computers/raspberry-pi.adoc#raspberry-pi-bootloader-configuration[Raspberry Pi bootloader configuration].
 . Under *Security Configuration > Provisioning Style*, choose one of the three provisioning options. For details about these options, see <<security-levels>> on this page.
 . Under *Security Configuration > Encryption Cypher*, choose between the following options. Newer Raspberry Pi devices use hardware accelerators. For more information, see xref:../security/security-architecture.adoc#disk-encryption[Disk encryption boot flow] in the xref:../security/security-architecture.adoc[Security architecture] page.
 ** *AES-XTS.* Choose this option if the SoC on your Raspberry Pi is either BCM2711 or BCM2712.

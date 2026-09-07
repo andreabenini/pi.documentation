@@ -8,7 +8,7 @@ With the Texas Instruments PCM5242, the DAC Pro provides outstanding signal-to-n
 and supports balanced/differential output in parallel to phono/RCA line-level output. It also includes a
 dedicated headphone amplifier. The DAC Pro is powered by a Raspberry Pi through the GPIO header.
 
-As part of the DAC Pro, two three-pin headers (P7/P9) are exposed above the Raspberry Pi's USB and Ethernet ports for use by the optional XLR board, allowing differential/balanced output.
+As part of the DAC Pro, two three-pin headers (P7/P9) are exposed above the Raspberry Pi device's USB and Ethernet ports for use by the optional XLR board, allowing differential/balanced output.
 
 ==== Pinouts
 
@@ -23,7 +23,7 @@ audio and left and right ground.
 
 ==== Optional XLR Board
 
-The Pi-DAC PRO exposes a 6 pin header used by the optional XLR board to provide Differential / Balanced output exposed by XLR sockets above the Pi's USB/Ethernet ports.
+The Pi-DAC PRO exposes a 6 pin header used by the optional XLR board to provide Differential / Balanced output exposed by XLR sockets above the Raspberry Pi device's USB/Ethernet ports.
 
 image::images/optional_xlr_board.jpg[width="80%"]
 

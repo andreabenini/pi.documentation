@@ -126,16 +126,16 @@ Waits for an incoming client connection before encoding video. Intended for netw
 
 ==== `frames`
 
-Records exactly the specified number of frames. Any non-zero value overrides xref:camera_software.adoc#timeout[`timeout`]. Accepts a nonzero integer.
+Records exactly the specified number of frames. Any non-zero value overrides xref:camera_software.adoc#timeout[`timeout`]. Accepts a non-zero integer.
 
 ==== `framerate`
 
-Records exactly the specified framerate. Accepts a nonzero integer.
+Records exactly the specified framerate. Accepts a non-zero integer.
 
 ==== `low-latency`
 
-On a Raspberry Pi 5, the `--low-latency` option will reduce the encoding latency, which may be beneficial for real-time streaming applications, in return for (slightly) less good coding efficiency (for example, B frames and arithmetic coding will no longer be used).
+On a Raspberry Pi 5, the `--low-latency` option reduces the encoding latency, which might be beneficial for real-time streaming applications, in return for (slightly) less good coding efficiency (for example, B frames and arithmetic coding will no longer be used).
 
 ==== `sync`
 
-Run the camera in software synchronisation mode, where multiple cameras synchronise frames to the same moment in time. The `sync` mode can be set to either `client` or `server`. For more information, please refer to the detailed explanation of xref:camera_software.adoc#software-camera-synchronisation[how software synchronisation works].
+Run the camera in software synchronisation mode, where multiple cameras synchronise frames to the same moment in time. The `sync` mode can be set to either `client` or `server`. For more information, see xref:camera_software.adoc#software-camera-synchronisation[how software synchronisation works].

@@ -62,7 +62,7 @@ When the connection works, you will see a security warning. Type `yes` to contin
 
 Enter your account password when prompted.
 
-You should now see the Raspberry Pi command prompt:
+You now see the Raspberry Pi command prompt:
 
 [source,console?prompt=<username>@<hostname> ~ $]
 ----
@@ -71,7 +71,7 @@ You should now see the Raspberry Pi command prompt:
 
 You are now connected to the Raspberry Pi remotely, and can execute commands.
 
-NOTE: If you receive a `connection timed out` error, you may have entered the wrong IP address for the Raspberry Pi. Check the xref:remote-access.adoc#ip-address[IP address of the Raspberry Pi].
+NOTE: If you receive a `connection timed out` error, you might have entered the wrong IP address for the Raspberry Pi. Check the xref:remote-access.adoc#ip-address[IP address of the Raspberry Pi].
 
 ==== Forward X11 over SSH
 
@@ -143,7 +143,7 @@ Run the following command to check the contents of the `.ssh` directory:
 $ ls ~/.ssh
 ----
 
-You should see the files `id_rsa` and `id_rsa.pub`:
+You expect to see the files `id_rsa` and `id_rsa.pub`:
 
 ----
 authorized_keys  id_rsa  id_rsa.pub  known_hosts
@@ -208,7 +208,7 @@ _On your usual computer_, use `scp` to copy your public key to a file named `.ss
 $ scp .ssh/id_rsa.pub <username>@<ip address>:.ssh/authorized_keys
 ----
 
-TIP: The command above assumes you have never before authorised any keys to access your Raspberry Pi. If you have previously added at least one key, you should instead add a new line containing the public key to the end of the `authorized_keys` file to preserve your existing keys.
+TIP: The command above assumes you have never before authorised any keys to access your Raspberry Pi. If you have previously added at least one key, instead add a new line containing the public key to the end of the `authorized_keys` file to preserve your existing keys.
 
 When prompted, enter the password for your user account on the Raspberry Pi.
 

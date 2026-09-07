@@ -134,7 +134,7 @@ Replace the `<drm-device>` placeholder with one of the following options:
 ====
 Use the following command to get a list of all DRM devices on your Raspberry Pi.
 
-NOTE: using `kmsprint` without parameters only queries the first card found. This may therefore not list all attached displays on Raspberry Pi 5 and later models. See xref:../computers/os.adoc#kmsprint[kmsprint.]
+NOTE: using `kmsprint` without parameters only queries the first card found. Therefore this might not list all attached displays on Raspberry Pi 5 and later models. See xref:../computers/os.adoc#kmsprint[kmsprint.]
 
 [source,console]
 ----

@@ -17,7 +17,7 @@ The default pins for Raspberry Pi Pico UART0 are as follows:
 
 When connected, traffic over the Raspberry Pi Pico's UART will be relayed to your computer by the Debug Probe and exposed as a CDC UART. On a Raspberry Pi this will show up as `/dev/ttyACM0`; on other platforms this serial port will show up differently (for example, on macOS it will appear as `/dev/cu.usbmodemXXXX`).
 
-If you have not already done so you should install minicom:
+If you haven't already done so, install minicom:
 
 [source,console]
 ----
@@ -50,7 +50,7 @@ $ sudo openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed
 $ minicom -b 115200 -o -D /dev/ttyACM0
 ----
 
-On opening `minicom` you should see "Hello, world!" printed to the console.
+On opening `minicom`, you see "Hello, world!" printed to the console.
 
 For terminal programs that support it, a description of the USB serial UART is advertised in the USB device description.
 

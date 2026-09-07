@@ -58,9 +58,9 @@ Default: `1`
 [[POWER_OFF_ON_HALT]]
 ==== `POWER_OFF_ON_HALT`
 
-If `1` and `WAKE_ON_GPIO=0` then `sudo halt` will switch off all PMIC outputs. This is lowest possible power state for halt but may cause problems with some HATs because 5V will still be on. `GLOBAL_EN` must be shorted to ground to boot.
+If `1` and `WAKE_ON_GPIO=0` then `sudo halt` will switch off all PMIC outputs. This is lowest possible power state for halt but might cause problems with some HATs because 5V will still be on. `GLOBAL_EN` must be shorted to ground to boot.
 
-The dedicated power button on Raspberry Pi 400 operates even if the processor is switched off. This behaviour is enabled by default, however, `WAKE_ON_GPIO=2` may be set to use an external GPIO power button instead of the dedicated power button.
+The dedicated power button on Raspberry Pi 400 operates even if the processor is switched off. This behaviour is enabled by default, however, `WAKE_ON_GPIO=2` can be set to use an external GPIO power button instead of the dedicated power button.
 
 On Raspberry Pi 5 and later, and on Raspberry Pi 500 and later, this places the PMIC in `STANDBY` mode where all outputs are switched off. There is no need to set `WAKE_ON_GPIO` and pressing the xref:raspberry-pi.adoc#power-button[dedicated power button] boots the device.
 
@@ -82,7 +82,7 @@ The `BOOT_ORDER` setting allows flexible configuration for the priority of diffe
 
 ===== `BOOT_ORDER` fields
 
-The `BOOT_ORDER` property defines the sequence for the different boot modes. It is read right to left, and up to eight digits may be defined.
+The `BOOT_ORDER` property defines the sequence for the different boot modes. It is read right to left, and up to eight digits can be defined.
 
 [cols="1m,1m,2"]
 |===
@@ -179,7 +179,7 @@ Default: `0`
 [[MAX_RESTARTS]]
 ==== `MAX_RESTARTS`
 
-If the RESTART (`0xf`) boot-mode is encountered more than MAX_RESTARTS times then a watchdog reset is triggered. This isn't recommended for general use but may be useful for test or remote systems where a full reset is needed to resolve issues with hardware or network interfaces.
+If the RESTART (`0xf`) boot-mode is encountered more than MAX_RESTARTS times then a watchdog reset is triggered. This isn't recommended for general use but might be useful for test or remote systems where a full reset is needed to resolve issues with hardware or network interfaces.
 
 Default: `-1` (infinite)
 
@@ -265,7 +265,7 @@ Default: `4000`
 [[TFTP_FILE_TIMEOUT]]
 ==== `TFTP_FILE_TIMEOUT`
 
-The timeout in milliseconds for an individual file download via TFTP.
+The timeout in milliseconds for an individual file download through TFTP.
 
 Minimum: `5000`
 
@@ -276,7 +276,7 @@ Default: `30000`
 
 Optional dotted decimal ip address (for example, `192.168.1.99`) for the TFTP server which overrides the server-ip from the DHCP request.
 
-This may be useful on home networks because tftpd-hpa can be used instead of dnsmasq where broadband router is the DHCP server.
+This might be useful on home networks because tftpd-hpa can be used instead of dnsmasq where broadband router is the DHCP server.
 
 Default: `""`
 
@@ -285,7 +285,7 @@ Default: `""`
 
 In order to support unique TFTP boot directories for each Raspberry Pi, the bootloader prefixes the filenames with a device-specific directory. If neither start4.elf nor start.elf are found in the prefixed directory then the prefix is cleared.
 
-On earlier models the serial number is used as the prefix, however on Raspberry Pi 4 and 5 the MAC address is no longer generated from the serial number, making it difficult to automatically create tftpboot directories on the server by inspecting DHCPDISCOVER packets. To support this the TFTP_PREFIX may be customised to either be the MAC address, a fixed value or the serial number (default).
+On earlier models the serial number is used as the prefix, however on Raspberry Pi 4 and 5 the MAC address is no longer generated from the serial number, making it difficult to automatically create tftpboot directories on the server by inspecting DHCPDISCOVER packets. To support this, you can customise the TFTP_PREFIX to either be the MAC address, a fixed value or the serial number (default).
 
 |===
 | Value | Description
@@ -350,7 +350,7 @@ MAC_ADDRESS_OTP=0,1
 The first value (row 0 in the example) contains the OUI and the most significant 8 bits of the MAC address. The second value (row 1 in the example) stores the remaining 16-bits of the MAC address.
 This is the same format as used for the Raspberry Pi MAC address programmed at manufacture.
 
-Any two customer rows may be selected and combined in either order.
+Any two customer rows can be selected and combined in either order.
 
 The `Customer OTP` rows are OTP registers 36 to 43 in the `vcgencmd otp_dump` output so if the first two rows are programmed as follows then `MAC_ADDRESS_OTP=0,1` would give a MAC address of `e4:5f:01:20:24:7e`.
 
@@ -363,7 +363,7 @@ Default: `""`
 
 ==== Static IP address configuration
 
-If TFTP_IP and the following options are set then DHCP is skipped and the static IP configuration is applied. If the TFTP server is on the same subnet as the client then GATEWAY may be omitted.
+If TFTP_IP and the following options are set then DHCP is skipped and the static IP configuration is applied. If the TFTP server is on the same subnet as the client, `GATEWAY` can be omitted.
 
 [[CLIENT_IP]]
 ===== `CLIENT_IP`
@@ -412,7 +412,7 @@ Notes:
 * Bootloader releases prior to 2021 do not support `self-update`.
 * Prior to 2022, self-update was not enabled in SD boot. On a Raspberry Pi 4, the ROM can already load recovery.bin from the SD card. On a CM4, neither self-update nor recovery.bin have any effect and USB boot is required (see the xref:compute-module.adoc#compute-module-eeprom-bootloader[Compute Module EEPROM bootloader docs]).
 * Starting in 2022 (https://github.com/raspberrypi/rpi-eeprom/blob/master/firmware-2711/release-notes.md#2022-02-04---network-install---beta[beta] and https://github.com/raspberrypi/rpi-eeprom/blob/master/firmware-2711/release-notes.md#2022-03-10---promote-the-2022-03-10-beta-release-to-lateststable[stable]), self-update from an SD card is enabled.
-* For network boot make sure that the TFTP `boot` directory can be mounted via NFS and that `rpi-eeprom-update` can write to it.
+* For network boot make sure that the TFTP `boot` directory can be mounted through NFS and that `rpi-eeprom-update` can write to it.
 
 Default: `1`
 
@@ -496,7 +496,7 @@ To enable network install, add `NET_INSTALL_ENABLED=1`, or to disable network in
 
 This setting is ignored and network install is disabled if `DISABLE_HDMI=1` is set.
 
-In order to detect the keyboard, network install must initialise the USB controller and enumerate devices. This increases boot time by approximately 1 second so it may be advantageous to disable network install in some embedded applications.
+In order to detect the keyboard, network install must initialise the USB controller and enumerate devices. This increases boot time by approximately 1 second so it might be advantageous to disable network install in some embedded applications.
 
 Default: `1` on Flagship models since Raspberry Pi 4B and Keyboard models; `0` on Compute Modules since CM4 (including CM4S).
 
@@ -553,7 +553,7 @@ In order to simplify parsing, the bootloader requires every field separator to b
 
 One way to view the data is to connect the test Raspberry Pi 4 to another Raspberry Pi running WireShark and select `udp.srcport == 6665` as a filter and select *Analyze -> Follow -> UDP stream* to view as an ASCII log.
 
-`NETCONSOLE` should not be enabled by default because it may cause network problems. It can be enabled on demand via a GPIO filter:
+`NETCONSOLE` should not be enabled by default because it might cause network problems. It can be enabled on demand through a GPIO filter:
 
 [source,ini]
 ----
@@ -569,7 +569,7 @@ Max length: 32 characters
 [[PARTITION]]
 ==== `PARTITION`
 
-The `PARTITION` option may be used to specify the boot partition number, if it has not explicitly been set by the `reboot` command (for example, `sudo reboot N`) or by `boot_partition=N` in `autoboot.txt`.
+The `PARTITION` option can be used to specify the boot partition number, if it has not explicitly been set by the `reboot` command (for example, `sudo reboot N`) or by `boot_partition=N` in `autoboot.txt`.
 This could be used to boot from a rescue partition if the user presses a button.
 
 The latest firmware also allows high partition numbers (> 31) to be overridden. This allows a custom setup of the system hardware watchdog to trigger a reboot with a special high partition number (for example, 62) which can be detected by the bootloader (using a conditional filter) and remapped to a recovery partition.
@@ -651,7 +651,7 @@ Default: `20000` (20 seconds)
 [[USB_MSD_LUN_TIMEOUT]]
 ==== `USB_MSD_LUN_TIMEOUT`
 
-How long to wait in milliseconds before advancing to the next LUN, for example, a multi-slot SD-CARD reader. This is still being tweaked but may help speed up boot if old/slow devices are connected as well as a fast USB-MSD device containing the OS.
+How long to wait in milliseconds before advancing to the next LUN, for example, a multi-slot SD-CARD reader. This is still being tweaked but might help speed up boot if old/slow devices are connected as well as a fast USB-MSD device containing the OS.
 
 Minimum: `100`
 
@@ -677,7 +677,7 @@ Default: `1000` (1 second)
 [[USB_MSD_STARTUP_DELAY]]
 ==== `USB_MSD_STARTUP_DELAY`
 
-If defined, delays USB enumeration for the given timeout after the USB host controller has initialised. If a USB hard disk drive takes a long time to initialise and triggers USB timeouts then this delay can be used to give the driver additional time to initialise. It may also be necessary to increase the overall USB timeout (`USB_MSD_DISCOVER_TIMEOUT`).
+If defined, delays USB enumeration for the given timeout after the USB host controller has initialised. If a USB hard disk drive takes a long time to initialise and triggers USB timeouts then this delay can be used to give the driver additional time to initialise. It might also be necessary to increase the overall USB timeout (`USB_MSD_DISCOVER_TIMEOUT`).
 
 Minimum: `0`
 
@@ -701,7 +701,7 @@ Default: `0`
 [[XHCI_DEBUG]]
 ==== `XHCI_DEBUG`
 
-This property is a bit-field which controls the verbosity of USB debug messages for mass storage boot-mode. Enabling all of these messages generates a huge amount of log data which will slow down booting and may even cause boot to fail. For verbose logs it's best to use `NETCONSOLE`.
+This property is a bit-field which controls the verbosity of USB debug messages for mass storage boot-mode. Enabling all of these messages generates a huge amount of log data which will slow down booting and might even cause boot to fail. For verbose logs it's best to use `NETCONSOLE`.
 
 [cols="1m,3"]
 |===
@@ -742,7 +742,7 @@ Default: `0x0` (no USB debug messages enabled)
 [[SDRAM_BANKLOW]]
 ==== `SDRAM_BANKLOW`
 
-SDRAM_BANKLOW controls how the SDRAM banks are arranged within the system address space. The number of bank bits may be selectively mapped to being located in the MSBs of the address, or being located between the row and column address bits.
+SDRAM_BANKLOW controls how the SDRAM banks are arranged within the system address space. The number of bank bits can be selectively mapped to being located in the MSBs of the address, or being located between the row and column address bits.
 This setting can significantly affect SDRAM performance.
 
 When unset, the bootloader will choose the preferred option. This is currently 3 on Raspberry Pi 4 family and 1 on Raspberry Pi 5 family.

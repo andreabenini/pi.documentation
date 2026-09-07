@@ -7,7 +7,7 @@ The Raspberry Pi AI Camera works differently from traditional AI-based camera im
 
 image::images/imx500-comparison.svg[Traditional versus IMX500 AI camera systems]
 
-The left side demonstrates the architecture of a traditional AI camera system. In such a system, the camera delivers images to the Raspberry Pi. The Raspberry Pi processes the images and then performs AI inference. Traditional systems may use external AI accelerators (as shown) or rely exclusively on the CPU.
+The left side demonstrates the architecture of a traditional AI camera system. In such a system, the camera delivers images to the Raspberry Pi. The Raspberry Pi processes the images and then performs AI inference. Traditional systems can use external AI accelerators (as shown) or rely exclusively on the CPU.
 
 The right side demonstrates the architecture of a system that uses IMX500. The camera module contains a small Image Signal Processor (ISP) which turns the raw camera image data into an **input tensor**. The camera module sends this tensor directly into the AI accelerator within the camera, which produces **output tensors** that contain the inferencing results. The AI accelerator sends these tensors to the Raspberry Pi. There is no need for an external accelerator, nor for the Raspberry Pi to run neural network software on the CPU.
 
@@ -31,7 +31,7 @@ At startup, the IMX500 sensor module loads firmware to run a particular neural n
 
 At the lowest level, the the IMX500 sensor kernel driver configures the camera module over the I2C bus. The CSI2 driver (`CFE` on Raspberry Pi 5, `Unicam` on all other Raspberry Pi platforms) sets up the receiver to write the image data stream into a frame buffer, together with the embedded data and inference data streams into another buffer in memory.
 
-The firmware files also transfer over the I2C bus wires. On most devices, this uses the standard I2C protocol, but Raspberry Pi 5 uses a custom high speed protocol. The RP2040 SPI driver in the kernel handles firmware file transfer, since the transfer uses the RP2040 microcontroller. The microcontroller bridges the I2C transfers from the kernel to the IMX500 via a SPI bus. Additionally, the RP2040 caches firmware files in on-board storage. This avoids the need to transfer entire firmware blobs over the I2C bus, significantly speeding up firmware loading for firmware you've already used.
+The firmware files also transfer over the I2C bus wires. On most devices, this uses the standard I2C protocol, but Raspberry Pi 5 uses a custom high speed protocol. The RP2040 SPI driver in the kernel handles firmware file transfer, since the transfer uses the RP2040 microcontroller. The microcontroller bridges the I2C transfers from the kernel to the IMX500 through an SPI bus. Additionally, the RP2040 caches firmware files in on-board storage. This avoids the need to transfer entire firmware blobs over the I2C bus, significantly speeding up firmware loading for firmware you've already used.
 
 === `libcamera`
 
@@ -251,7 +251,7 @@ There are a number of scaling/cropping/translation operations occurring from the
 | Returns the shape of the output tensors from the Picamera2 image metadata for the neural network model used.
 
 | `IMX500.set_inference_roi_abs(rectangle)`
-| Sets the region of interest (ROI) crop rectangle which determines which part of the sensor image is converted to the input tensor that is used for inferencing on the IMX500. The region of interest should be specified in units of pixels at the full sensor resolution, as a `(x_offset, y_offset, width, height)` tuple.
+| Sets the region of interest (ROI) crop rectangle, which determines which part of the sensor image is converted to the input tensor that is used for inferencing on the IMX500. Specify the region of interest in units of pixels at the full sensor resolution, as a `(x_offset, y_offset, width, height)` tuple.
 
 | `IMX500.set_inference_aspect_ratio(aspect_ratio)`
 | Automatically calculates region of interest (ROI) crop rectangle on the sensor image to preserve the given aspect ratio. To make the ROI aspect ratio exactly match the input tensor for this network, use `imx500.set_inference_aspect_ratio(imx500.get_input_size())`.

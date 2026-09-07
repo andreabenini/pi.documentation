@@ -147,14 +147,14 @@ The metal contacts must face towards the Ethernet and USB-A ports.
 
 WARNING: Before applying power, the display must be mounted in an enclosure that ensures all parts of the circuit board are inaccessible.
 
-We recommend using xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi's GPIO header] to provide power to the Touch Display.
+We recommend using your xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi device's GPIO header] to provide power to the Touch Display.
 
 Alternatively, you can power the display directly with a separate micro USB power supply.
 
 [discrete]
 ===== Connect to the GPIO header:
 
-. Connect jumper wires between the 5 V and `GND` pins on the xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi's GPIO] and the 5 V and `GND` pins on the display.
+. Connect jumper wires between the 5 V and `GND` pins on the xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi device's GPIO] and the 5 V and `GND` pins on the display.
 +
 .The location of the Raspberry Pi headers
 image::images/pi_plugs.png[Illustration of Raspberry Pi headers, width="40%"]
@@ -328,7 +328,7 @@ To permanently show, or to disable, the on-screen keyboard using the command lin
 
 == Disable display
 
-NOTE: To reverse this action, use an SSH connection (such as Raspberry Pi Connect's remote access), an HDMI display, or a separate computer with the Raspberry Pi's boot media attached.
+NOTE: To reverse this action, use an SSH connection (such as Raspberry Pi Connect's remote access), an HDMI display, or a separate computer with the Raspberry Pi device's boot media attached.
 
 To disable the display when connected to a Raspberry Pi:
 

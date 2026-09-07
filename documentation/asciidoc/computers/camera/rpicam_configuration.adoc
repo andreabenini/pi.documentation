@@ -2,7 +2,7 @@
 
 Most use cases work automatically with no need to alter the camera configuration. However, some common use cases do require configuration tweaks, including:
 
-* Third-party cameras (the manufacturer's instructions should explain necessary configuration changes, if any)
+* Third-party cameras (For any necessary configuration changes, see the manufacturer's instructions.)
 
 * Using a non-standard driver or overlay with an official Raspberry Pi camera
 
@@ -43,7 +43,7 @@ If your Raspberry Pi has two camera connectors (Raspberry Pi 5 or one of the Com
 [[tuning-files]]
 ==== Tweak camera behaviour with tuning files
 
-Raspberry Pi's `libcamera` implementation includes a **tuning file** for each camera. This file controls algorithms and hardware to produce the best image quality. `libcamera` can only determine the sensor in use, not the module. As a result, some modules require a tuning file override. Use the xref:camera_software.adoc#tuning-file[`tuning-file`] option to specify an override. You can also copy and alter existing tuning files to customise camera behaviour.
+The Raspberry Pi `libcamera` implementation includes a **tuning file** for each camera. This file controls algorithms and hardware to produce the best image quality. `libcamera` can only determine the sensor in use, not the module. As a result, some modules require a tuning file override. Use the xref:camera_software.adoc#tuning-file[`tuning-file`] option to specify an override. You can also copy and alter existing tuning files to customise camera behaviour.
 
 For example, the no-IR-filter (NoIR) versions of sensors use Auto White Balance (AWB) settings different from the standard versions. On a Raspberry Pi 5 or later, you can specify the the NoIR tuning file for the IMX219 sensor with the following command:
 

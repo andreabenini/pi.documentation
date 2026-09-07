@@ -125,4 +125,4 @@ active.MoveToAbsolutePosition(-180, PositionWay.Shortest, true);
 active.Float();
 ----
 
-You can place the motor in a float position, meaning, there are no more constrains on it. This is a mode that you can use when using the motor as a tachometer, moving it and reading the position. If you still have constrains on the motors, you may not be able to move it.
+You can place the motor in a float position, meaning, there are no more constraints on it. This is a mode that you can use when using the motor as a tachometer, moving it and reading the position. If you still have constraints on the motors, you might not be able to move it.

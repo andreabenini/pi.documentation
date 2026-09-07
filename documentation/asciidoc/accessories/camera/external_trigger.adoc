@@ -9,16 +9,16 @@ image::images/external_trigger.jpg[alt="Image showing pulse format",width="80%"]
 
 === Preparation
 
-WARNING: This modification includes removing an SMD soldered part. You should not attempt this modification unless you feel you are competent to complete it. When soldering to the Camera board, please remove the plastic back cover to avoid damaging it.
+WARNING: This modification includes removing an SMD soldered part. Don't attempt this modification unless you feel you are competent to complete it. When soldering to the Camera board, remove the plastic back cover to avoid damaging it.
 
 If your board has transistor Q2 fitted (shown in blue on the image below), then you will need to remove R11 from the board (shown in red). This connects GP1 to XTR and without removing R11, the camera will not operate in external trigger mode.
 The location of the components is displayed below.
 
 image::images/resistor.jpg[alt="Image showing resistor to be removed",width="80%"]
 
-Next, solder a wire to the touchpoints of XTR and GND on the GS Camera board. Note that XTR is a 1.8 V input, so you may need a level shifter or potential divider.
+Next, solder a wire to the touchpoints of XTR and GND on the GS Camera board. Note that XTR is a 1.8 V input, so you might need a level shifter or potential divider.
 
-We can use a Raspberry Pi Pico to provide the trigger. Connect any Pico GPIO pin (GP28 is used in this example) to XTR via a 1.5 kΩ resistor. Also connect a 1.8 kΩ resistor between XTR and GND to reduce the high logic level to 1.8 V. A wiring diagram is shown below.
+We can use a Raspberry Pi Pico to provide the trigger. Connect any Pico GPIO pin (GP28 is used in this example) to XTR through a 1.5 kΩ resistor. Also connect a 1.8 kΩ resistor between XTR and GND to reduce the high logic level to 1.8 V. A wiring diagram is shown below.
 
 image::images/pico_wiring.jpg[alt="Image showing Raspberry Pi Pico wiring",width="50%"]
 
@@ -76,6 +76,6 @@ Run the code on the Pico, then set the camera running:
 $ rpicam-hello -t 0 --qt-preview --shutter 3000
 ----
 
-Every time the Pico pulses the pin, it should capture a frame. However, if `--gain` and `--awbgains` are not set, some frames will be dropped to allow AGC and AWB algorithms to settle.
+Every time the Pico pulses the pin, it attempts to capture a frame. However, if `--gain` and `--awbgains` are not set, some frames are dropped to allow AGC and AWB algorithms to settle.
 
 NOTE: When running `rpicam-apps`, always specify a fixed shutter duration, to ensure the AGC does not try to adjust the camera's shutter speed. The value is not important, since it is actually controlled by the external trigger pulse.

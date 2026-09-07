@@ -89,7 +89,7 @@ Alias: `-t`
 
 Default value: 5000 milliseconds (5 seconds)
 
-Specify how long the application runs before closing. This value is interpreted as a number of milliseconds unless an optional suffix is used to change the unit. The suffix may be one of:
+Specify how long the application runs before closing. This value is interpreted as a number of milliseconds unless an optional suffix is used to change the unit. The suffix can be one of:
 
 * `min` – minutes
 * `s` or `sec` – seconds
@@ -530,7 +530,7 @@ Moves the lens to a fixed focal distance, normally given in dioptres (units of 1
 * Any other `number`: moves the lens to the 1 / `number` position. For example, the value `2.0` would focus at approximately 0.5m
 * `default`: move the lens to a default position which corresponds to the hyperfocal position of the lens
 
-Lens calibration is imperfect, so different camera modules of the same model may vary.
+Lens calibration is imperfect, so different camera modules of the same model might vary.
 
 ==== `verbose`
 

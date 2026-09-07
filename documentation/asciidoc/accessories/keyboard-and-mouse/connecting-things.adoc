@@ -4,5 +4,5 @@ This is the configuration we recommend for using your Raspberry Pi, official key
 
 image::images/everything.png[width="80%"]
 
-NOTE: It is important that the power supply is connected to the Raspberry Pi and the keyboard is connected to the Raspberry Pi. If the power supply were connected to the keyboard, with the Raspberry Pi powered via the keyboard, then the keyboard would not operate correctly.
+NOTE: It is important that the power supply is connected to the Raspberry Pi and the keyboard is connected to the Raspberry Pi. If the power supply is connected to the keyboard, with the Raspberry Pi powered by the keyboard, the keyboard doesn't operate correctly.
 

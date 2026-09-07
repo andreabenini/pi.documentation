@@ -107,7 +107,7 @@ Contains Device Tree overlays. These are used to configure various hardware devi
 
 === Device Trees, overlays, and parameters
 
-Raspberry Pi kernels and firmware use a Device Tree (DT) to describe hardware. These Device Trees may include DT parameters that control onboard features. DT overlays allow optional external hardware to be described and configured, and they also support parameters for more control.
+Raspberry Pi kernels and firmware use a Device Tree (DT) to describe hardware. These Device Trees can include DT parameters that control onboard features. DT overlays allow optional external hardware to be described and configured, and they also support parameters for more control.
 
 The firmware loader (`start.elf` and its variants) is responsible for loading the DTB (Device Tree Blob – a machine-readable DT file). It chooses which one to load based on the board revision number, and makes modifications to further tailor it. This runtime customisation avoids the need for many DTBs with only minor differences.
 
@@ -122,7 +122,7 @@ It includes the name of the base CPU, its memory configuration, and any peripher
 
 NOTE: It helps to remember that DTs are supposed to be OS-neutral, so anything which is Linux-specific shouldn't be there.
 
-A Device Tree represents the hardware configuration as a hierarchy of nodes. Each node may contain properties and subnodes. Properties are named arrays of bytes, which may contain strings, numbers (big-endian), arbitrary sequences of bytes, and any combination thereof. By analogy to a filesystem, nodes are directories and properties are files. The locations of nodes and properties within the tree can be described using a path, with slashes as separators and a single slash (`/`) to indicate the root.
+A Device Tree represents the hardware configuration as a hierarchy of nodes. Each node can contain properties and subnodes. Properties are named arrays of bytes, which can contain strings, numbers (big-endian), arbitrary sequences of bytes, and any combination thereof. By analogy to a filesystem, nodes are directories and properties are files. The locations of nodes and properties within the tree can be described using a path, with slashes as separators and a single slash (`/`) to indicate the root.
 
 [[part1.1]]
 ===== Basic DTS syntax
@@ -239,7 +239,7 @@ It is often necessary for one part of the tree to refer to another, and there ar
 
 Path strings:: Similar to filesystem paths, for example, `/soc/i2s@7e203000` is the full path to the I2S device in BCM2835 and BCM2836. The standard APIs don't create paths to properties like `/soc/i2s@7e203000/status`: instead, you first find a node, then choose properties of that node.
 
-Phandles:: A unique 32-bit integer assigned to a node in its `phandle` property. For historical reasons, you may also see a redundant, matching `linux,phandle`. Phandles are numbered sequentially, starting from 1; 0 is not a valid phandle. They are usually allocated by the DT compiler when it encounters a reference to a node in an integer context, usually in the form of a label. References to nodes using phandles are simply encoded as the corresponding integer (cell) values; there is no markup to indicate that they should be interpreted as phandles, as that is application-defined.
+Phandles:: A unique 32-bit integer assigned to a node in its `phandle` property. For historical reasons, you might also see a redundant, matching `linux,phandle`. Phandles are numbered sequentially, starting from 1; 0 is not a valid phandle. They are usually allocated by the DT compiler when it encounters a reference to a node in an integer context, usually in the form of a label. References to nodes using phandles are simply encoded as the corresponding integer (cell) values; there is no markup to indicate that they should be interpreted as phandles, as that is application-defined.
 
 Labels:: Just as a label in C gives a name to a place in the code, a DT label assigns a name to a node in the hierarchy. The compiler takes references to labels and converts them into paths when used in string context (`&node`) and phandles in integer context (`<&node>`); the original labels do not appear in the compiled output. Note that labels contain no structure; they are just tokens in a flat, global namespace.
 
@@ -263,7 +263,7 @@ When a system like Raspberry Pi also supports optional plug-in accessories such 
 
 What is needed is a way to describe these optional components using a partial Device Tree, and then to be able to build a complete tree by taking a base DT and adding a number of optional elements. You can do this, and these optional elements are called "overlays".
 
-Unless you want to learn how to write overlays for Raspberry Pis, you might prefer to skip on to <<part3,Use Device Trees>>.
+Unless you want to learn how to write overlays for Raspberry Pi devices, you might prefer to skip on to <<part3,Use Device Trees>>.
 
 [[part2.1]]
 ===== Fragments
@@ -292,7 +292,7 @@ A DT overlay comprises a number of fragments, each of which targets one node and
 };
 ----
 
-The `compatible` string identifies this as being for BCM2835, which is the base architecture for the Raspberry Pi SoCs; if the overlay makes use of features of a Raspberry Pi 4 then `brcm,bcm2711` is the correct value to use, otherwise `brcm,bcm2835` can be used for all Raspberry Pi overlays. Then comes the first (and in this case only) fragment. Fragments should be numbered sequentially from zero. Failure to adhere to this may cause some or all of your fragments to be missed.
+The `compatible` string identifies this as being for BCM2835, which is the base architecture for the Raspberry Pi SoCs; if the overlay makes use of features of a Raspberry Pi 4 then `brcm,bcm2711` is the correct value to use, otherwise `brcm,bcm2835` can be used for all Raspberry Pi overlays. Then comes the first (and in this case only) fragment. Number fragments sequentially from zero. Failure to adhere to this can cause some or all of your fragments to be missed.
 
 Each fragment consists of two parts: a `target` property, identifying the node to apply the overlay to; and the `+__overlay__+` itself, the body of which is added to the target node. The example above can be interpreted as if it were written like this:
 
@@ -441,7 +441,7 @@ name = <&label>,"property:offset"; // 32-bit
 name = <&label>,"property#offset"; // 64-bit
 ----
 
-Here, `label`, `property` and `offset` are replaced by suitable values; the offset is specified in bytes relative to the start of the property (in decimal by default), and the preceding separator dictates the size of the parameter. In a change from earlier implementations, integer parameters may refer to non-existent properties or to offsets beyond the end of an existing property.
+Here, `label`, `property` and `offset` are replaced by suitable values; the offset is specified in bytes relative to the start of the property (in decimal by default), and the preceding separator dictates the size of the parameter. In a change from earlier implementations, integer parameters can refer to non-existent properties or to offsets beyond the end of an existing property.
 
 [[part2.2.3]]
 ====== Boolean parameters
@@ -577,7 +577,7 @@ The `i2c-rtc` overlay uses this technique.
 [[part2.2.9]]
 ====== Special properties
 
-A few property names, when targeted by a parameter, get special handling. One you may have noticed already – `status` –  will convert a boolean to either `okay` for true or `disabled` for false.
+A few property names, when targeted by a parameter, get special handling. One you might have noticed already – `status` –  will convert a boolean to either `okay` for true or `disabled` for false.
 
 Assigning to the `bootargs` property appends to it rather than overwriting it – this is how settings can be added to the kernel command line.
 
@@ -635,9 +635,9 @@ This is an extract from the current map file (see the https://github.com/raspber
 
 Each node has the name of an overlay that requires special handling. The properties of each node are either platform names or one of a small number of special directives. The overlay map supports the following platform names:
 
-* `bcm2835` for all Raspberry Pis built around the BCM2835, BCM2836, BCM2837, and RP3A0 SoCs
-* `bcm2711` for Raspberry Pi 4B, CM4, CM4S, and Pi 400
-* `bcm2712` for Raspberry Pi 5, CM5, Pi 500, and Pi 500+
+* `bcm2835` for all Raspberry Pi devices built around the BCM2835, BCM2836, BCM2837, and RP3A0 SoCs
+* `bcm2711` for Raspberry Pi 4B, CM4, CM4S, and 400
+* `bcm2712` for Raspberry Pi 5, CM5, 500, and 500+
 
 A platform name with no value (an empty property) indicates that the current overlay is compatible with the platform; for example, `uart5` is compatible with the `bcm2711` platform. A non-empty value for a platform is the name of an alternative overlay to use in place of the requested one; asking for `disable-bt` on BCM2712 results in `disable-bt-pi5` being loaded instead. Any platform not included in an overlay's node is not compatible with that overlay. Any overlay not mentioned in the map is assumed to be compatible with all platforms.
 
@@ -645,7 +645,7 @@ The second example node – `disable-bt-pi5` – could be inferred from the cont
 
 The `uart5` overlay only makes sense on BCM2711.
 
-In the event that a platform is not listed for an overlay, one of the special directives may apply:
+In the event that a platform isn't listed for an overlay, one of the special directives might apply:
 
 * The `renamed` directive indicates the new name of the overlay (which should be largely compatible with the original), but also logs a warning about the rename.
 * The `deprecated` directive contains a brief explanatory error message which will be logged after the common prefix `+overlay '...' is deprecated:+`.
@@ -836,7 +836,7 @@ dtoverlay=
 
 Raspberry Pi boards have two I2C interfaces. These are nominally split: one for the Arm CPU, and one for the VideoCore GPU. On almost all models, `i2c1` belongs to the CPU and `i2c0` to the GPU, where it is used to control the camera and read the HAT EEPROM. However, there are two early revisions of the Model B that have those roles reversed.
 
-To make it possible to use one set of overlays and parameters with all Raspberry Pis, the firmware creates some board-specific DT parameters. These are:
+To make it possible to use one set of overlays and parameters with all Raspberry Pi devices, the firmware creates some board-specific DT parameters. These are:
 
 ----
 i2c/i2c_arm
@@ -906,7 +906,7 @@ Options applicable to most variants:
 
 Unlike the `config.txt` equivalent, all parameters to an overlay must be included in the same command line – the <<part3.5.2,dtparam>> command is only for parameters of the base DTB.
 
-Command variants that change kernel state (adding and removing things) require root privilege, so you may need to prefix the command with `sudo`. Only overlays and parameters applied at run-time can be unloaded – an overlay or parameter applied by the firmware becomes "baked in" such that it won't be listed by `dtoverlay` and can't be removed.
+Command variants that change kernel state (adding and removing things) require root privilege, so you might need to prefix the command with `sudo`. Only overlays and parameters applied at run-time can be unloaded – an overlay or parameter applied by the firmware becomes "baked in" such that it won't be listed by `dtoverlay` and can't be removed.
 
 [[part3.5.2]]
 ====== The `dtparam` command
@@ -916,7 +916,7 @@ Command variants that change kernel state (adding and removing things) require r
 [[part3.5.3]]
 ====== Guidelines for writing runtime-capable overlays
 
-The creation or deletion of a device object is triggered by a node being added or removed, or by the status of a node changing from disabled to enabled or vice versa. The absence of a "status" property means the node is enabled.
+The creation or deletion of a device object is triggered by a node being added or removed, or by the status of a node changing from disabled to enabled or from enabled to disabled. The absence of a "status" property means the node is enabled.
 
 Don't create a node within a fragment that will overwrite an existing node in the base DTB – the kernel will rename the new node to make it unique. If you want to change the properties of an existing node, create a fragment that targets it.
 
@@ -928,10 +928,10 @@ ALSA doesn't prevent its codecs and other components from being unloaded while t
 The loading of overlays at runtime is a recent addition to the kernel, and at the time of writing there is no accepted way to do this from userspace. By hiding the details of this mechanism behind commands, users are insulated from changes in the event that a different kernel interface becomes standardised.
 
 * Some overlays work better at run-time than others. Parts of the Device Tree are only used at boot time – changing them using an overlay will not have any effect.
-* Applying or removing some overlays may cause unexpected behaviour, so it should be done with caution. This is one of the reasons it requires `sudo`.
+* Applying or removing some overlays might cause unexpected behaviour, so it should be done with caution. This is one of the reasons it requires `sudo`.
 * Unloading the overlay for an ALSA card can stall if something is actively using ALSA – the LXPanel volume slider plugin demonstrates this effect. To enable overlays for sound cards to be removed, the `lxpanelctl` utility has been given two new options – `alsastop` and `alsastart` – and these are called from the auxiliary scripts `dtoverlay-pre` and `dtoverlay-post` before and after overlays are loaded or unloaded, respectively.
-* Removing an overlay will not cause a loaded module to be unloaded, but it may cause the reference count of some modules to drop to zero. Running `rmmod -a` twice will cause unused modules to be unloaded.
-* Overlays have to be removed in reverse order. The commands will allow you to remove an earlier one, but all the intermediate ones will be removed and re-applied, which may have unintended consequences.
+* Removing an overlay will not cause a loaded module to be unloaded, but it might cause the reference count of some modules to drop to zero. Running `rmmod -a` twice will cause unused modules to be unloaded.
+* Overlays have to be removed in reverse order. The commands will allow you to remove an earlier one, but all the intermediate ones will be removed and re-applied, which might have unintended consequences.
 * Only Device Tree nodes at the top level of the tree and children of a bus node will be probed. For nodes added at run-time there is the further limitation that the bus must register for notifications of the addition and removal of children. However, there are exceptions that break this rule and cause confusion: the kernel explicitly scans the entire tree for some device types – clocks and interrupt controller being the two main ones – in order to (for clocks) initialise them early and/or (for interrupt controllers) in a particular order. This search mechanism only happens during booting and so doesn't work for nodes added by an overlay at run-time. It is therefore recommended for overlays to place fixed-clock nodes in the root of the tree unless it is guaranteed that the overlay will not be used at run-time.
 
 [[part3.6]]
@@ -1032,7 +1032,7 @@ The following properties are specific to the BCM2711 and BCM2712 SPI EEPROM boot
 
 `build_timestamp`:: The UTC build time for the EEPROM bootloader, stored as a Unix epoch value. The build timestamp is embedded in the EEPROM binary and can be extracted with `strings pieeprom.bin | grep BUILD_TIMESTAMP`.
 
-`capabilities`:: This bit-field describes the features supported by the current bootloader. This may be used to check whether a feature (for example, USB boot) is supported before enabling it in the bootloader EEPROM config.
+`capabilities`:: This bit-field describes the features supported by the current bootloader. You can use this field to check whether a feature (for example, USB boot) is supported before enabling it in the bootloader EEPROM config.
 
 |===
 | Bit | Feature
@@ -1089,19 +1089,19 @@ The following properties are specific to the BCM2711 and BCM2712 SPI EEPROM boot
 
 ===== BCM2711 and BCM2712 USB boot properties `/chosen/bootloader/usb`
 
-The following properties are defined if the system was booted from USB. These may be used to uniquely identify the USB boot device.
+The following properties are defined if the system was booted from USB. These can be used to uniquely identify the USB boot device.
 
 `usb-version`:: The USB major protocol version (2 or 3).
 
 `route-string`:: The USB route-string identifier for the device as defined by the USB 3.0 specification.
 
-`root-hub-port-number`:: The root hub port number that the boot device is connected to – possibly via other USB hubs.
+`root-hub-port-number`:: The root hub port number that the boot device is connected to – possibly through other USB hubs.
 
 `lun`:: The Logical Unit Number for the mass-storage device.
 
 ===== NVMEM nodes
 
-The firmware provides read-only, in-memory copies of portions of the bootloader EEPROM via the https://www.kernel.org/doc/html/latest/driver-api/nvmem.html[NVMEM] subsystem.
+The firmware provides read-only, in-memory copies of portions of the bootloader EEPROM through the https://www.kernel.org/doc/html/latest/driver-api/nvmem.html[NVMEM] subsystem.
 
 Each region appears as an NVMEM device under `/sys/bus/nvmem/devices/` with a named alias under `/sys/firmware/devicetree/base/aliases`.
 
@@ -1179,7 +1179,7 @@ Generate it from the live DT state in `/proc/device-tree`:
 $ dtc -I fs -O dtb -o base.dtb /proc/device-tree
 ----
 
-This will include any overlays and parameters you have applied so far, either in `config.txt` or by loading them at runtime, which may or may not be what you want. Alternatively:
+This will include any overlays and parameters you have applied so far, either in `config.txt` or by loading them at runtime, which might or might not be what you want. Alternatively:
 
 Copy it from the source DTBs in `/boot/firmware/`. This won't include overlays and parameters, but it also won't include any other modifications by the firmware. To allow testing of all overlays, the `dtmerge` utility will create some of the board-specific aliases ("i2c_arm", etc.), but this means that the result of a merge will include more differences from the original DTB than you might expect. The solution to this is to use dtmerge to make the copy:
 
@@ -1333,7 +1333,7 @@ If you've read through this document and have not found the answer to a Device T
 
 === Change the default pin configuration
 
-Custom default pin configurations via user-provided Device Tree blobs has been deprecated.
+Custom default pin configurations through user-provided Device Tree blobs has been deprecated.
 
 The recommended route for changing pin configuration is through the device tree. The current instructions are retained for legacy purposes.
 
@@ -1351,7 +1351,7 @@ During the bootup sequence, the GPIO pins go through various actions.
 
 On a soft reset, the same procedure applies, except for default pulls, which are only applied on a power-on reset.
 
-It may take a few seconds to run through the process. During this time, the GPIO pins may not be in the state expected by attached peripherals (as defined in `dt-blob.bin` or `config.txt`). Since different GPIO pins have different default pulls, you should do *one of the following* for your peripheral:
+It might take a few seconds to run through the process. During this time, the GPIO pins might not be in the state expected by attached peripherals (as defined in `dt-blob.bin` or `config.txt`). Since different GPIO pins have different default pulls, you should do *one of the following* for your peripheral:
 
 * Choose a GPIO pin that defaults to pulls as required by the peripheral on reset
 * Delay the peripheral's startup until the actions are completed
@@ -1390,8 +1390,8 @@ There are a number of separate `pins_*` sections, based on particular Raspberry 
 * `pins_bplus1`: Raspberry Pi 1 Model B+ rev 1.1, including the full 40pin connector.
 * `pins_bplus2`: Raspberry Pi 1 Model B+ rev 1.2, swapping the low-power and lan-run pins.
 * `pins_aplus`: Raspberry Pi 1 Model A+, lacking Ethernet.
-* `pins_2b1`: Raspberry Pi 2 Model B rev 1.0; controls the SMPS via I2C0.
-* `pins_2b2`: Raspberry Pi 2 Model B rev 1.1; controls the SMPS via software I2C on 42 and 43.
+* `pins_2b1`: Raspberry Pi 2 Model B rev 1.0; controls the SMPS through I2C0.
+* `pins_2b2`: Raspberry Pi 2 Model B rev 1.1; controls the SMPS through software I2C on 42 and 43.
 * `pins_3b1`: Raspberry Pi 3 Model B rev 1.0
 * `pins_3b2`: Raspberry Pi 3 Model B rev 1.2
 * `pins_3bplus`: Raspberry Pi 3 Model B+
@@ -1447,11 +1447,11 @@ This section can contain any combination of the following items:
   ** `arm_jtag`
  * `drive_strength_mA`
 +
-The drive strength is used to set a strength for the pins. Please note that you can only specify a single drive strength for the bank. <8> and <16> are valid values.
+The drive strength is used to set a strength for the pins. You can only specify a single drive strength for the bank. <8> and <16> are valid values.
 
 ===== `pin_defines`
 
-This section is used to set specific VideoCore functionality to particular pins. This enables the user to move the camera power enable pin to somewhere different, or move the HDMI hotplug position: these are things that Linux does not control. Please refer to the example DTS file below.
+This section is used to set specific VideoCore functionality to particular pins. This enables the user to move the camera power enable pin to somewhere different, or move the HDMI hotplug position: these are things that Linux doesn't control.
 
 ==== Clock configuration
 

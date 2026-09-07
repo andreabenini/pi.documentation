@@ -5,7 +5,7 @@ This section covers how to control your Raspberry Pi from another computer witho
 
 * <<ssh>> for remote access to your Raspberry Pi command line. You can do this from the desktop, using the interactive `raspi-config` TUI, and manually from the command line.
 * <<connect>>, a Raspberry Pi service that provides remote access to your Raspberry Pi desktop and Terminal with no manual network configuration. You can enable this from the desktop, using the interactive `raspi-config` TUI, and manually from the command line.
-* <<vnc>> (virtual network computing) for remote access to your Raspberry Pi's desktop. You can do this from the desktop and using the interactive `raspi-config` TUI.
+* <<vnc>> (virtual network computing) for remote access to your Raspberry Pi device's desktop. You can do this from the desktop and using the interactive `raspi-config` TUI.
 
 [[ssh]]
 === Enable or disable SSH
@@ -67,7 +67,7 @@ $ rpi-connect off
 
 [[vnc]]
 === Enable or disable VNC
-Enabling VNC allows you to access your Raspberry Pi's desktop from another computer. You can enable VNC from the desktop, using the interactive `raspi-config` TUI.
+Enabling VNC allows you to access your Raspberry Pi computer's desktop from another computer. You can enable VNC from the desktop, using the interactive `raspi-config` TUI.
 
 After you've enabled VNC, the next step is to connect to your Raspberry Pi from another computer using a VNC client. For more information, see the xref:remote-access.adoc[Remote access] documentation.
 

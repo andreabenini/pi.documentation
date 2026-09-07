@@ -33,7 +33,7 @@ This command:
 * installs the IMX500 post-processing software stages in `rpicam-apps`
 * installs the Sony network model packaging tools
 
-NOTE: The IMX500 kernel device driver loads all the firmware files when the camera starts. This may take several minutes if the neural network model firmware has not been previously cached. The demos below display a progress bar on the console to indicate firmware loading progress.
+NOTE: The IMX500 kernel device driver loads all the firmware files when the camera starts. This might take several minutes if the neural network model firmware has not been previously cached. The demos below display a progress bar on the console to indicate firmware loading progress.
 
 === Reboot
 
@@ -72,7 +72,7 @@ The following command runs `rpicam-hello` with object detection post-processing:
 $ rpicam-hello -t 0s --post-process-file /usr/share/rpi-camera-assets/imx500_mobilenet_ssd.json --viewfinder-width 1920 --viewfinder-height 1080 --framerate 30
 ----
 
-After running the command, you should see a viewfinder that overlays bounding boxes on objects recognised by the neural network:
+After running the command, you see a viewfinder that overlays bounding boxes on objects recognised by the neural network:
 
 image::images/imx500-mobilenet.jpg[IMX500 MobileNet]
 
@@ -85,7 +85,7 @@ $ rpicam-vid -t 10s -o output.264 --post-process-file /usr/share/rpi-camera-asse
 
 You can configure the `imx500_object_detection` stage in many ways.
 
-For example, `max_detections` defines the maximum number of objects that the pipeline will detect at any given time. `threshold` defines the minimum confidence value required for the pipeline to consider any input as an object.
+For example, `max_detections` defines the maximum number of objects that the pipeline detects at any given time. `threshold` defines the minimum confidence value required for the pipeline to consider any input as an object.
 
 The raw inference output data of this network can be quite noisy, so this stage also performs some temporal filtering and applies hysteresis. To disable this filtering, remove the `temporal_filter` config block.
 
@@ -111,7 +111,7 @@ image::images/imx500-posenet.jpg[IMX500 PoseNet]
 
 You can configure the `imx500_posenet` stage in many ways.
 
-For example, `max_detections` defines the maximum number of bodies that the pipeline will detect at any given time. `threshold` defines the minimum confidence value required for the pipeline to consider input as a body.
+For example, `max_detections` defines the maximum number of bodies that the pipeline detects at any given time. `threshold` defines the minimum confidence value required for the pipeline to consider input as a body.
 
 === Picamera2
 
