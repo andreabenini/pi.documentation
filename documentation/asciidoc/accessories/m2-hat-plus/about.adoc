@@ -131,7 +131,7 @@ image::images/m2-hat-plus-installation-04.png[width="60%"]
 
 === Install your M.2 drive
 
-. Remove the drive attachment screw by turning the screw counter-clockwise. Insert your M.2 SSD into the M.2 key edge connector, sliding the drive into the slot at a slight upward angle. Do not force the drive into the slot: it should slide in gently.
+. Remove the drive attachment screw by turning the screw counter-clockwise. Insert your M.2 SSD into the M.2 key edge connector, sliding the drive into the slot at a slight upward angle. Don't force the drive into the slot: it slides in gently.
 +
 --
 image::images/m2-hat-plus-installation-05.png[width="60%"]
@@ -180,7 +180,7 @@ image::images/m2-hat-plus-compact-installation-04.png[width="60%"]
 
 === Install your M.2 drive
 
-. Remove the drive attachment screw by turning the screw counter-clockwise. Insert your M.2 SSD into the M.2 key edge connector, sliding the drive into the slot at a slight upward angle. Do not force the drive into the slot: it should slide in gently.
+. Remove the drive attachment screw by turning the screw counter-clockwise. Insert your M.2 SSD into the M.2 key edge connector, sliding the drive into the slot at a slight upward angle. Don't force the drive into the slot: it slides in gently.
 +
 --
 image::images/m2-hat-plus-compact-installation-05.png[width="60%"]
@@ -223,7 +223,7 @@ For more information, see xref:../computers/raspberry-pi.adoc#nvme-ssd-boot[NVMe
 
 == Enable PCIe Gen 3
 
-WARNING: The Raspberry Pi 5 is not certified for Gen 3.0 speeds. PCIe Gen 3.0 connections may be unstable.
+WARNING: The Raspberry Pi 5 is not certified for Gen 3.0 speeds. PCIe Gen 3.0 connections might be unstable.
 
 To enable PCIe Gen 3 speeds, follow the instructions at xref:../computers/raspberry-pi.adoc#pcie-gen-3-0[enable PCIe Gen 3.0].
 

@@ -36,7 +36,7 @@ For more details, see xref:configuration.adoc#part3.1[DTBs, overlays and config.
 
 ==== `dtparam`
 
-Device Tree configuration files for Raspberry Pi devices support various parameters for such things as enabling I2C and SPI interfaces. Many DT overlays are configurable via the use of parameters. Both types of parameters can be supplied using the `dtparam` setting. In addition, overlay parameters can be appended to the `dtoverlay` option, separated by commas, but keep in mind the line length limit of 98 characters.
+Device Tree configuration files for Raspberry Pi devices support various parameters for such things as enabling I2C and SPI interfaces. Many DT overlays are configurable using parameters. Both types of parameters can be supplied using the `dtparam` setting. In addition, overlay parameters can be appended to the `dtoverlay` option, separated by commas, but keep in mind the line length limit of 98 characters.
 
 For more details, see xref:configuration.adoc#part3.1[DTBs, overlays and config.txt].
 

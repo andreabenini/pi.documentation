@@ -51,7 +51,7 @@ After saving your changes, reboot your Raspberry Pi with `sudo reboot` to update
 
 === PCIe Gen 3.0
 
-WARNING: The Raspberry Pi 5 is not certified for Gen 3.0 speeds. PCIe Gen 3.0 connections may be unstable.
+WARNING: The Raspberry Pi 5 isn't certified for Gen 3.0 speeds. PCIe Gen 3.0 connections might be unstable.
 
 By default, Raspberry Pi 5 uses Gen 2.0 speeds (5 GT/s). Use one of the following approaches to enable Gen 3.0 (8 GT/s) speeds:
 

@@ -4,7 +4,7 @@ You can set up a DHCP/TFTP server which allows you to boot a Raspberry Pi 3 or l
 
 The instructions assume that you have an existing home network, and that you want to use a Raspberry Pi for the *server*. You will also need an additional Raspberry Pi 3 or 4 as a *client* to be booted. Only one SD Card is needed because the client will be booted from the server after the initial client configuration.
 
-NOTE: Due to the huge range of networking devices and routers available, we can't guarantee that network booting will work with any device. We have had reports that, if you cannot get network booting to work, disabling STP frames on your network may help.
+NOTE: Due to the huge range of networking devices and routers available, we can't guarantee that network booting will work with any device. We have had reports that, if you cannot get network booting to work, disabling STP frames on your network might help.
 
 === Configure a network boot client
 
@@ -118,7 +118,7 @@ Then run:
 $ ip -4 addr show dev eth0 | grep inet
 ----
 
-You should see output similar to the following:
+You see output similar to the following:
 
 ----
 inet 10.42.0.211/24 brd 10.42.0.255 scope global eth0
@@ -133,7 +133,7 @@ Finally, note down the address of your DNS server, which is the same address as 
 $ cat /etc/resolv.conf
 ----
 
-Configure a static network address on your server Raspberry Pi via the `systemd` networking, which works as the network handler and DHCP server.
+Configure a static network address on your server Raspberry Pi through the `systemd` networking, which works as the network handler and DHCP server.
 
 To do that, you'll need to create a `10-eth0.netdev` and a `11-eth0.network` like so:
 
@@ -205,7 +205,7 @@ $ sudo systemctl enable dnsmasq
 $ sudo tcpdump -i eth0 port bootpc
 ----
 
-Connect the client Raspberry Pi to your network and power it on. Check that the LEDs illuminate on the client after around 10 seconds, then you should get a packet from the client "DHCP/BOOTP, Request from ..."
+Connect the client Raspberry Pi to your network and power it on. Check that the LEDs illuminate on the client after around 10 seconds, then you receive a packet from the client "DHCP/BOOTP, Request from ..."
 
 ----
 IP 0.0.0.0.bootpc > 255.255.255.255.bootps: BOOTP/DHCP, Request from b8:27:eb...

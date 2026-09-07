@@ -8,7 +8,7 @@ To deploy a new neural network model to the Raspberry Pi AI Camera, complete the
 .. *Convert* the compressed model to IMX500 format.
 . Package the model into a firmware file that can be loaded at runtime onto the camera.
 
-The first two steps will normally be performed on a more powerful computer such as a desktop or server. You must run the final packaging step on a Raspberry Pi.
+The first two steps are normally performed on a more powerful computer such as a desktop or server. You must run the final packaging step on a Raspberry Pi.
 
 === Model creation
 
@@ -77,7 +77,7 @@ $ imxconv-tf -i <compressed Keras model> -o <output folder>
 ----
 ======
 
-IMPORTANT: For optimal use of the memory available to the accelerator on the IMX500 sensor, add `--no-input-persistency` to the above commands. However, this will disable input tensor generation that may be used for debugging purposes.
+IMPORTANT: For optimal use of the memory available to the accelerator on the IMX500 sensor, add `--no-input-persistency` to the above commands. However, this disables input tensor generation that can be used for debugging purposes.
 
 Both commands create an output folder that contains a memory usage report and a `packerOut.zip` file.
 
@@ -101,6 +101,6 @@ To package the model into an RPK file, run the following command:
 $ imx500-package -i <path to packerOut.zip> -o <output folder>
 ----
 
-This command should create a file named `network.rpk` in the output folder. You'll pass the name of this file to your IMX500 camera applications.
+This command creates a file named `network.rpk` in the output folder. Pass the name of this file to your IMX500 camera applications.
 
 For a more comprehensive set of instructions and further specifics on the tools used, see the https://developer.aitrios.sony-semicon.com/en/raspberrypi-ai-camera/documentation/imx500-packager[Sony IMX500 Packager documentation].

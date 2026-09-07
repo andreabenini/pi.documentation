@@ -35,6 +35,6 @@ $ sudo apt install minicom
 $ minicom -b 115200 -o -D /dev/ttyACM0
 ------
 
-You should see 'Hello, world!' printed to the Terminal.
+'Hello, world!' is printed to the Terminal.
 
 You can see the code for writing your own hello_world program on https://github.com/raspberrypi/pico-examples/blob/master/hello_world/usb/hello_usb.c[Github]

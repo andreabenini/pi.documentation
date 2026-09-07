@@ -3,7 +3,7 @@
 
 When a single SD card (or card image) is being used with one Raspberry Pi and one monitor, it is easy to set `config.txt` as required for that specific combination and keep it that way, amending it only when something changes.
 
-However, if one Raspberry Pi is swapped between different monitors, or if the SD card (or card image) is being swapped between multiple boards, a single set of settings may no longer be sufficient. Conditional filters allow you to define certain sections of the config file to be used only in specific cases, allowing a single `config.txt` to create different configurations when read by different hardware.
+However, if one Raspberry Pi is swapped between different monitors, or if the SD card (or card image) is being swapped between multiple boards, a single set of settings might no longer be sufficient. Conditional filters allow you to define certain sections of the config file to be used only in specific cases, allowing a single `config.txt` to create different configurations when read by different hardware.
 
 === The `[all]` filter
 
@@ -121,7 +121,7 @@ Example `config.txt` – (currently, Raspberry Pi 5 onwards)
 cmdline=cmdline-recovery.txt
 ----
 
-The raw value of the `PM_RSTS` register at bootup is available via `/proc/device-tree/chosen/bootloader/rsts` and the final partition number used for booting is available via `/proc/device-tree/chosen/bootloader/partition`. These are big-endian binary values.
+The raw value of the `PM_RSTS` register at bootup is available through `/proc/device-tree/chosen/bootloader/rsts` and the final partition number used for booting is available through `/proc/device-tree/chosen/bootloader/partition`. These are big-endian binary values.
 
 === The expression filter
 
@@ -129,7 +129,7 @@ The expression filter provides support for comparing unsigned integer "boot vari
 
 * The "boot variables" are `boot_arg1`, `cust_otpN`, `bootvar0`, `boot_count`, `boot_partition` and `partition`.
 * Boot variables are always lower case.
-* Integer constants may either be written as decimal or as hex.
+* Integer constants can either be written as decimal or as hex.
 * Expression conditional filters have no side-effects, for example, no assignment operators.
 * As with other filter types the expression filter cannot be nested.
 * Use the `[all]` filter to reset expressions and all other conditional filter types.
@@ -152,27 +152,27 @@ Raspberry Pi 5 and newer devices only.
 
 The `boot_arg1` variable is a 32-bit user defined value which is stored in a reset-safe register allowing parameters to be passed across a reboot.
 
-Setting `boot_arg1` to 42 via `config.txt`:
+Setting `boot_arg1` to 42 in `config.txt`:
 [source,ini]
 ----
 set_reboot_arg1=42
 ----
 The `set_reboot_arg1` property sets the value for the next boot. It does not change the current value as seen by the config parser.
 
-Setting `boot_arg1` to 42 via vcmailbox:
+Setting `boot_arg1` to 42 by using `vcmailbox``:
 [source,console]
 ----
 sudo vcmailbox 0x0003808c 8 8 1 42
 ----
 
-Reading `boot_arg1` via vcmailbox:
+Reading `boot_arg1` by using `vcmailbox``:
 [source,console]
 ----
 sudo vcmailbox 0x0003008c 8 8 1 0
 # Example output – boot_arg1 is 42
 # 0x00000020 0x80000000 0x0003008c 0x00000008 0x80000008 0x00000001 0x0000002a 0x0000000
 ----
-The value of the `boot_arg1` variable when the OS was started can be read via xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/arg1`
+The value of the `boot_arg1` variable when the OS was started can be read from xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/arg1`
 
 ==== `cust_otpN`
 
@@ -194,7 +194,7 @@ Raspberry Pi 4 and newer devices only.
 
 The `bootvar0` variable is a 32-bit user-defined value that is set through `rpi-eeprom-config`, and then can be used as a conditional variable in `config.txt`.
 
-For example, setting `bootvar0` to 42 via `rpi-eeprom-config`:
+For example, setting `bootvar0` to 42 in `rpi-eeprom-config`:
 [source,ini]
 ----
 BOOTVAR0=42
@@ -214,7 +214,7 @@ Raspberry Pi 5 and newer devices only.
 
 The `boot_count` variable is an 8-bit value stored in a reset-safe register that is incremented at boot (wrapping back to zero at 256). It is cleared if power is disconnected.
 
-To read `boot_count` via vcmailbox:
+To read `boot_count` by using `vcmailbox`:
 [source,console]
 ----
 sudo vcmailbox 0x0003008d 4 4 0
@@ -222,13 +222,13 @@ sudo vcmailbox 0x0003008d 4 4 0
 # 0x0000001c 0x80000000 0x0003008d 0x00000004 0x80000004 0x00000003 0x00000000
 ----
 
-Setting/clearing `boot_count` via vcmailbox:
+Setting/clearing `boot_count` by using `vcmailbox`:
 [source,console]
 ----
 # Clear boot_count by setting it to zero.
 sudo vcmailbox 0x0003808d 4 4 0
 ----
-The value of `boot_count` when the OS was started can be read via xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/count`
+The value of `boot_count` when the OS was started can be read from xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/count`
 
 ==== `boot_partition`
 The `boot_partition` variable can be used to select alternate OS files (for example, `cmdline.txt`) to be loaded, depending on which partition `config.txt` was loaded from after processing xref:config_txt.adoc#autoboot-txt[autoboot.txt]. This is intended for use with an `A/B` boot-system with `autoboot.txt` where it is desirable to be able to have identical files installed to the boot partition for both the `A` and `B` images.
@@ -249,7 +249,7 @@ cmdline=cmdline_rootfs_b.txt  # Points to root filesystem B
 The value of `boot_partition` – the partition used to boot the OS – can be read from xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/partition`
 
 ==== `partition`
-The `partition` variable can be used to select alternate boot flows according to the requested partition number (`sudo reboot N`) or via direct usage of the `PM_RSTS` watchdog register.
+The `partition` variable can be used to select alternate boot flows according to the requested partition number (`sudo reboot N`) or through direct usage of the `PM_RSTS` watchdog register.
 
 
 === The `[tryboot]` filter
@@ -258,7 +258,7 @@ This filter succeeds if the `tryboot` reboot flag was set.
 
 It is intended for use in xref:config_txt.adoc#autoboot-txt[autoboot.txt] to select a different `boot_partition` in `tryboot` mode for fail-safe OS updates.
 
-The value of `tryboot` at the start of boot can be read via xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/tryboot`
+The value of `tryboot` at the start of boot can be read from xref:configuration.adoc#part4[device-tree] at `/proc/device-tree/chosen/bootloader/tryboot`
 
 === The `[EDID=*]` filter
 
@@ -315,7 +315,7 @@ NOTE: This setting is not available on Raspberry Pi 5.
 
 === The serial number filter
 
-Sometimes settings should only be applied to a single specific Raspberry Pi, even if you swap the SD card to a different one. Examples include licence keys and overclocking settings (although the licence keys already support SD card swapping in a different way). You can also use this to select different display settings, even if the EDID identification above is not possible, provided that you don't swap monitors between your Raspberry Pis. For example, if your monitor doesn't supply a usable EDID name, or if you are using composite output (from which EDID cannot be read).
+Sometimes settings should only be applied to a single specific Raspberry Pi, even if you swap the SD card to a different one. Examples include licence keys and overclocking settings (although the licence keys already support SD card swapping in a different way). You can also use this to select different display settings, even if the EDID identification above is not possible, provided that you don't swap monitors between your Raspberry Pi devices. For example, if your monitor doesn't supply a usable EDID name, or if you are using composite output (from which EDID cannot be read).
 
 To view the serial number of your Raspberry Pi, run the following command:
 
@@ -324,7 +324,7 @@ To view the serial number of your Raspberry Pi, run the following command:
 $ cat /proc/cpuinfo
 ----
 
-A 16-digit hex value will be displayed near the bottom of the output. Your Raspberry Pi's serial number is the last eight hex-digits. For example, if you see:
+A 16-digit hex value is displayed near the bottom of the output. The serial number of your Raspberry Pi is the last eight hex-digits. For example, if you see:
 
 ----
 Serial          : 0000000012345678

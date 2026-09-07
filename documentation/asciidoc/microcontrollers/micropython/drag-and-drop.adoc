@@ -1,6 +1,6 @@
 == Drag-and-Drop MicroPython
 
-You can program your Pico by connecting it to a computer via USB, then dragging and dropping a file onto it so we've put together a downloadable UF2 file to let you install MicroPython more easily.
+You can program your Pico by connecting it to a computer through USB, then dragging and dropping a file onto it so we've put together a downloadable UF2 file to let you install MicroPython more easily.
 
 video::images/MicroPython.webm[width="80%"]
 
@@ -26,6 +26,6 @@ To program your device, follow these steps:
 
 . Drag and drop the MicroPython UF2 file onto the mounted volume. Your Pico reboots. You are now running MicroPython.
 
-. Access the REPL via USB Serial.
+. Access the REPL through USB Serial.
 
 The https://pip.raspberrypi.com/documents/RP-008355-DS[Raspberry Pi Pico-series Python SDK] book contains step-by-step instructions for connecting to your Pico and programming it in MicroPython using both the command line and the https://thonny.org/[Thonny] IDE.

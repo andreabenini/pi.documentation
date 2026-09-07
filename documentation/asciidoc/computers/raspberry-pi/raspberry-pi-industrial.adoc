@@ -28,7 +28,7 @@ Also, from 36 to 43 (inclusive), there are eight rows of 32 bits available for t
 
 NOTE: On BCM2712 devices these numbers are different. Row 31 is the serial number and row 32 is the board revision number. The customer rows are 77 to 84 inclusive.
 
-Some of these rows can be programmed with `vcmailbox`. This is a Linux driver interface to the firmware which will handle the programming of the rows. To do this, please refer to the https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface[documentation], and the vcmailbox https://github.com/raspberrypi/userland/blob/master/host_applications/linux/apps/vcmailbox/vcmailbox.c[example application].
+Some of these rows can be programmed with `vcmailbox`. This is a Linux driver interface to the firmware which will handle the programming of the rows. To do this, refer to the https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface[documentation] and the vcmailbox https://github.com/raspberrypi/userland/blob/master/host_applications/linux/apps/vcmailbox/vcmailbox.c[example application].
 
 The vcmailbox application can be used directly from the command line on Raspberry Pi OS. An example usage would be:
 
@@ -165,7 +165,7 @@ Devices that do not use BCM2712 have 8 rows of OTP (256 bits) available for use 
 These rows can be programmed and read using similar `vcmailbox` commands to those used for managing customer OTP rows. If
 secure-boot / file-system encryption is not required, then the device private key rows can be used to store general-purpose information.
 
-* The device private key rows can only be read via the `vcmailbox` command which requires access to `/dev/vcio` which is restricted to the `video` group on Raspberry Pi OS.
+* The device private key rows can only be read by using the `vcmailbox` command which requires access to `/dev/vcio` which is restricted to the `video` group on Raspberry Pi OS.
 * Raspberry Pi computers do not have a hardware protected key store.  It is recommended that this feature is used in conjunction with https://github.com/raspberrypi/usbboot/blob/master/secure-boot-example/README.md[Secure Boot] in order to restrict access to this data.
 * Raspberry Pi OS does not support an encrypted root-filesystem.
 

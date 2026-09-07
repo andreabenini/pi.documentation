@@ -5,7 +5,7 @@ The High Quality (HQ) Camera supports synchronous captures.
 One camera (the "source") can be configured to generate a pulse on its XVS (Vertical Sync) pin when a frame capture is initiated.
 Other ("sink") cameras can listen for this pulse, and capture a frame at the same time as the source camera.
 
-This method is largely superseded by xref:../computers/camera_software.adoc#software-camera-synchronisation[software camera synchronisation] which can operate over long distances without additional wires and has sub-millisecond accuracy. But when cameras are physically close, wired synchronisation may be used.
+This method is largely superseded by xref:../computers/camera_software.adoc#software-camera-synchronisation[software camera synchronisation] which can operate over long distances without additional wires and has sub-millisecond accuracy. But when cameras are physically close, you can use wired synchronisation.
 
 NOTE: You can also operate Global Shutter (GS) Cameras in synchronous mode. However, the source camera records one extra frame. Instead, for GS Cameras we recommend using an xref:camera.adoc#external-trigger[external trigger source]. You can't synchronise a GS Camera and an HQ Camera.
 
@@ -103,7 +103,7 @@ Wait a few seconds, then run the following command to start the source:
 ----
 $ rpicam-vid --frames 300 --qt-preview -o source.h264
 ----
-Frames should be synchronised. Use `--frames` to ensure the same number of frames are captured, and that the recordings are exactly the same length.
+Frames must be synchronised. Use `--frames` to ensure the same number of frames are captured, and that the recordings are exactly the same length.
 Running the sink first ensures that no frames are missed.
 
 NOTE: When using the GS camera in synchronous mode, the sink doesn't record exactly the same number of frames as the source. **The source records one extra frame before the sink starts recording**. Because of this, you need to specify that the sink records one less frame with the `--frames` option.

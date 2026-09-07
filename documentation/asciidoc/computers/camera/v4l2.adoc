@@ -1,6 +1,6 @@
 == V4L2 drivers
 
-V4L2 drivers provide a standard Linux interface for accessing camera and codec features. Normally, Linux loads drivers automatically during boot. But in some situations you may need to xref:camera_software.adoc#configuration[load camera drivers explicitly].
+V4L2 drivers provide a standard Linux interface for accessing camera and codec features. Normally, Linux loads drivers automatically during boot. But in some situations you might need to xref:camera_software.adoc#configuration[load camera drivers explicitly].
 
 === Device nodes when using `libcamera`
 

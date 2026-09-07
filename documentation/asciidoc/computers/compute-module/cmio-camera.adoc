@@ -252,7 +252,7 @@ To connect a camera to the CM1, CM3, CM3+ and CM4S I/O Board, add the following 
 dtoverlay=cm-swap-i2c0
 ----
 
-Alternative boards may use other pin assignments. Check the documentation for your board and use the following alternate overrides depending on your layout:
+Alternative boards might use other pin assignments. Check the documentation for your board and use the following alternate overrides depending on your layout:
 
 [%header,cols="1,1"]
 |===

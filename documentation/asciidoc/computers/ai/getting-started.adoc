@@ -1,6 +1,6 @@
 [[ai]]
 
-This page provides instructions for running AI models powered by Hailo NPUs on Raspberry Pi 5. The Hailo NPU is an AI accelerator chip designed to run neural networks; instead of Raspberry Pi's CPU doing the AI work, the NPU handles it more efficiently.
+This page provides instructions for running AI models powered by Hailo NPUs on Raspberry Pi 5. The Hailo NPU is an AI accelerator chip designed to run neural networks; instead of Raspberry Pi device's CPU doing the AI work, the NPU handles it more efficiently.
 
 You can connect a Hailo NPU to your Raspberry Pi 5 using either:
 
@@ -520,7 +520,7 @@ $ docker run hello-world
 
 After installing Docker in the previous step, you can deploy and run an Open WebUI container with Docker.
 
-NOTE: The following method is one way to deploy and use containers, but it's not the only approach. For example, you could instead use `docker-compose` for container management.
+NOTE: The following method is one way to deploy and use containers, but it's not the only approach. For example, you can instead use `docker-compose` for container management.
 
 . To use Open WebUI, you first need to install it. Download the Open WebUI image required to run the frontend layer:
 +

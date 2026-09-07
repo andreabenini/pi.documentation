@@ -159,7 +159,7 @@ The list above is not exhaustive; however, we have confirmed that these applicat
 
 ==== Streaming with MediaMTX
 
-https://github.com/bluenviron/mediamtx[MediaMTX] accepts an input stream from the Raspberry Pi's camera system (for example, created by `rpicam-vid`), and re-streams it to other clients. Additionally, it supports Raspberry Pi cameras as a built-in source.
+https://github.com/bluenviron/mediamtx[MediaMTX] accepts an input stream from the Raspberry Pi device's camera system (for example, created by `rpicam-vid`), and re-streams it to other clients. Additionally, it supports Raspberry Pi cameras as a built-in source.
 
 ===== Installation and configuration
 
@@ -244,7 +244,7 @@ You can install MistServer on your Raspberry Pi by following the instructions in
 
 Ensure that you run the commands as root. This process sets up a system MistServer service that runs automatically.
 
-To configure MistServer, go to the Management Interface (MI) webpage on your Raspberry Pi at `http://localhost:4242/`; you can also visit the page from another computer if you substitute your Raspberry Pi's IP address. The first time you use the Management Interface, it asks you to create an admin account. In the steps that follow, you can accept the defaults.
+To configure MistServer, go to the Management Interface (MI) webpage on your Raspberry Pi at `http://localhost:4242/`; you can also visit the page from another computer if you substitute the IP address of your Raspberry Pi. The first time you use the Management Interface, it asks you to create an admin account. In the steps that follow, you can accept the defaults.
 
 NOTE: You can instead run MistServer on a different computer from the Raspberry Pi with the camera.
 

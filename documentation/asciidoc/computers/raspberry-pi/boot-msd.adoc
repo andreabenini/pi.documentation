@@ -16,7 +16,7 @@ Raspberry Pi 4 and newer flagship series devices and Compute module devices sinc
 
 NOTE: Early editions of Raspberry Pi 4 might require a xref:../computers/configuration.adoc#update-bootloader-version[bootloader update] to boot from USB.
 
-NOTE: Early editions of Compute Module 4 may require a xref:compute-module.adoc#update-the-compute-module-bootloader[bootloader update] to boot from USB.
+NOTE: Early editions of Compute Module 4 might require a xref:compute-module.adoc#update-the-compute-module-bootloader[bootloader update] to boot from USB.
 
 === Raspberry Pi 3B+, Zero 2 W
 
@@ -75,7 +75,7 @@ See the xref:raspberry-pi.adoc#raspberry-pi-boot-modes[boot modes documentation]
 === Known issues
 
 * The default timeout for checking bootable USB devices is two seconds. Some flash drives and hard disks power up too slowly. It is possible to extend this timeout to five seconds (add a new file `timeout` to the SD card), but note that some devices take even longer to respond.
-* Some flash drives have a very specific protocol requirement that is not handled by the bootcode and may thus be incompatible.
+* Some flash drives have a very specific protocol requirement that isn't handled by the bootcode and might be incompatible.
 
 === Special `bootcode.bin`-only boot mode
 
@@ -83,9 +83,9 @@ On Raspberry Pi 2B v1.2, 3A+, 3B and 3B+, if you are unable to use a particular 
 
 === Hardware compatibility
 
-Before booting from a USB mass storage device, verify that the device works correctly under Linux. Boot using an SD card and plug in the USB mass storage device. This should appear as a removable drive. This is especially important with USB SATA adapters, which may be supported by the bootloader in mass storage mode, but fail if Linux selects https://en.wikipedia.org/wiki/USB_Attached_SCSI[USB Attached SCSI-UAS] mode.
+Before booting from a USB mass storage device, verify that the device works correctly under Linux. Boot using an SD card and plug in the USB mass storage device. This should appear as a removable drive. This is especially important with USB SATA adapters, which can be supported by the bootloader in mass storage mode, but fail if Linux selects https://en.wikipedia.org/wiki/USB_Attached_SCSI[USB Attached SCSI-UAS] mode.
 
-Hard disk drives (HDDs) typically require a powered USB hub. Even if everything appears to work, you may encounter intermittent failures without a powered USB hub.
+Hard disk drives (HDDs) typically require a powered USB hub. Even if everything appears to work, you might encounter intermittent failures without a powered USB hub.
 
 === Multiple bootable drives
 

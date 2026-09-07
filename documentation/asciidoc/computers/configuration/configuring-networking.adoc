@@ -1,5 +1,5 @@
 == Networking
-Raspberry Pi OS provides flexible options for configuring network settings. This section summarises how to manage and customise your Raspberry Pi's network configuration, including how to:
+Raspberry Pi OS provides flexible options for configuring network settings. This section summarises how to manage and customise the network configuration of your Raspberry Pi, including how to:
 
 * <<hostname>> of your Raspberry Pi from the desktop and by using the interactive `raspi-config` TUI.
 * <<dhcp-ip>> using a manual method suitable for your use case.
@@ -15,7 +15,7 @@ Setting a hostname is useful for the following reasons:
 * When you set a hostname (for example, `my-pi`), you can access your Raspberry Pi through *mDNS* rather than the longer, changeable IP address. For example, instead of `ssh pi@192.168.1.42`, you can use `ssh pi@my-pi.local`.
 * If you have multiple Raspberry Pi devices on the same network, you can ensure you're always connecting to the right Raspberry Pi by using unique hostnames (for example, `my-pi`, `pi-hole`, and `retro-pi`).
 
-Your hostname isn't case sensitive and may only contain:
+Your hostname isn't case sensitive and can only contain:
 
 * ASCII letters from *a* through to *z*.
 * Digits from *0* through to *9*.

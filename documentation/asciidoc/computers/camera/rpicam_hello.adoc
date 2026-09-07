@@ -22,7 +22,7 @@ Most of the `rpicam-apps` display a preview image in a window. If there is no ac
 
 If you run the X window server and want to use X forwarding, pass the xref:camera_software.adoc#qt-preview[`qt-preview`] flag to render the preview window in a https://en.wikipedia.org/wiki/Qt_(software)[Qt] window. The Qt preview window uses more resources than the alternatives.
 
-NOTE: Older systems using Gtk2 may, when linked with OpenCV, produce `Glib-GObject` errors and fail to show the Qt preview window. In this case edit the file `/etc/xdg/qt5ct/qt5ct.conf` as root and replace the line containing `style=gtk2` with `style=gtk3`.
+NOTE: Older systems using Gtk2 might, when linked with OpenCV, produce `Glib-GObject` errors and fail to show the Qt preview window. In this case edit the file `/etc/xdg/qt5ct/qt5ct.conf` as root and replace the line containing `style=gtk2` with `style=gtk3`.
 
 To suppress the preview window entirely, pass the xref:camera_software.adoc#nopreview[`nopreview`] flag:
 

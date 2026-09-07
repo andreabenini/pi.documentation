@@ -8,18 +8,16 @@ The `kmsprint` tool can be used to list the display-modes supported by the monit
 
 Use `kmsprint` to see the state of all displays connected to the Raspberry Pi, and `kmsprint -m` to list the display modes supported by each display.
 
-==== 'kmsprint'
-
 On Raspberry Pi 5 and later, display interfaces (such as HDMI, DSI, DPI, and VEC) are exposed across multiple separate DRM cards (/dev/dri/cardX), rather than on a single unified card as on Raspberry Pi 4 and earlier.
 
-To query a specific interface on Raspberry Pi 5, you may need to specify the device node using the `--device` (or `-d`) option:
+To query a specific interface on Raspberry Pi 5, you might need to specify the device node using the `--device` (or `-d`) option:
 
 [source,console]
 ----
 $ kmsprint --device=/dev/dri/card1
 ----
 
-Card numbers are assigned dynamically at boot and may change between restarts depending on the attached hardware.
+Card numbers are assigned dynamically at boot and can change between restarts depending on the attached hardware.
 
 === `vclog`
 

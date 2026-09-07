@@ -16,7 +16,7 @@ At power-on, the amplifier is muted by default (the mute LED is illuminated). So
 
 DigiAMP{plus} is designed to provide power to the Raspberry Pi and DigiAMP{plus} together in parallel, delivering 5.1V at 2.5amp to the Raspberry Pi through the GPIO header.
 
-WARNING: Do not apply power to the Raspberry Pi's own power input when using DigiAMP{plus}.
+WARNING: Don't apply power to the Raspberry Pi device's own power input when using DigiAMP{plus}.
 
 ==== Pinouts
 [cols="1,12"]

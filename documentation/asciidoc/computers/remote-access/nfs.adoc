@@ -7,7 +7,7 @@ NFS is a popular way to create a simple NAS (Network-attached storage) in a Linu
 
 An NFS is perhaps best suited to more permanent network-mounted directories, such as `/home` directories or regularly-accessed shared resources. If you want a network share that guest users can easily connect to, Samba is better suited to the task. Tools to temporarily mount and detach from Samba shares are more readily available across operating systems.
 
-Before deploying an NFS, you should be familiar with:
+Before deploying an NFS, you must be familiar with:
 
 * Linux file and directory permissions
 * mounting and unmounting filesystems
@@ -69,7 +69,7 @@ Nobody-User = nobody
 Nobody-Group = nogroup
 ----
 
-However, note that the client may have different requirements for the Nobody-User and Nobody-Group. For example, on RedHat variants, it is `nfsnobody` for both. If you're not sure, check via the following commands to see if `nobody` and `nogroup` are there:
+However, note that the client might have different requirements for the Nobody-User and Nobody-Group. For example, on RedHat variants, it is `nfsnobody` for both. If you're not sure, use the following commands to check whether `nobody` and `nogroup` are there:
 
 [source,console]
 ----
@@ -114,7 +114,7 @@ rpcbind mountd nfsd statd lockd rquotad : <list of IPv4s>
 
 where `<list of IPv4s>` is a list of the IP addresses of the server and all clients. (These have to be IP addresses because of a limitation in `rpcbind`, which doesn't like hostnames.) Note that if you have NIS set up, you can just add these to the same line.
 
-Please ensure that the list of authorised IP addresses includes the `localhost` address (`127.0.0.1`), as the startup scripts in recent versions of Ubuntu use the `rpcinfo` command to discover NFSv3 support, and this will be disabled if `localhost` is unable to connect.
+Ensure that the list of authorised IP addresses includes the `localhost` address (`127.0.0.1`), as the startup scripts in recent versions of Ubuntu use the `rpcinfo` command to discover NFSv3 support, and this will be disabled if `localhost` is unable to connect.
 
 Finally, to make your changes take effect, restart the service:
 

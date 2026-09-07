@@ -14,4 +14,4 @@ The Raspberry Pi 5 has H.265 (HEVC) hardware decoding. This decoding is enabled 
 
 `decode_WVC1` is a licence key to allow hardware VC-1 decoding, for example, `decode_WVC1=0x12345678`.
 
-If you have multiple Raspberry Pis and you've bought a codec licence for each of them, you can list up to eight licence keys in a single `config.txt`, for example `decode_MPG2=0x12345678,0xabcdabcd,0x87654321`. This enables you to swap the same SD card between the different Raspberry Pis without having to edit `config.txt` each time.
+If you have multiple Raspberry Pi devices and you've bought a codec licence for each of them, you can list up to eight licence keys in a single `config.txt`, for example `decode_MPG2=0x12345678,0xabcdabcd,0x87654321`. This enables you to swap the same SD card between the different Raspberry Pi devices without having to edit `config.txt` each time.

@@ -13,7 +13,7 @@ First, install the `fswebcam` package:
 $ sudo apt install fswebcam
 ----
 
-Next, add your username to the `video` group, otherwise you may see 'permission denied' errors:
+Next, add your username to the `video` group, otherwise you might see 'permission denied' errors:
 
 [source,console]
 ----

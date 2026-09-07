@@ -4,7 +4,7 @@ All Raspberry Pi models perform a degree of thermal management to avoid overheat
 
 When the core temperature is between 80°C and 85°C, the Arm cores will be progressively throttled back. If the temperature reaches 85°C, both the Arm cores and the GPU will be throttled back.
 
-For Raspberry Pi 3 Model B+, the PCB technology has been changed to provide better heat dissipation and increased thermal mass. In addition, a soft temperature limit has been introduced, with the goal of maximising the time for which a device can "sprint" before reaching the hard limit at 85°C. When the soft limit is reached, the clock speed is reduced from 1.4 GHz to 1.2 GHz, and the operating voltage is reduced slightly. This reduces the rate of temperature increase: we trade a short period at 1.4 GHz for a longer period at 1.2 GHz. By default, the soft limit is 60°C, and this can be changed via the `temp_soft_limit` setting in xref:config_txt.adoc#overclocking-options[config.txt].
+For Raspberry Pi 3 Model B+, the PCB technology has been changed to provide better heat dissipation and increased thermal mass. In addition, a soft temperature limit has been introduced, with the goal of maximising the time for which a device can "sprint" before reaching the hard limit at 85°C. When the soft limit is reached, the clock speed is reduced from 1.4 GHz to 1.2 GHz, and the operating voltage is reduced slightly. This reduces the rate of temperature increase: we trade a short period at 1.4 GHz for a longer period at 1.2 GHz. By default, the soft limit is 60°C, and this can be changed by using the `temp_soft_limit` setting in xref:config_txt.adoc#overclocking-options[config.txt].
 
 The Raspberry Pi 4 Model B continues with the same PCB technology as the Raspberry Pi 3 Model B+, to help dissipate excess heat. There is currently no soft limit defined.
 
@@ -16,7 +16,7 @@ Raspberry Pi 4 devices implement dynamic voltage and frequency scaling (DVFS). T
 
 Various clocks (for example, Arm, Core, V3D, ISP, H264, HEVC) inside the SoC are monitored by the firmware, and whenever they are not running at full speed, the voltage supplied to the particular part of the chip driven by the clock is reduced relative to the reduction from full speed. In effect, only enough voltage is supplied to keep the block running correctly at the specific speed at which it is running. This can result in significant reductions in power used by the SoC, and therefore in the overall heat being produced.
 
-Due to possible system stability problems involved with running an undervoltage, especially when using undervoltaged fixed clock peripherals (eg. PCIe), three DVFS modes are available and can be configured in xref:config_txt.adoc#what-is-config-txt[`/boot/firmware/config.txt`] with the below properties. Most systems should use `dvfs=3`, headless systems may benefit from a small power reduction with `dvfs=1` at the risk of PCIe stability issues.
+Due to possible system stability problems involved with running an undervoltage, especially when using undervoltaged fixed clock peripherals (eg. PCIe), three DVFS modes are available and can be configured in xref:config_txt.adoc#what-is-config-txt[`/boot/firmware/config.txt`] with the below properties. Most systems should use `dvfs=3`, headless systems might benefit from a small power reduction with `dvfs=1` at the risk of PCIe stability issues.
 
 [cols="1m,3"]
 |===

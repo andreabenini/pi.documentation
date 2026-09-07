@@ -17,7 +17,7 @@ To flash the bootloader EEPROM:
 ----
 $ ./rpiboot -d recovery
 ----
-. When complete, `EEPROM_nWP` may be pulled low again.
+. When complete, `EEPROM_nWP` can be pulled low again.
 
 === Flash storage devices other than SD cards
 
