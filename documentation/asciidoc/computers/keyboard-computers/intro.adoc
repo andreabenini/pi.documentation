@@ -159,7 +159,7 @@ If you aren't setting up a Raspberry Pi keyboard computer as part of a keyboard 
 
 * A Raspberry Pi 400, 500, or 500+.
 * An official Raspberry Pi xref:../computers/getting-started.adoc#power[power supply] suitable for your Raspberry Pi keyboard computer.
-* A xref:../computers/keyboard-computers.adoc[microSD card] with at least 32 GB of storage and a way to connect it to another computer. You need a microSD if:
+* A xref:../accessories/sd-cards.adoc[microSD card] with at least 32 GB of storage and a way to connect it to another computer. You need a microSD if:
 ** You aren't using a keyboard computer kit to set up a Raspberry Pi 400 or 500.
 ** You have a Raspberry Pi 500+ and want to use a microSD card instead of the preinstalled M.2 SSD as your boot media.
 * Another computer running Windows, macOS, or Linux to prepare the microSD card. This isn't required if you're booting from the preinstalled M.2 SSD inside a Raspberry Pi 500+.
@@ -167,7 +167,7 @@ If you aren't setting up a Raspberry Pi keyboard computer as part of a keyboard 
 ** Your Wi-Fi credentials (SSID and password).
 ** An Ethernet cable.
 * A USB mouse to connect to your Raspberry Pi keyboard computer.
-* A monitor or display (and appropriate power cable) to connect to your Raspberry Pi keyboard computer. For ease, we recommend the xref:../computers/keyboard-computers.adoc[Raspberry Pi Monitor], which you can connect to power through your Raspberry Pi keyboard computer.
+* A monitor or display (and appropriate power cable) to connect to your Raspberry Pi keyboard computer. For ease, we recommend the xref:../accessories/monitor.adoc[Raspberry Pi Monitor], which you can connect to power through your Raspberry Pi keyboard computer.
 * A micro-HDMI-to-HDMI cable to connect your monitor or display to your Raspberry Pi keyboard computer.
 
 [[step1-bootmedia]]
@@ -191,10 +191,10 @@ For a desktop computer setup, you can connect the following peripherals directly
 * One or two displays as required.
 ** Connect the larger (full-size HDMI) end of the cable to your display.
 ** Both micro HDMI ports support up to 4K resolutions, though at different refresh rates depending on model; for more detailed information about the resolution options for Raspberry Pi 400, 500, and 500+, see xref:../computers/configuration.adoc#display-settings[Configure display settings].
-** Displays typically require their own power source. If you're using an official xref:../computers/keyboard-computers.adoc[Raspberry Pi Monitor], you can connect your monitor to power through a USB cable connected to your Raspberry Pi keyboard computer. When you power on your keyboard computer, it then provides power to the Raspberry Pi Monitor.
+** Displays typically require their own power source. If you're using an official xref:../accessories/monitor.adoc[Raspberry Pi Monitor], you can connect your monitor to power through a USB cable connected to your Raspberry Pi keyboard computer. When you power on your keyboard computer, it then provides power to the Raspberry Pi Monitor.
 * Optionally, speakers or headphones for audio output.
 ** You can output audio over micro HDMI, USB, or Bluetooth.
-** The official xref:../computers/keyboard-computers.adoc[Raspberry Pi Monitor] has two front-facing speakers. You can also connect speakers or headphones through the 3.5 mm audio jack at the back of the monitor.
+** The official xref:../accessories/monitor.adoc[Raspberry Pi Monitor] has two front-facing speakers. You can also connect speakers or headphones through the 3.5 mm audio jack at the back of the monitor.
 
 [[step3-power]]
 === Step 3. Connect to power
