@@ -76,6 +76,9 @@ def read_file_with_includes(filepath, filelevel, mainfile, output_dir=None):
         parent_dir = os.path.dirname(filepath)
         for line in adoc_fh.readlines():
             collect_all_internal_links(line, filepath, mainfile, output_dir, adoc_dir)
+            for linkinfo in needed_internal_links[filepath]:
+                if "anchor" not in linkinfo and mainfile.endswith(linkinfo["url"]):
+                    raise Exception("{} has a link to {} (with no anchor) which will just jump to the top of the same page".format(filepath, linkinfo["url"]))
             m = re.match(r'^include::(.*)\[\]\s*$', line)
             if m:
                 filelevel += 1
