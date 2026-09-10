@@ -16,7 +16,7 @@ Some legacy `config.txt` options are no longer officially supported. These are l
 
 === File format
 
-The `config.txt` file is read by the early-stage boot firmware, so it uses a very simple file format: **a single `property=value` statement on each line, where `value` is either an integer or a string**. Comments may be added, or existing config values may be commented out and disabled, by starting a line with the `#` character.
+The `config.txt` file is read by the early-stage boot firmware, so it uses a very simple file format: **a single `property=value` statement on each line, where `value` is either an integer or a string**. You can add comments, or comment out existing config values, by starting a line with the `#` character.
 
 There is a 98-character line length limit for entries. Raspberry Pi OS ignores any characters past this limit.
 

@@ -19,7 +19,7 @@ UFW is a command-line program used to define firewall access rules. The typical 
 * The `<command>` is the main action that you want to perform, such as `allow`.
 * Depending on the command, you can optionally specify a `rule` to apply to the command, such as `allow 22`.
 
-For example, `sudo ufw --dry-run allow 22` shows you the would-be outcome of allowing traffic on port 22, including the entire set of rules if the change were made.
+For example, `sudo ufw --dry-run allow 22` shows you the predicted outcome of allowing traffic on port 22, including the entire set of rules if the change were made.
 
 == Install and enable UFW
 

@@ -2,7 +2,7 @@
 
 [NOTE]
 ====
-From Raspberry Pi OS _Bookworm_ onwards, the camera capture applications are named ``rpicam-*``.
+From Raspberry Pi OS _Bookworm_ onwards, the camera capture applications are named `rpicam-*`.
 ====
 
 Raspberry Pi supplies a small set of example `rpicam-apps`. These CLI applications, built on top of `libcamera`, capture images and video from a camera.
@@ -30,7 +30,7 @@ You can find the source code in the https://git.linuxtv.org/libcamera.git/[offic
 
 Underneath the `libcamera` core, we provide a custom pipeline handler. `libcamera` uses this layer to drive the sensor and image signal processor (ISP) on the Raspberry Pi. `libcamera` contains a collection of image-processing algorithms (IPAs) including auto exposure/gain control (AEC/AGC), auto white balance (AWB), and auto lens-shading correction (ALSC).
 
-Raspberry Pi's implementation of `libcamera` supports the following cameras:
+The Raspberry Pi implementation of `libcamera` supports the following cameras:
 
 * Official cameras:
 ** OV5647 (V1)

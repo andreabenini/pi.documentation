@@ -34,7 +34,7 @@ To enable UART from `bootcode.bin`:
 $ sed -i -e "s/BOOT_UART=0/BOOT_UART=1/" bootcode.bin
 ----
 
-Next, connect a suitable USB serial cable to your host computer (a Raspberry Pi will work, although you may find that the easiest path is to use a USB serial cable, since it'll work out the box without any pesky config.txt settings). Use the standard pins 6, 8 and 10 (GND, GPIO14, GPIO15) on a Raspberry Pi or Compute Module.
+Next, connect a suitable USB serial cable to your host computer (a Raspberry Pi works, although you might find that the easiest path is to use a USB serial cable, since it works out of the box without any `config.txt`` settings). Use the standard pins 6, 8, and 10 (GND, GPIO14, GPIO15) on a Raspberry Pi or Compute Module.
 
 Then use `screen` on Linux or macOS or `putty` on Windows to connect to the serial.
 

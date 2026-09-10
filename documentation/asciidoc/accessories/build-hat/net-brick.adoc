@@ -70,9 +70,9 @@ else
 
 ==== Events
 
-Most sensors implements events on their special properties. You can simply subscribe to `PropertyChanged` and `PropertyUpdated`. The changed one will be fired when the value is changing while the updated one when there is a success update to the property. Depending on the modes used, some properties may be updated in the background all the time while some others occasionally.
+Most sensors implements events on their special properties. You can simply subscribe to `PropertyChanged` and `PropertyUpdated`. The changed one will be fired when the value is changing while the updated one when there is a success update to the property. Depending on the modes used, some properties might be updated in the background all the time while some others occasionally.
 
-You may be interested only when a colour is changing or the position of the motor is changing, using it as a tachometer. In this case, the `PropertyChanged` is what you need!
+You might be interested only when a colour is changing or the position of the motor is changing, using it as a tachometer. In this case, the `PropertyChanged` is what you need!
 
 [source,csharp]
 ----

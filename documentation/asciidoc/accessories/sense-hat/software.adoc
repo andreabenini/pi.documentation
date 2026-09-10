@@ -69,7 +69,7 @@ or 'x' to abort and discard the data.
 Press any key to start...
 ----
 
-After it starts, you should see output similar to the following scrolling up the screen:
+After it starts, you see output similar to the following scrolling up the screen:
 
 ----
 Min x:  51.60  min y:  69.39  min z:  65.91
@@ -106,7 +106,7 @@ Complete documentation for the library can be found at https://sense-hat.readthe
 
 === Use the Sense HAT with C++
 
-https://github.com/RPi-Distro/RTIMULib[RTIMULib] is a {cpp} and Python library that makes it easy to use 9-dof and 10-dof IMUs with embedded Linux systems. A pre-calibrated settings file is provided in `/etc/RTIMULib.ini`, which is also copied and used by `sense-hat`. The included examples look for `RTIMULib.ini` in the current working directory, so you may wish to copy the file there to get more accurate data.
+https://github.com/RPi-Distro/RTIMULib[RTIMULib] is a {cpp} and Python library that makes it easy to use 9-dof and 10-dof IMUs with embedded Linux systems. A pre-calibrated settings file is provided in `/etc/RTIMULib.ini`, which is also copied and used by `sense-hat`. The included examples look for `RTIMULib.ini` in the current working directory, so you might want to copy the file there to get more accurate data.
 
 The RTIMULibDrive11 example comes pre-compiled to help ensure everything works as intended. It can be launched by running `RTIMULibDrive11` and closed by pressing `Ctrl C`.
 
@@ -118,7 +118,7 @@ NOTE: The C/{cpp} examples can be compiled by running `make` in the appropriate 
 
 These steps are provided for debugging purposes only.
 
-NOTE: On Raspberry Pi 2 Model B Rev 1.0 and Raspberry Pi 3 Model B boards, these steps may not work. The firmware will take control of I2C0, causing the ID pins to be configured as inputs.
+NOTE: On Raspberry Pi 2 Model B Rev 1.0 and Raspberry Pi 3 Model B boards, these steps might not work. The firmware will take control of I2C0, causing the ID pins to be configured as inputs.
 
 Before you can read and write EEPROM data to and from the Sense HAT, you must complete the following steps:
 
@@ -157,7 +157,7 @@ $ sudo ./eepflash.sh -f=sense_read.eep -t=24c32 -r
 
 ==== Write
 
-NOTE: This operation will not damage your Raspberry Pi or Sense HAT, but if an error occurs, your Raspberry Pi may fail to automatically detect the HAT.
+NOTE: This operation will not damage your Raspberry Pi or Sense HAT, but if an error occurs, your Raspberry Pi might fail to automatically detect the HAT.
 
 
 . First, download EEPROM settings and build the `.eep` binary:

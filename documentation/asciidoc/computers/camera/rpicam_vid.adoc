@@ -93,6 +93,6 @@ $ rpicam-vid --codec libav --libav-format avi --libav-audio --output example.avi
 
 Raspberry Pi 5 uses software video encoders. These generally output frames with a longer latency than the old hardware encoders, and this can sometimes be an issue for real-time streaming applications.
 
-In this case, please add the option `--low-latency` to the `rpicam-vid` command. This will alter certain encoder options to output the encoded frame more quickly.
+In this case, add the option `--low-latency` to the `rpicam-vid` command. This will alter certain encoder options to output the encoded frame more quickly.
 
-The downside is that coding efficiency is (slightly) less good, and that the processor's multiple cores may be used (slightly) less efficiently. The maximum framerate that can be encoded may be slightly reduced (though it will still easily achieve 1080p30).
+The downside is that coding efficiency is (slightly) less good, and that the processor's multiple cores might be used (slightly) less efficiently. The maximum framerate that can be encoded might be slightly reduced (though it will still easily achieve 1080p30).

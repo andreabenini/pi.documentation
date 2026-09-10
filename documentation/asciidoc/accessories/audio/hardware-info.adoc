@@ -41,9 +41,7 @@ If appropriate then the following are also used:
 
 image::images/all_audio_boards_gpio_pinouts.png[width="80%"]
 
-The DAC PRO, DAC{plus} and DigiAMP{plus} re-expose the Raspberry Pi signals, allowing additional sensors and peripherals
-to be added easily. Please note that some signals are for exclusive use (I2S and EEPROM) by some
-of our boards; others such as I2C can be shared across multiple boards.
+The DAC PRO, DAC{plus} and DigiAMP{plus} re-expose the Raspberry Pi signals, allowing additional sensors and peripherals to be added easily. Some signals are for exclusive use (I2S and EEPROM) by some of our boards; others, such as I2C, can be shared across multiple boards.
 
 image::images/pin_out_new.png[width="80%"]
 
@@ -74,8 +72,7 @@ $ sudo alsactl restore -f /home/<username>/usecase.state
 
 === MPD-based audio with volume control
 
-To allow Music Player Daemon (MPD)-based audio software to control the audio board's built in volume, the file
-`/etc/mpd.conf` may need to be changed to support the correct AlsaMixer name.
+To allow Music Player Daemon (MPD)-based audio software to control the audio board's built in volume, you might need to change the file `/etc/mpd.conf` to support the correct AlsaMixer name.
 
 This can be achieved by ensuring the 'Audio output' section of `/etc/mpd.conf` has the 'mixer_control'
 line. Below is an example for the Texas Instruments-based boards (DAC

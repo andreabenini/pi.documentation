@@ -29,7 +29,7 @@ image::images/dvbt-map.png[width="80%"]
 
 Follow our xref:../computers/getting-started.adoc[getting started] documentation and set up the Raspberry Pi with the newest version of Raspberry Pi OS.
 
-Connect the aerial adaptor to the TV HAT and with the adaptor pointing away from the USB ports, press the HAT gently down over the Raspberry Pi's GPIO pins, and place the spacers at two or three of the corners of the HAT, and tighten the screws through the mounting holes to hold them in place. Then connect the TV HAT's aerial adaptor to the cable from your TV aerial.
+Connect the aerial adaptor to the TV HAT and with the adaptor pointing away from the USB ports, press the HAT gently down over the Raspberry Pi device's GPIO pins, and place the spacers at two or three of the corners of the HAT, and tighten the screws through the mounting holes to hold them in place. Then connect the TV HAT's aerial adaptor to the cable from your TV aerial.
 
 The software we recommend to decode the streams (known as multiplexes, or muxes for short) and view content is called TVHeadend. The TV HAT can decode one mux at a time, and each mux can contain several channels to choose from. Content can either be viewed on the Raspberry Pi to which the TV-HAT is connected, or sent to another device on the same network.
 
@@ -45,17 +45,17 @@ During the `tvheadend` installation, you will be asked to choose an administrato
 
 On another computer on your network, open up a web browser and type the following into the address bar: `http://raspberrypi.local:9981/extjs.html`
 
-This should connect to `tvheadend` running on the Raspberry Pi. After you connect to `tvheadend` through the browser, you're prompted to sign in using the account name and password you chose when you installed `tvheadend` on the Raspberry Pi.
+This connects to `tvheadend` running on the Raspberry Pi. After you connect to `tvheadend` through the browser, you're prompted to sign in using the account name and password you chose when you installed `tvheadend` on the Raspberry Pi.
 
 A setup wizard appears.
 
 You will be first ask to set the language you want `tvheadend` to use, and then to set up network, user, and administrator access. If you don't have specific preferences, leave *Allowed network* blank, and enter an asterisk (*) in the *username* and *password* fields. This will let anyone connected to your local network access `tvheadend`.
 
-You should see a window titled *Network settings*. Under *Network 2*, you should see `Tuner: Sony CDX2880 #0 : DVB-T #0`. For *Network type*, choose `DVB-T Network`. The next window is *Assign predefined muxes to networks*; here, you select the TV stream to receive and decode. Under Network 1, for predefined muxes, select your local TV transmitter.
+You see a window titled *Network settings*. Under *Network 2*, you see `Tuner: Sony CDX2880 #0 : DVB-T #0`. For *Network type*, choose `DVB-T Network`. The next window is *Assign predefined muxes to networks*; here, you select the TV stream to receive and decode. Under Network 1, for predefined muxes, select your local TV transmitter.
 
-NOTE: Your local transmitter can be found using the https://www.freeview.co.uk/help[Freeview website]. Enter your postcode to see which transmitter should give you a good signal.
+NOTE: Your local transmitter can be found using the https://www.freeview.co.uk/help[Freeview website]. Enter your postcode to see which transmitter can give you a good signal.
 
-When you click *Save & Next*, the software will start scanning for the selected mux, and will show a progress bar. After about two minutes, you should see something like:
+When you click *Save & Next*, the software will start scanning for the selected mux, and will show a progress bar. After about two minutes, you see something like:
 
 [source,console]
 ----
@@ -63,9 +63,9 @@ Found muxes: 8
 Found services: 172
 ----
 
-In the next window, titled *Service mapping*, tick all three boxes: *Map all services*, *Create provider tags*, and *Create network tags*. You should see a list of TV channels you can watch, along with the programmes they're currently showing.
+In the next window, titled *Service mapping*, tick all three boxes: *Map all services*, *Create provider tags*, and *Create network tags*. You see a list of TV channels you can watch, along with the programmes they're currently showing.
 
-To watch a TV channel in the browser, click the little TV icon to the left of the channel listing, just to the right of the *i* icon. This brings up an in-browser media player. Depending on the decoding facilities  built into your browser and the type of stream being played, you may find that playback can be jerky. In these cases, we recommend using a local media player as the playback application.
+To watch a TV channel in the browser, click the little TV icon to the left of the channel listing, just to the right of the *i* icon. This brings up an in-browser media player. Depending on the decoding facilities built into your browser and the type of stream being played, playback might be jerky. In these cases, we recommend using a local media player as the playback application.
 
 To watch a TV channel in a local media player, for example, https://www.videolan.org/vlc[VLC], you need to download it as a stream. Click the `i` icon to the left of a channel listing to bring up the information panel for that channel. Here you can see a stream file that you can download.
 

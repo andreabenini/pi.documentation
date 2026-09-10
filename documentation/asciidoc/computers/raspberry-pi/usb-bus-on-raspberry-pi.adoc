@@ -53,13 +53,13 @@ The software overhead incurred when talking to low- and full-speed devices means
 
 There is an issue with USB 3.0 hubs in conjunction with the use of full- or low-speed devices, including most mice and keyboards. A bug in most USB 3.0 hub hardware means that the models prior to Raspberry Pi 4 cannot talk to full or low speed devices connected to a USB 3.0 hub.
 
-USB 2.0 high speed devices, including USB 2.0 hubs, operate correctly when connected via a USB 3.0 hub.
+USB 2.0 high speed devices, including USB 2.0 hubs, operate correctly when connected through a USB 3.0 hub.
 
 Avoid connecting low or full speed devices into a USB 3.0 hub. As a workaround, plug a USB 2.0 hub into the downstream port of the USB 3.0 hub and connect the low-speed device, or use a USB 2.0 hub between the Raspberry Pi and the USB 3.0 hub, then plug low-speed devices into the USB 2.0 hub.
 
 ==== USB 1.1 webcams
 
-Old webcams may be full-speed devices. Because these devices transfer a lot of data and incur additional software overhead, reliable operation is not guaranteed. As a workaround, try to use the camera at a lower resolution.
+Old webcams might be full-speed devices. Because these devices transfer a lot of data and incur additional software overhead, reliable operation is not guaranteed. As a workaround, try to use the camera at a lower resolution.
 
 ==== Esoteric USB sound cards
 
@@ -67,4 +67,4 @@ Expensive audiophile sound cards typically use large amounts of USB bandwidth. R
 
 ==== Single TT USB hubs
 
-USB 2.0 and 3.0 hubs have a mechanism for talking to full- or low-speed devices connected to their downstream ports called a transaction translator (TT). This device buffers high speed requests from the host and transmits them at full or low speed to the downstream device. Two configurations of hub are allowed by the USB specification: Single TT (one TT for all ports) and Multi TT (one TT per port). Because of a hardware limitation, if too many full- or low-speed devices are plugged into a single TT hub, the devices may behave unreliably. It is recommended to use a Multi TT hub to interface with multiple full and low speed devices. As a workaround, spread full- and low-speed devices out between the Raspberry Pi's own USB port and the single TT hub.
+USB 2.0 and 3.0 hubs have a mechanism for talking to full- or low-speed devices connected to their downstream ports called a transaction translator (TT). This device buffers high speed requests from the host and transmits them at full or low speed to the downstream device. Two configurations of hub are allowed by the USB specification: Single TT (one TT for all ports) and Multi TT (one TT per port). Because of a hardware limitation, if too many full- or low-speed devices are plugged into a single TT hub, the devices might behave unreliably. It is recommended to use a Multi TT hub to interface with multiple full and low speed devices. As a workaround, spread full- and low-speed devices out between the Raspberry Pi device's own USB port and the single TT hub.

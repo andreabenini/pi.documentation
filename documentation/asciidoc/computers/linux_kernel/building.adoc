@@ -3,7 +3,7 @@
 
 The default compilers and linkers distributed with an OS are configured to build executables to run on that OS. **Native builds** use these default compilers and linkers. **Cross-compilation** is the process of building code for a target other than the one running the build process.
 
-Cross-compilation of the Raspberry Pi kernel allows you to build a 64-bit kernel from a 32-bit OS, and vice versa. Alternatively, you can cross-compile a 32-bit or 64-bit Raspberry Pi kernel from a device other than a Raspberry Pi.
+Cross-compilation of the Raspberry Pi kernel allows you to build a 64-bit kernel from a 32-bit OS, and the other way around. Alternatively, you can cross-compile a 32-bit or 64-bit Raspberry Pi kernel from a device other than a Raspberry Pi.
 
 The instructions below are divided into native builds and cross-compilation. Choose the section appropriate for your situation; although the two processes share many steps, there are also some important differences.
 
@@ -39,7 +39,7 @@ $ git clone --depth=1 --branch <branch> https://github.com/raspberrypi/linux
 For a full list of available branches, see the https://github.com/raspberrypi/linux[the Raspberry Pi kernel repository].
 ====
 
-Now that you have the kernel source, build a fresh kernel xref:linux_kernel.adoc#natively-build-a-kernel[natively] or via xref:linux_kernel.adoc#cross-compile-the-kernel[cross-compilation].
+Now that you have the kernel source, build a fresh kernel xref:linux_kernel.adoc#natively-build-a-kernel[natively] or through xref:linux_kernel.adoc#cross-compile-the-kernel[cross-compilation].
 
 === Natively build a kernel
 

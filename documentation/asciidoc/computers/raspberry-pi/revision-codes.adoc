@@ -1,13 +1,13 @@
 == Raspberry Pi revision codes
 
-Each distinct Raspberry Pi model revision has a unique revision code. You can look up a Raspberry Pi's revision code by running:
+Each distinct Raspberry Pi model revision has a unique revision code. You can look up a Raspberry Pi device's revision code by running:
 
 [source,console]
 ----
 $ cat /proc/cpuinfo
 ----
 
-The last three lines show the hardware type, the revision code, and the Raspberry Pi's unique serial number. For example:
+The last three lines show the hardware type, the revision code, and the Raspberry Pi device's unique serial number. For example:
 
 ----
 Hardware    : BCM2835
@@ -380,7 +380,7 @@ NOQuuuWuFMMMCCCCPPPPTTTTTTTTRRRR
 
 === New-style revision codes in use
 
-NOTE: This list is not exhaustive – there may be codes in use that are not in this table. Please see the next section for best practices on using revision codes to identify boards.
+NOTE: This list isn't exhaustive; there might be codes in use that aren't in this table. For best practices on using revision codes to identify boards, see the following section.
 
 // This table is now sorted by Type (from table above), then Revision, then RAM, and finally Code. This is the most likely order-of-manufacture, which means we'll normally just add new revision-codes to the very bottom of the table, without having to worry about re-ordering entries.
 

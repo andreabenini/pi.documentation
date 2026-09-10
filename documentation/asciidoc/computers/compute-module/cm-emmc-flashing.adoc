@@ -149,7 +149,7 @@ Disconnect the USB slave port. Power-cycle the IO board to boot the Compute Modu
 
 === Known issues
 
-* A small percentage of CM3 devices may experience problems booting. We have traced these back to the method used to create the FAT32 partition; we believe the problem is due to a difference in timing between the CPU and eMMC. If you have trouble booting your CM3, create the partitions manually with the following commands:
+* A small percentage of CM3 devices might experience problems booting. We have traced these back to the method used to create the FAT32 partition; we believe the problem is due to a difference in timing between the CPU and eMMC. If you have trouble booting your CM3, create the partitions manually with the following commands:
 +
 [source,console]
 ----

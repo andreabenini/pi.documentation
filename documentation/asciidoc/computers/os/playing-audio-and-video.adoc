@@ -86,7 +86,7 @@ Replace the `<alsa-device>` placeholder with one of the following options:
 |===
 | ALSA device | Description
 
-| `sysdefault:CARD=Headphones` | The headphone jack
+| `sysdefault:CARD=Headphones` | The headphone jack on Raspberry Pi 4 and earlier models
 
 | `sysdefault:CARD=vc4hdmi` | The HDMI output on devices with a single HDMI port (Zero models, CM4S, Compute Modules prior to CM4, and Flagship models prior to Raspberry Pi 4)
 
@@ -132,7 +132,9 @@ Replace the `<drm-device>` placeholder with one of the following options:
 
 [TIP]
 ====
-Use the following command to get a list of all DRM devices on your Raspberry Pi:
+Use the following command to get a list of all DRM devices on your Raspberry Pi.
+
+NOTE: using `kmsprint` without parameters only queries the first card found. Therefore this might not list all attached displays on Raspberry Pi 5 and later models. See xref:../computers/os.adoc#kmsprint[kmsprint.]
 
 [source,console]
 ----

@@ -1,18 +1,18 @@
 [[rsync]]
 == Synchronise folders between computers with `rsync`
 
-You can use `rsync` to synchronise folders between computers. For example, you could use `rsync` to transfer new pictures taken by your Raspberry Pi to your personal computer automatically.
+You can use `rsync` to synchronise folders between computers. For example, you can use `rsync` to transfer new pictures taken by your Raspberry Pi to your personal computer automatically.
 
 Before you can configure `rsync`, determine values for the following:
 
-* `<pi_ip_address>`: your Raspberry Pi's local IP address: see xref:remote-access.adoc#ip-address[Find your Raspberry Pi's IP address] for more information
+* `<pi_ip_address>`: your Raspberry Pi device's local IP address. For more information, see xref:remote-access.adoc#ip-address[Find your Raspberry Pi device's IP address].
 * `<pi_username>`: the username you use to log into your Raspberry Pi
 * `<pi_folder_name>`: the name of the folder you want to copy files from on your Raspberry Pi
-* `<pc_folder_name>`: the name of the folder you would like to synchronise on your personal computer
+* `<pc_folder_name>`: the name of the folder you want to synchronise on your personal computer
 
 To configure `rsync` to synchronise files, complete the following steps on your personal computer, replacing placeholders in the commands with the values you determined above:
 
-. Create the folder you would like to synchronise to:
+. Create the folder you want to synchronise to:
 +
 [source,console]
 ----

@@ -1,6 +1,6 @@
 === Differences between `rpicam` and `raspicam`
 
-The `rpicam-apps` emulate most features of the legacy `raspicam` applications. However, users may notice the following differences:
+The `rpicam-apps` emulate most features of the legacy `raspicam` applications. However, you might notice the following differences:
 
 * Boost `program_options` don't allow multi-character short versions of options, so where these were present they have had to be dropped. The long form options are named the same way, and any single-character short forms are preserved.
 

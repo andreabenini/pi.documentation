@@ -1,6 +1,6 @@
 == Patch the kernel
 
-When building your custom kernel, you may wish to apply patches or collections of patches (patchsets) to the Linux kernel.
+When building your custom kernel, you might want to apply patches or collections of patches (patchsets) to the Linux kernel.
 
 Hardware makers sometimes provide patchsets as a temporary measure to support new hardware before the patches make it into the Linux kernel and the Raspberry Pi kernel. However, patchsets for other purposes exist, for instance to enable a fully pre-emptible kernel for real-time usage.
 

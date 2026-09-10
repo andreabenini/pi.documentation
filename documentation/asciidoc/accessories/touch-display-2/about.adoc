@@ -91,8 +91,8 @@ Touch Display 2 has the following dimensions:
 |87 x 154.5 mm
 
 |*10-inch*
-|16 mm
-|168.9 x 248.1 mm
+|15.5 mm
+|166.9 x 248.1 mm
 |136.4 x 217.6 mm
 |135.4 x 216.6 mm
 |===
@@ -199,7 +199,7 @@ image::images/touch-display-2-pideviceffc.jpg[alt="The FFC connector attached to
 WARNING: Connecting the power cable incorrectly can damage the display.
 
 . Plug the smaller end of the GPIO power cable into the `J1` port on the Touch Display 2.
-. Connect the three-pin end of the GPIO power cable to your xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi's GPIO].
+. Connect the three-pin end of the GPIO power cable to your xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi device's GPIO].
 +
 With the USB and Ethernet ports facing down, the power cable must be attached vertically to the top-right of the GPIO header. This means the red 5 V power cable is at the top-right of the pin block.
 +
@@ -375,7 +375,7 @@ The metal contacts must face towards the Ethernet and USB-A ports.
 WARNING: Connecting the power cable incorrectly can damage the display.
 
 . Plug the smaller end of the GPIO power cable into the `J1` port on the Touch Display 2.
-. Connect the three-pin end of the GPIO power cable to your xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi's GPIO].
+. Connect the three-pin end of the GPIO power cable to your xref:../computers/raspberry-pi.adoc#gpio[Raspberry Pi device's GPIO].
 +
 With the USB and Ethernet ports facing down, the power cable must be attached vertically to the top-right of the GPIO header. This means the red 5 V power cable is at the top-right of the pin block.
 +

@@ -10,7 +10,7 @@ A random pre-recorded five-second audio clip will be played when the button is p
 
 === Hardware and wiring
 
-For this project, any small passive speaker should be sufficient. We're using one available https://shop.pimoroni.com/products/3-speaker-4-3w?variant=380549926[here], which handles 5 W of power at 4 Ω. We have also used an illuminated momentary push button, and a laser-cut box to house all the components; but both are entirely optional. This example will work just using the Codec Zero's on-board button, which is pre-wired to GPIO 27. (Alternatively, you can use any momentary push button, such as those available https://shop.pimoroni.com/products/mini-arcade-buttons?variant=40377171274[here].)
+For this project, any small passive speaker is probably sufficient. We're using one available https://shop.pimoroni.com/products/3-speaker-4-3w?variant=380549926[here], which handles 5 W of power at 4 Ω. We have also used an illuminated momentary push button, and a laser-cut box to house all the components; but both are entirely optional. This example will work just using the Codec Zero's on-board button, which is pre-wired to GPIO 27. (Alternatively, you can use any momentary push button, such as those available https://shop.pimoroni.com/products/mini-arcade-buttons?variant=40377171274[here].)
 
 image::images/Chatterbox_Labels.png[width="80%"]
 
@@ -24,7 +24,7 @@ Make sure that you update your operating system before proceeding and follow the
 
 === Program your Raspberry Pi
 
-Open a shell — for instance by connecting via SSH — on your Raspberry Pi and run the following to create our Python script:
+Open a shell — for instance by connecting over SSH — on your Raspberry Pi and run the following to create our Python script:
 
 [source,console]
 ----
@@ -118,7 +118,7 @@ Next, we need to create a crontab daemon that will automatically start the scrip
 $ crontab -e
 ----
 
-You will be asked to select an editor; we recommend you use `nano`. Select it by entering the corresponding number, and press Enter to continue. The following line should be added to the bottom of the file, replacing `<username>` with your username:
+You're asked to select an editor; we recommend you use `nano`. Select it by entering the corresponding number, and press Enter to continue. Add the following line to the bottom of the file, replacing `<username>` with your username:
 
 ----
 @reboot python /home/<username>/chatter_box.py
@@ -134,6 +134,6 @@ video::BjXERzu8nS0[youtube,width=80%,height=400px]
 
 === Next steps
 
-Upgrades! It is always fun to upgrade a project, so why not add some additional features, such as an LED that will illuminate when recording? This project has all the parts required to make your own version of a https://aiyprojects.withgoogle.com/[Google intelligent speaker system], or you may want to consider building a second device that can be used to create a pair of walkie-talkies that are capable of transferring audio files over a network via SSH.
+Upgrades! It is always fun to upgrade a project, so why not add some additional features, such as an LED that will illuminate when recording? This project has all the parts required to make your own version of a https://aiyprojects.withgoogle.com/[Google intelligent speaker system], or you might want to consider building a second device that can be used to create a pair of walkie-talkies that are capable of transferring audio files over a network by using SSH.
 
 

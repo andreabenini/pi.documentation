@@ -8,7 +8,7 @@ To control HDMI settings, follow the instructions in xref:configuration.adoc#dis
 
 To support dual displays and modes up to 4Kp60, Raspberry Pi 4B, Compute Module 4, Compute Module 4S, and Raspberry Pi 400 generate two output pixels per clock cycle.
 
-Every HDMI mode has a list of timings that control all the parameters around sync pulse durations. These are typically defined via a pixel clock, and then a number of active pixels, a front porch, sync pulse, and back porch for each of the horizontal and vertical directions.
+Every HDMI mode has a list of timings that control all the parameters around sync pulse durations. These are typically defined through a pixel clock, and then a number of active pixels, a front porch, sync pulse, and back porch for each of the horizontal and vertical directions.
 
 Running everything at 2 pixels per clock means that the 4-series devices cannot support a timing where _any_ of the horizontal timings are not divisible by 2. The firmware and Linux kernel filter out any mode that does not fulfil this criteria.
 
@@ -105,7 +105,7 @@ Enables and disables the touchscreen.
 
 ==== `disable_fw_kms_setup`
 
-By default, the firmware parses the EDID of any HDMI attached display, picks an appropriate video mode, then passes the resolution and frame rate of the mode (and overscan parameters) to the Linux kernel via settings on the kernel command line. In rare circumstances, the firmware can choose a mode not in the EDID that may be incompatible with the device. Use `disable_fw_kms_setup=1` to disable passing video mode parameters, which can avoid this problem. The Linux video mode system (KMS) instead parses the EDID itself and picks an appropriate mode.
+By default, the firmware parses the EDID of any HDMI attached display, picks an appropriate video mode, then passes the resolution and frame rate of the mode (and overscan parameters) to the Linux kernel by using settings on the kernel command line. In rare circumstances, the firmware can choose a mode not in the EDID that might be incompatible with the device. Use `disable_fw_kms_setup=1` to disable passing video mode parameters, which can avoid this problem. The Linux video mode system (KMS) instead parses the EDID itself and picks an appropriate mode.
 
 NOTE: On Raspberry Pi 5, this parameter defaults to `1`.
 

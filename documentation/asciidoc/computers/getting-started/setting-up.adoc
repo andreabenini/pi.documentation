@@ -38,7 +38,7 @@ Whichever storage device you choose for your boot media, it must have enough sto
 For step-by-step guidance on configuring the boot media for your Raspberry Pi, see xref:../computers/getting-started.adoc#install[Install an OS onto boot media].
 
 
-Faster storage devices with higher read and write speeds improve your Raspberry Pi's overall performance, making it run more smoothly. If you're unsure which SD card to buy, consider an https://www.raspberrypi.com/products/sd-cards/[official Raspberry Pi microSD card]. You might also need an SD card reader so that you can connect your microSD card to your computer to install an OS.
+Faster storage devices with higher read and write speeds improve the overall performance of your Raspberry Pi, making it run more smoothly. If you're unsure which SD card to buy, consider an https://www.raspberrypi.com/products/sd-cards/[official Raspberry Pi microSD card]. You might also need an SD card reader so that you can connect your microSD card to your computer to install an OS.
 
 .An official 128 GB Raspberry Pi microSD card
 image::images/peripherals/microSD.png[alt="A Raspberry Pi microSD card.",width="50%"]
@@ -403,7 +403,7 @@ If you used Imager to set up your SSID and wireless network details in Step 1, y
 
 If you didn't set up a wireless network connection in Step 1, connect the headless Raspberry Pi device to a wired network instead. For instructions, see <<headless-ethernet>>.
 
-NOTE: Previous versions of Raspberry Pi OS made use of a `wpa_supplicant.conf` file, which could be placed into the boot folder to configure wireless network settings. This functionality isn't available from Raspberry Pi OS *Bookworm* and onwards.
+NOTE: Previous versions of Raspberry Pi OS made use of a `wpa_supplicant.conf` file, which can be placed into the boot folder to configure wireless network settings. This functionality isn't available from Raspberry Pi OS *Bookworm* and onwards.
 
 [[headless-ethernet]]
 ===== Connect to a wired network

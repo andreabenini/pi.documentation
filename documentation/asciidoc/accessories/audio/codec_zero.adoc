@@ -17,7 +17,7 @@ Raspberry Pi Codec Zero is a Raspberry Pi Zero-sized audio HAT. It delivers bi-d
 
 image::images/Codec_Zero_Board_Diagram.jpg[width="80%"]
 
-The Codec Zero includes an EEPROM which can be used for auto-configuration of the Linux environment if necessary. It has an integrated MEMS microphone, and can be used with stereo microphone input via a 3.5 mm socket and a mono speaker (1.2W/8Ω).
+The Codec Zero includes an EEPROM which can be used for auto-configuration of the Linux environment if necessary. It has an integrated MEMS microphone, and can be used with stereo microphone input through a 3.5 mm socket and a mono speaker (1.2W/8Ω).
 
 In addition to the green (GPIO23) and red (GPIO24) LEDs, a tactile programmable button (GPIO27) is also provided.
 

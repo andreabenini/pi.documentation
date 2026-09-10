@@ -11,7 +11,7 @@ IMPORTANT: From Raspberry Pi OS _Bookworm_ onwards, you can only use `pip` to in
 
 === Install Python packages using `apt`
 
-Packages installed via `apt` are packaged specifically for Raspberry Pi OS. These packages usually come pre-compiled, so they install faster. Because `apt` manages dependencies for all packages, installing with this method includes all of the sub-dependencies needed to run the package. And `apt` ensures that you don't break other packages if you uninstall.
+Packages installed through `apt` are packaged specifically for Raspberry Pi OS. These packages usually come pre-compiled, so they install faster. Because `apt` manages dependencies for all packages, installing with this method includes all of the sub-dependencies needed to run the package. And `apt` ensures that you don't break other packages if you uninstall.
 
 For instance, to install the Python 3 library that supports the Raspberry Pi xref:../accessories/build-hat.adoc[Build HAT], run the following command:
 
@@ -57,7 +57,7 @@ hint: See PEP 668 for the detailed specification.
 
 Python users have long dealt with conflicts between OS package managers like `apt` and Python-specific package management tools like `pip`. These conflicts include both Python-level API incompatibilities and conflicts over file ownership.
 
-From Raspberry Pi OS _Bookworm_ onwards, packages installed via `pip` _must be installed into a Python virtual environment_ (``venv``). A virtual environment is a container where you can safely install third-party modules so they won't interfere with your system Python.
+From Raspberry Pi OS _Bookworm_ onwards, packages installed through `pip` _must be installed into a Python virtual environment_ (``venv``). A virtual environment is a container where you can safely install third-party modules so they won't interfere with your system Python.
 
 ==== Use `pip` with virtual environments
 

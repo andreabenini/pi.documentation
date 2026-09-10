@@ -20,7 +20,7 @@ Raspberry Pi OS comes in three editions:
 * *Raspberry Pi OS Lite* (a command-line-only version without a graphical desktop). This edition is useful for headless servers, embedded systems, or older Raspberry Pi models, such as the original Raspberry Pi, Raspberry Pi 2, and Raspberry Pi Zero.
 
 === Architecture
-Raspberry Pi OS is available in both 64-bit and 32-bit versions. Choose the version that best matches your Raspberry Pi's hardware:
+Raspberry Pi OS is available in both 64-bit and 32-bit versions. Choose the version that best matches your Raspberry Pi device's hardware:
 
 * The *64-bit* version is designed for newer Raspberry Pi models that have 64-bit processors, like Raspberry Pi 3, 4, and 5. It can run both 64-bit and 32-bit software, but can also handle more memory (RAM) and is faster for tasks that require more computing power.
 * The *32-bit* version is designed for older Raspberry Pi models that have 32-bit processors, like the original Raspberry Pi, Raspberry Pi 2, and Raspberry Pi Zero. It uses less memory and might be more compatible with older software and hardware.

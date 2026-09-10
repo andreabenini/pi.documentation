@@ -97,7 +97,7 @@ The pixel frequency is used by the firmware and KMS to filter HDMI modes. Note, 
 
 The `hdmi_blanking` command controls what happens when the operating system asks for the display to be put into standby mode, using DPMS, to save power. If this option is not set or set to 0, the HDMI output is blanked but not switched off. In order to mimic the behaviour of other computers, you can set the HDMI output to switch off as well by setting this option to 1: the attached display will go into a low-power standby mode.
 
-NOTE: On Raspberry Pi 4, setting `hdmi_blanking=1` will not cause the HDMI output to be switched off, since this feature has not yet been implemented. This feature may cause issues when using applications which don't use the framebuffer, such as `omxplayer`.
+NOTE: On Raspberry Pi 4, setting `hdmi_blanking=1` will not cause the HDMI output to be switched off, since this feature has not yet been implemented. This feature can cause issues when using applications which don't use the framebuffer, such as `omxplayer`.
 
 |===
 | hdmi_blanking | result
@@ -129,7 +129,7 @@ Configures the signal strength of the HDMI interface. The minimum value is `0` a
 
 The default value for the original Model B and A is `2`. The default value for the Model B+ and all later models is `5`.
 
-If you are seeing HDMI issues (speckling, interference) then try `7`. Very long HDMI cables may need up to `11`, but values this high should not be used unless absolutely necessary.
+If you are seeing HDMI issues (speckling, interference) then try `7`. Very long HDMI cables might need up to `11`, but values this high should not be used unless absolutely necessary.
 
 This option is ignored on Raspberry Pi 4.
 
@@ -1408,7 +1408,7 @@ The aspect ratio can be set to one of eight values. Choose a value representing 
 
 ==== `hdmi_force_mode`
 
-Setting to `1` will remove all other modes except the ones specified by `hdmi_mode` and `hdmi_group` from the internal list, meaning they will not appear in any enumerated lists of modes. This option may help if a display seems to be ignoring the `hdmi_mode` and `hdmi_group` settings.
+Setting to `1` will remove all other modes except the ones specified by `hdmi_mode` and `hdmi_group` from the internal list, meaning they will not appear in any enumerated lists of modes. This option might help if a display seems to be ignoring the `hdmi_mode` and `hdmi_group` settings.
 
 ==== `edid_content_type`
 
@@ -1424,7 +1424,7 @@ The options are:
 
 === Which values are valid for my monitor?
 
-Your HDMI monitor may only support a limited set of formats. To find out which formats are supported, use the following method:
+Your HDMI monitor might only support a limited set of formats. To find out which formats are supported, use the following method:
 
 * Set the output format to VGA 60Hz (`hdmi_group=1` and `hdmi_mode=1`) and boot up your Raspberry Pi
 * Enter the following command to give a list of CEA-supported modes: `/opt/vc/bin/tvservice -m CEA`
@@ -1487,7 +1487,7 @@ hdmi_mode=87
 hdmi_drive=2
 ----
 
-This may not work if your monitor does not support standard CVT timings.
+This might not work if your monitor doesn't support standard CVT timings.
 
 === Composite video mode
 
@@ -1536,7 +1536,7 @@ The `sdtv_aspect` command defines the aspect ratio for composite video output. T
 
 ==== `sdtv_disable_colourburst`
 
-Setting `sdtv_disable_colourburst` to `1` disables colourburst on composite video output. The picture will be displayed in monochrome, but it may appear sharper.
+Setting `sdtv_disable_colourburst` to `1` disables colourburst on composite video output. The picture is displayed in monochrome, but it might appear sharper.
 
 === LCD displays and touchscreens
 
@@ -1794,7 +1794,7 @@ For the legacy graphics driver (default on models prior to the Raspberry Pi 4), 
 
 ==== `display_rotate`
 
-In the latest firmware, `display_rotate` is deprecated. It has only been retained for backwards compatibility. Please use `display_lcd_rotate` and `display_hdmi_rotate` instead.
+In the latest firmware, `display_rotate` is deprecated. It has only been retained for backwards compatibility. Use `display_lcd_rotate` and `display_hdmi_rotate` instead.
 
 Use `display_rotate` to rotate or flip the screen orientation. Parameters are the same as `display_hdmi_rotate`.
 
@@ -1802,4 +1802,4 @@ Use `display_rotate` to rotate or flip the screen orientation. Parameters are th
 
 ==== `dispmanx_offline`
 
-Forces `dispmanx` composition to be done offline in two offscreen framebuffers. This can allow more `dispmanx` elements to be composited, but is slower and may limit screen framerate to around 30fps.
+Forces `dispmanx` composition to be done offline in two offscreen framebuffers. This can allow more `dispmanx` elements to be composited, but is slower and might limit screen framerate to around 30 fps.

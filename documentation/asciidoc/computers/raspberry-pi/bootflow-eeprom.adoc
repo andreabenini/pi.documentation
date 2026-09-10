@@ -28,7 +28,7 @@ NOTE: `recovery.bin` is a minimal second stage program used to reflash the bootl
 
 This section describes the high-level flow of the second stage bootloader.
 
-Please see the xref:raspberry-pi.adoc#raspberry-pi-bootloader-configuration[bootloader configuration] page for more information about each boot mode, and the xref:configuration.adoc#boot-folder-contents[boot folder] page for a description of the GPU firmware files loaded by this stage.
+For more information about each boot mode, see the xref:raspberry-pi.adoc#raspberry-pi-bootloader-configuration[bootloader configuration] page. For a description of the GPU firmware files loaded by this stage. see the xref:configuration.adoc#boot-folder-contents[boot folder] page.
 
 * Initialise clocks and SDRAM
 * Read the EEPROM configuration file
@@ -69,7 +69,7 @@ Please see the xref:raspberry-pi.adoc#raspberry-pi-bootloader-configuration[boot
  ** Else if boot-mode == `RPIBOOT` then
   *** Attempt to load firmware using USB device mode from the USB OTG port – see https://github.com/raspberrypi/usbboot[USB boot]. There is no timeout for `RPIBOOT` mode.
 
-NOTE: The bootloader may also be updated before the firmware is started if a `pieeprom.upd` file is found. See the xref:raspberry-pi.adoc#raspberry-pi-boot-eeprom[bootloader EEPROM] page for more information about bootloader updates.
+NOTE: The bootloader can also be updated before the firmware is started if a `pieeprom.upd` file is found. For more information about bootloader updates, see the xref:raspberry-pi.adoc#raspberry-pi-boot-eeprom[bootloader EEPROM] page.
 
 ==== Differences on Raspberry Pi 5
 

@@ -30,4 +30,4 @@ button.when_released = handle_released
 pause()
 ----
 
-Run it and hold a coloured object (LEGO® elements are ideal) in front of the colour sensor and press the Force sensor plunger. The sensor's LED should switch on and the name of the closest colour should be displayed in the Thonny REPL.
+Run it and hold a coloured object (LEGO® elements are ideal) in front of the colour sensor and press the Force sensor plunger. The sensor's LED switches on and the Thonny REPL displays the name of the closest colour.

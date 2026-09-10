@@ -3,17 +3,17 @@
 There are 4 stages to booting a Raspberry Pi computer over the network:
 
 1. The bootloader negotiates to get an IP address and the details of a TFTP server using DHCP.
-2. The bootloader loads the firmware via TFTP and hands over the boot process to the firmware, passing it the details of the network.
-3. The firmware loads the kernel and command line via TFTP.
-4. The kernel boots the rest of the system, loading the root filesystem (rootfs) via NFS or some other mechanism.
+2. The bootloader loads the firmware through TFTP and hands over the boot process to the firmware, passing it the details of the network.
+3. The firmware loads the kernel and command line through TFTP.
+4. The kernel boots the rest of the system, loading the root filesystem (rootfs) through NFS or some other mechanism.
 
 The bootloader and firmware (stages 1 to 3) have been enhanced to support booting over IPv6.
 
-IMPORTANT: IPv6 netboot is an *experimental alpha feature* and depending on feedback, we may need to change how it works in future. This only works on Raspberry Pi 4 and Compute Module 4.
+IMPORTANT: IPv6 netboot is an *experimental alpha feature* and depending on feedback, we might need to change how it works in future. This only works on Raspberry Pi 4 and Compute Module 4.
 
 === How it works
 
-To boot via IPv6 you need an updated version of the firmware (for example, `start4.elf`) and the bootloader. Using the latest release of Raspberry Pi OS and the latest stable bootloader should be sufficient.
+To boot through IPv6 you need an updated version of the firmware (for example, `start4.elf`) and the bootloader. Using the latest release of Raspberry Pi OS and the latest stable bootloader should be sufficient.
 
 NOTE: The commonly used `dnsmasq` DHCP server doesn't currently support the network boot parameters required for IPv6 network boot, so for the time being you will have to use a different DHCP server such as https://www.isc.org/dhcp/[ISC DHCP].
 
@@ -45,7 +45,7 @@ The device should now have an IP address and TFTP details. It downloads the firm
 
 With IPv4 netboot, `nfsroot` is used to mount `rootfs` over the network. This doesn't support IPv6 so another solution is required. It might involve a small RAM file system that can mount the appropriate network location before switching to the proper `rootfs` contents.
 
-NOTE: A mechanism to boot the Linux kernel with NFS via IPv6 is still to be demonstrated.
+NOTE: A mechanism to boot the Linux kernel with NFS through IPv6 is still to be demonstrated.
 
 === Test setup
 
@@ -117,7 +117,7 @@ $ sudo systemctl restart isc-dhcp-server.service
 
 ==== Bootloader
 
-Modify the configuration to tell it to attempt network boot via IPv6 rather than IPv4.
+Modify the configuration to tell it to attempt network boot through IPv6 rather than IPv4.
 
 ----
 BOOT_ORDER=0xf21 # 2=Network boot
