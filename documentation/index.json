@@ -193,7 +193,7 @@
                     "subpath": "ai-hat-plus.adoc"
                 },
                 {
-                    "title": "Raspberry Pi Audio",
+                    "title": "Audio HATs",
                     "description": "High-definition audio with Raspberry Pi",
                     "image": "full-sized/Audio-HATs.png",
                     "subpath": "audio.adoc"

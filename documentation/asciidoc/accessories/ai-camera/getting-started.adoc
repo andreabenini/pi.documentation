@@ -115,7 +115,7 @@ For example, `max_detections` defines the maximum number of bodies that the pipe
 
 === Picamera2
 
-For examples of image classification, object detection, object segmentation, and pose estimation using Picamera2, see https://github.com/raspberrypi/picamera2/blob/main/examples/imx500/[the `picamera2` GitHub repository].
+For examples of image classification, object detection, object segmentation, and pose estimation using Picamera2, see https://github.com/raspberrypi/picamera2-examples/blob/main/examples/imx500/[the `picamera2-examples` GitHub repository].
 
 Most of the examples use OpenCV for some additional processing. To install the dependencies required to run OpenCV, run the following command:
 

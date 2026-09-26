@@ -84,16 +84,17 @@ If the service fails to start or doesn't exist, ensure that your environment mee
 
 . You use `rpi-connect` version 1.1.0 or later.
 . You do not use `rpi-connect-lite`, which lacks screen sharing support.
-. You use a Wayland compositor such as wayfire or labwc, not X. You can control this setting through the *Advanced Options* in `raspi-config`.
+. You use a Wayland compositor such as wayfire or labwc, not X. You can control this setting through the **Advanced Options** in `raspi-config`.
 . You use a desktop environment supported by WayVNC, for example, Raspberry Pi Desktop. For instance, using KDE switches your Wayland compositor to kwin, which is unsupported.
-. You have an active graphical desktop session running as the same user as the one you signed into. For most, this means enabling *Desktop Autologin* in the *System Options* in `raspi-config`.
+. You have an active graphical desktop session running as the same user as the one you signed into. For most, this means enabling **Desktop Autologin** in the **System Options** in `raspi-config`.
 
 ==== Can't connect after restarting or ending SSH session
 
 Connect runs as a user-level service and is therefore only available if there is an active session for the user signed into the service. If you want remote shell access without also running another login session, xref:connect.adoc#enable-remote-shell-at-all-times[enable user-lingering] for your user, which will keep Connect running at all times.
 
-For screen sharing, Connect can only share an existing graphical desktop session: it does not create entirely new sessions. There must already be a desktop session in progress. To start such a session automatically on boot, enable *Desktop Autologin* in the *System Options* in `raspi-config`.
+For screen sharing, Connect can only share an existing graphical desktop session: it does not create entirely new sessions. There must already be a desktop session in progress. To start such a session automatically on boot, enable **Desktop Autologin** in the **System Options** in `raspi-config`.
 
+[[networking-and-firewall-issues]]
 ==== Networking and firewall issues
 
 Connect usually communicates between devices without requiring changes to your network or firewall. However, especially restrictive networks can sometimes block Connect communication. To help debug problems with such networks, `rpi-connect` and `rpi-connect-lite` include the `rpi-connect doctor` command. `rpi-connect doctor` runs a series of tests to check that Connect communication functions properly on your network.
@@ -130,7 +131,7 @@ If Connect can't communicate properly on your network, you'll see an "x" instead
 ** `turn1.raspberrypi.com`
 ** `turn2.raspberrypi.com`
 ** `turn3.raspberrypi.com`
-* requests to Raspberry Pi Connect TURN servers on UDP ports 3478, 443, or 49152 -> 65535 of all of the following:
+* requests to Raspberry Pi Connect TURN servers on UDP ports 3478, 443, or 49152 → 65535 of all of the following:
 ** `turn1.raspberrypi.com`
 ** `turn2.raspberrypi.com`
 ** `turn3.raspberrypi.com`
@@ -157,7 +158,9 @@ $ journalctl
 |Error |Suggested fix
 
 a|`Download could not connect to server (retry).`
-a|The recipient device must be able to locate the update file. Open a remote shell connection to the recipient device, then use curl to check whether the device can access the IP address contained in the URI you provided when creating the deployment.
+a|The recipient device must be able to locate the update file. Check that the device still has internet access.
+
+For a device in an organisation, open a remote shell connection to the recipient device, then use `curl` to check whether the device can access the IP address contained in the URI you provided when creating the deployment.
 
 [source,console]
 ----
@@ -165,15 +168,20 @@ $ curl -I http://192.168.0.1:8080
 ----
 
 a|`update file rejected.`
-|Make sure that the URI you provided when creating the deployment contains the URL of the `.tar.zst` update file, not the `.img` full image file.
+a|Make sure that you deployed the `.tar.zst` update file, not the `.img` full image file. For a device in an organisation, check that the URI you provided when creating the deployment points at the `.tar.zst` file.
 
-a|No *Deploy* option appears next to the device in Raspberry Pi Connect.
+a|The deployment shows as **Invalidated**, with the reason `File expired`.
+a|Connect keeps an artefact you upload for two hours, then deletes it. The recipient device didn't start the deployment before that happened. Check that the device is online, then deploy the artefact again.
+
+a|No **Deploy** option appears next to the device in Raspberry Pi Connect.
 a|Enable OTA opt-in using the following command, then refresh your browser:
 
 [source,console]
 ----
 $ rpi-connect ota on
 ----
+
+For a device in your personal account, also check that the device is online: **Deploy** only appears while Connect can reach the device.
 
 |===
 
@@ -186,7 +194,7 @@ To view the current status of the Connect service, run the following command:
 $ rpi-connect status
 ----
 
-Teh command displays output similar to the following:
+The command displays output similar to the following:
 
 ----
 Signed in: yes

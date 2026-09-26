@@ -40,10 +40,6 @@ $ rpi-connect ota on
 +
 TIP: To build artefacts on a computer other than a Raspberry Pi, download `otamaker` from the https://github.com/raspberrypi/utils[utils repository] on GitHub.
 
-===== To host the artefact for remote deployment to a recipient device:
-
-* Somewhere to host the artefact that the recipient device can download it from. For the hosting options Connect supports, see <<host-the-update-artefact,Host the update artefact>>.
-
 ==== Step 1: Create the script
 
 Write the shell script you want to run on the recipient device. The script runs as root, so it has full access to the device's filesystem.
@@ -113,18 +109,15 @@ $ otamaker aptupgrade.yaml
 
 This creates a Zstandard-compressed update artefact (`.tar.zst` file) containing the manifest and the script, and outputs the artefact's SHA-256 checksum.
 
-Copy down the checksum: you need it when you deploy the artefact from the Raspberry Pi Connect website.
+==== Step 4: Deploy the artefact
 
-==== Step 4: Host and deploy the artefact
+Deploy a script artefact in the same way as any other update artefact: select the recipient device and upload the `.tar.zst` file to it, as described in <<update-remotely,Deploy the update artefact>>.
 
-Deploy a script artefact in the same way as any other update artefact:
-
-. Host the `.tar.zst` file somewhere that the recipient device can download it from, as described in <<host-the-update-artefact,Host the update artefact>>. You can skip the step that calculates the checksum; `otamaker` already output it when it built the artefact.
-. Select the recipient device and deploy the artefact to it, as described in <<update-remotely,Deploy the update artefact>>.
+If the recipient device belongs to an organisation, host the artefact first, then deploy it using its URI and checksum, as described in xref:../services/connect-for-organisations.adoc#deploy-remote-updates[Deploy remote updates in an organisation]. You can skip the step that calculates the checksum; `otamaker` already output it when it built the artefact.
 
 ==== Step 5: Verify the update
 
-When the deployment shows as *Succeeded*, connect to the recipient device using Raspberry Pi Connect and view the script's output in the `systemd` journal:
+When the deployment shows as **Succeeded**, connect to the recipient device using Raspberry Pi Connect and view the script's output in the `systemd` journal:
 
 [source,console]
 ----

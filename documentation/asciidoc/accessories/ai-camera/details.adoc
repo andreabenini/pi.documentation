@@ -177,7 +177,7 @@ imx500 = IMX500(model_file)
 
 To retrieve the output tensors, fetch them from the controls. You can then apply additional processing in your Python script.
 
-For example, in an object inference use case such as https://github.com/raspberrypi/picamera2/tree/main/examples/imx500/imx500_object_detection_demo.py[imx500_object_detection_demo.py], the object bounding boxes and confidence values are extracted in `parse_detections()` and draw the boxes on the image in `draw_detections()`:
+For example, in an object inference use case such as https://github.com/raspberrypi/picamera2-examples/tree/main/examples/imx500/imx500_object_detection_demo.py[imx500_object_detection_demo.py], the object bounding boxes and confidence values are extracted in `parse_detections()` and draw the boxes on the image in `draw_detections()`:
 
 [source,python]
 ----

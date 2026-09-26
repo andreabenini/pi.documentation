@@ -31,10 +31,6 @@ A Raspberry Pi device on which is installed:
 +
 You must have at least 16 GB of space, but you must decide exactly how much disk space you need based on your expected future requirements for the boot partition (firmware, kernel, device tree files, and possibly initramfs) and the system partition (kernel modules and system-level software such as the standard Linux command-line utilities).
 
-===== To host the artefact for remote deployment to a recipient device:
-
-* Somewhere to host the artefact from which the recipient device can download it. For the hosting options that Connect supports, see <<host-the-update-artefact,Host the update artefact>>.
-
 ===== For the recipient device receiving the update artefact:
 
 * Raspberry Pi 4 or later that is:
@@ -44,12 +40,11 @@ You must have at least 16 GB of space, but you must decide exactly how much disk
 
 ==== Implement A/B boot and remotely update the first image
 
-Follow the four stages below to implement the A/B configuration and send updates using Raspberry Pi Connect:
+Follow the three stages below to implement the A/B configuration and send updates using Raspberry Pi Connect:
 
 . Stage 1: Prepare the recipient Raspberry Pi 4 and later device for remote updates by creating an A/B boot file, then deploy it to the device.
 . Stage 2: Create an update artefact file for deployment to the recipient device.
-. Stage 3: Host the update artefact so that the recipient device can download it.
-. Stage 4: Use Raspberry Pi Connect's remote update feature to deploy the update artefact to the recipient device, then verify the update.
+. Stage 3: Use Raspberry Pi Connect's remote update feature to deploy the update artefact to the recipient device, then verify the update.
 
 ==== Stage 1: Create A/B boot configuration
 
@@ -224,9 +219,9 @@ Artefact version: 1.0.0
 
 ==== Stage 2: Create update artefact
 
-Now the device is configured for A/B booting, deliver update artefacts to it using Raspberry Pi Connect.
+Now the device is configured for A/B booting, you can deploy update artefacts to it using Raspberry Pi Connect.
 
-Update artefacts are created by rpi-image-gen as `.tar.zst` files. These are much smaller than the `.img` file you created in Stage 1, and are deployed in Stage 4 to the recipient device by Raspberry Pi Connect.
+Update artefacts are created by rpi-image-gen as `.tar.zst` files. These are much smaller than the `.img` file you created in Stage 1, and are deployed in Stage 3 to the recipient device by Raspberry Pi Connect.
 
 For the purposes of illustration, we continue to use the example update from Stage 1 here. Amend these procedures to reflect the path and naming of your own update .yaml file.
 
@@ -250,55 +245,15 @@ ${EDITOR:-vi} ./examples/ota/config/ota.yaml
 $ ./rpi-image-gen build -S ./examples/ota/ -c ota.yaml
 ----
 
-==== Stage 3: Host the update artefact
-
-Now that you’ve created an update artefact to deploy using Raspberry Pi Connect, host it somewhere that the recipient device can download it from. For the hosting options Connect supports, and the details you need to collect, see <<host-the-update-artefact,Host the update artefact>>.
-
-In the procedures that follow, we show you how to serve an update artefact from a Raspberry Pi host computer that is on the same network as the Raspberry Pi recipient.
-
-To host the update artefact:
-
-===== Step 1: Run an HTTP server on the host device
-
-. Run this command from the terminal to create a server and host the update artefact (change the artefact image directory accordingly):
-+
-[source,console]
-----
-$ python -m http.server 8080 --directory ./work/image-myapp
-----
-
-===== Step 2: Calculate the SHA-256 checksum of the update file
-
-. Run this command from the terminal:
-+
-[source,console]
-----
-$ sha256sum ./work/image-myapp/myapp-update.tar.zst
-----
-. Copy down the checksum.
-
-[discrete]
-===== Step 3: Find the host computer's IP address on the local network
-
-You must provide a URI for the update artefact, part of which is the host IP address.
-
-To find the IP address:
-
-. Run this command from the terminal:
-+
-[source,console]
-----
-$ hostname -I
-----
-. Copy down the IP address.
-
-==== Stage 4: Update remotely
+==== Stage 3: Update remotely
 
 Use Raspberry Pi Connect to deploy the update artefact to the recipient Raspberry Pi device.
 
 ===== Step 1: Deploy the artefact to the recipient device
 
-Deploy the artefact from the https://connect.raspberrypi.com/[Raspberry Pi Connect website], using the URI and checksum you copied down in Stage 3, as described in <<update-remotely,Deploy the update artefact>>.
+Deploy the artefact from the https://connect.raspberrypi.com/[Raspberry Pi Connect website], uploading the `.tar.zst` file you built in Stage 2, as described in <<update-remotely,Deploy the update artefact>>.
+
+If the recipient device belongs to an organisation, host the artefact first, then deploy it using its URI and checksum, as described in xref:../services/connect-for-organisations.adoc#deploy-remote-updates[Deploy remote updates in an organisation].
 
 ===== Step 2: Verify the update
 

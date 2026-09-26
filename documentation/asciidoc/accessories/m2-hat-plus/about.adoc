@@ -15,9 +15,9 @@ The Raspberry Pi M.2 HAT+ M Key and M.2 HAT+ Compact M Key enable you to connect
 
 The M.2 HAT+ and M.2 HAT+ Compact adapter boards convert between the PCIe connector on Raspberry Pi 5 and a single M.2 M key edge connector. The M.2 HAT+ supports any device that uses the 2230 or 2242 form factor; the M.2 HAT+ Compact supports any device that uses the 2230 form factor.
 
-We provide the M.2 HAT+ in a standard and a compact format to serve different use cases:
+The M.2 HAT+ is available in standard and Compact forms, each serving different use cases.
 
-* The M.2 HAT+ includes threaded spacers that provide ample room to fit the Raspberry Pi Active Cooler beneath it. However, the M.2 HAT+ is _only_ compatible with the https://www.raspberrypi.com/products/raspberry-pi-5-case/[Raspberry Pi Case for Raspberry Pi 5] _if you remove the lid and the included fan_.
+* The M.2 HAT+ includes threaded spacers that provide ample room to fit the Raspberry Pi Active Cooler beneath it. However, it's _only_ compatible with the https://www.raspberrypi.com/products/raspberry-pi-5-case/[Raspberry Pi Case for Raspberry Pi 5] _if you remove the lid and the included fan_.
 
 * The M.2 HAT+ Compact is designed to fit around the included fan in the https://www.raspberrypi.com/products/raspberry-pi-5-case/[Raspberry Pi Case for Raspberry Pi 5]. However, you can't fit the Active Cooler beneath it.
 
@@ -104,10 +104,10 @@ image::images/m2-hat-plus-installation-01.png[width="60%"]
 === Install the mounting hardware
 
 . Install the spacers using the provided screws.
-
-. Firmly press the GPIO stacking header on top of the Raspberry Pi GPIO pins; orientation doesn't matter as long as all pins fit into place.
-
-. Disconnect the ribbon cable from the M.2 HAT+. Insert the other end into the PCIe port of your Raspberry Pi. Lift the ribbon cable holder from both sides, then insert the cable with the copper contact points facing inward, towards the USB ports. With the ribbon cable fully and evenly inserted into the PCIe port, push the cable holder down from both sides to secure the ribbon cable firmly in place.
+. Firmly press the GPIO stacking header on top of the Raspberry Pi GPIO pins. The orientation doesn't matter, but the pins must all fit into place.
+. Lift the ribbon cable holder gently from both sides on the M.2 HAT+ before disconnecting the ribbon cable.
+. Lift the ribbon cable holder on the PCIe port of your Raspberry Pi from both sides, then insert the cable with the metal contact points facing towards the USB ports.
+. With the ribbon cable fully and evenly inserted into the PCIe port, push the cable holder down from both sides to secure the ribbon cable firmly in place.
 
 --
 image::images/m2-hat-plus-installation-02.png[width="60%"]
@@ -199,7 +199,21 @@ image::images/m2-hat-plus-compact-installation-07.png[width="80%"]
 
 == Start your Raspberry Pi
 
-. Connect your Raspberry Pi to power; Raspberry Pi OS automatically detects the M.2 HAT+ or M.2 HAT+ Compact. If you use Raspberry Pi Desktop, you see an icon representing the drive on your desktop. If you don't use a desktop, you can find the drive at `/dev/nvme0n1`.
+NOTE: If your NVMe drive is brand new or unformatted, it doesn't appear as an icon on the Raspberry Pi OS desktop. Additionally, commands such as `sudo blkid` don't show a partition UUID.  You must partition and format your drive to make it visible and accessible to the operating system. For more information, see <<boot-from-nvme,Boot from NVMe>> or xref:../computers/configuration.adoc#automatically-mount-a-storage-device[automatically mount a storage device].
+
+. Connect your Raspberry Pi to power. Raspberry Pi OS automatically detects the M.2 HAT+ or M.2 HAT+ Compact.
++
+* To verify the hardware is detected, open a terminal and run:
++
+[source,console]
+----
+$ ls -l /dev/nvme*
+----
++
+If the drive has been correctly detected, you see `/dev/nvme0` and `/dev/nvme0n1`.
+
+* If you plan to boot from the drive, see <<boot-from-nvme,Boot from NVMe>>. Raspberry Pi Imager automatically partitions and formats the drive during installation.
+* If you plan to use the drive purely as additional storage, format the drive before xref:../computers/configuration.adoc#automatically-mount-a-storage-device[configuring automatic mounting].
 
 . To make your drive automatically available for file access, consider xref:../computers/configuration.adoc#automatically-mount-a-storage-device[configuring automatic mounting].
 
@@ -209,17 +223,20 @@ WARNING: Always disconnect your Raspberry Pi from power before connecting or dis
 
 To boot from an NVMe drive attached to the M.2 HAT+ or M.2 HAT+ Compact, complete the following steps:
 
-. xref:../computers/getting-started.adoc#imager-install[Install an operating system to your NVMe drive by using Raspberry Pi Imager]. You can do this from your Raspberry Pi if you already have an SD card with a Raspberry Pi OS image.
+. Flash Raspberry Pi OS to your NVMe drive using Raspberry Pi Imager. For more information, see xref:../computers/raspberry-pi.adoc[Installing Raspberry Pi OS].
+* If you already have Raspberry Pi OS running from an SD card, run Raspberry Pi Imager directly on your Raspberry Pi and select the NVMe drive as the target storage.
+* Alternatively, if your bootloader firmware is up to date, use the Raspberry Pi Network Installer to download and run Raspberry Pi Imager over an Ethernet connection without needing an SD card. For more information, see xref:../computers/raspberry-pi.adoc[Network installation].
+
 . Reboot your Raspberry Pi.
-* If you don't have an SD card inserted in your Raspberry Pi 5, it boots automatically from your NVMe drive.
+* If you don’t have an SD card inserted in your Raspberry Pi 5, it boots automatically from your NVMe drive.
 * If you do have an SD card inserted in your Raspberry Pi 5, it attempts to boot from the SD card first. You can change the boot order on your Raspberry Pi by completing the following steps:
 .. Boot your Raspberry Pi into Raspberry Pi OS using an SD card.
 .. In a terminal on your Raspberry Pi, run `sudo raspi-config` to open the Raspberry Pi Configuration CLI.
-.. Under `Advanced Options` > `Boot Order`, choose `NVMe/USB boot`.
-.. Exit `raspi-config` with `Finish` or the *Escape* key.
+.. Under *Advanced Options* > *Boot Order*, choose *NVMe/USB boot*.
+.. Exit `raspi-config` with *Finish* or the *Escape* key.
 .. Reboot your Raspberry Pi with `sudo reboot`.
 
-For more information, see xref:../computers/raspberry-pi.adoc#nvme-ssd-boot[NVMe boot].
+For detailed information about NVMe boot, see xref:../computers/raspberry-pi.adoc[NVMe boot].
 
 == Enable PCIe Gen 3
 

@@ -120,7 +120,6 @@ $ rpi-connect vnc on
 ====
 
 === Remote shell
-[[remote-shell]]
 
 To access the remote shell:
 

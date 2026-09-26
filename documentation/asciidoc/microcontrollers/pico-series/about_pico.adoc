@@ -356,7 +356,7 @@ The software libraries, `libcyw43` and `BTstack`, are free to use for non-commer
 * Wireless Raspberry Pi Pico boards (Raspberry Pi *Pico W*, *Pico WH*, *Pico 2 W*, and *Pico 2 W with headers*).
 * A combination of *RP2040* and *CYW43439*, or *RP2350* and *CYW43439*.
 
-For the full `libcyw43` commercial licence, see https://github.com/georgerobotics/cyw43-driver/blob/main/LICENSE.RP[cyw43-driver in GitHub]. For the full `BTstack` commercial licence, see https://github.com/raspberrypi/pico-sdk/blob/master/src/rp2_common/pico_btstack/LICENSE.RP[pico_btstack in GitHub].
+For the full `libcyw43` commercial licence, see https://github.com/georgerobotics/cyw43-driver/blob/055d64274b014dd7b1c2fc94d26e8a18face7124/LICENSE.RP[cyw43-driver in GitHub]. For the full `BTstack` commercial licence, see https://github.com/raspberrypi/pico-sdk/blob/master/src/rp2_common/pico_btstack/LICENSE.RP[pico_btstack in GitHub].
 
 [[layouts]]
 == Board layouts

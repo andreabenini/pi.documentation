@@ -6,11 +6,15 @@ video::aioB40BGQYU[youtube,width=80%,height=400px]
 
 Unlike Raspberry Pi xref:../microcontrollers/microcontroller-chips.adoc[microcontrollers], RP1 isn't a standalone chip; it's an I/O controller built into Raspberry Pi 5 and Compute Module 5. As a built-in I/O controller, RP1 isn't sold separately but people do write software for it, which is why it's described here.
 
-NOTE: RP1 isn't short for the first Raspberry Pi single-board computer (Raspberry Pi Model B).
+== Disambiguation of the RP1 name
+
+Raspberry Pi silicon chips follow a naming convention that starts with **RP** to refer to 'Raspberry Pi', followed by a number, with the number referring to the chip's generation. So RP1 is the first embedded I/O controller chip, and _isn't_ an abbreviation for the first Raspberry Pi single-board computer (Raspberry Pi 1 Model B).
 
 == RP1 overview
 
-RP1 measures approximately 12 x 12 mm in a BGA package with 0.65 mm pin spacing. It connects to the main CPU (BCM2712) on a Raspberry Pi 5 and Compute Module 5 over a PCIe 2.0 x4 link, and handles most external I/O.
+RP1 measures approximately 12 x 12 mm in a BGA package with 0.65 mm pin spacing.
+
+It connects to the main CPU (BCM2712) on a Raspberry Pi 5 and Compute Module 5 over a PCIe 2.0 x4 link, and handles most external I/O.
 
 RP1 complements the main processor by managing peripherals and offloading I/O tasks from the main CPU. This continues Raspberry Pi's traditional two-chip architecture where the CPU manages core processing and a companion chip (in this case, RP1) manages peripherals. For more information, see <<interfaces>>.
 
@@ -61,7 +65,3 @@ RP1 includes the following multimedia and audio blocks for video output and simp
 * DSI DMA and transmitter for displays connected to the MIPI ports.
 * Delta-sigma PWM audio out.
 * PDM microphone clock generator and stereo bitstream input.
-
-== RP1 naming
-
-Raspberry Pi silicon chips follow a naming convention that starts with **RP** to refer to 'Raspberry Pi', followed by a number. The number in the I/O controller refers to the chip's generation, being the first embedded I/O controller chip.

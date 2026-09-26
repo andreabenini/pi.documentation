@@ -1,20 +1,51 @@
 [[spi-overview]]
 == Serial peripheral interface (SPI)
 
-Raspberry Pi computers are equipped with a number of https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus[SPI] buses. SPI can be used to connect a wide variety of peripherals – displays, network controllers (Ethernet, CAN bus), UARTs, etc. These devices are best supported by kernel device drivers, but the `spidev` API allows userspace drivers to be written in a wide array of languages.
+Raspberry Pi computers are equipped with a number of Serial Peripheral Interface (SPI) buses.
+
+SPI can be used to connect a wide variety of peripherals – displays, network controllers (Ethernet, CAN bus), UARTs, and so on. These devices are best supported by kernel device drivers, but the `spidev` API allows userspace drivers to be written in a wide array of languages.
 
 [[spi-hardware]]
 === SPI hardware
 
-Raspberry Pi Zero, 1, 2 and 3 have three SPI controllers:
+==== Raspberry Pi 1, 2, 3, and Zero
+
+Raspberry Pi Zero, 1, 2 and 3 have three SPI buses:
 
 * `SPI0`, with two hardware chip selects, is available on the header of all Raspberry Pi devices; there is also an alternate mapping that is only available on Compute Modules.
 * `SPI1`, with three hardware chip selects, is available on all Raspberry Pi models except the original Raspberry Pi 1 Model A and Model B.
 * `SPI2`, also with three hardware chip selects, is only available on Compute Module 1, 3 and 3+.
 
-On the Raspberry Pi 4, 400 and Compute Module 4 there are four additional SPI buses: SPI3 to SPI6, each with two hardware chip selects. These extra SPI buses are available through alternate function assignments on certain GPIO pins. For more information, see the https://pip.raspberrypi.com/documents/RP-008248-DS[BCM2711 Arm peripherals] datasheet.
+==== Raspberry Pi 4, 400, and Compute Module 4
+
+On the Raspberry Pi 4, 400 and Compute Module 4 there are four additional SPI buses:
+
+* `SPI3`, with two hardware chip selects.
+* `SPI4`, with two hardware chip selects.
+* `SPI5`, with two hardware chip selects.
+* `SPI6`, with two hardware chip selects.
+
+These SPI buses are available through alternate function assignments on certain GPIO pins.
+
+For more information, see the https://pip.raspberrypi.com/documents/RP-008248-DS[BCM2711 Arm peripherals] datasheet.
 
 Chapter 10 in the https://pip.raspberrypi.com/documents/RP-008249-DS[BCM2835 Arm peripherals] datasheet describes the main controller. Chapter 2.3 describes the auxiliary controller.
+
+==== Raspberry Pi 5, 500, 500+ and Compute Module 5
+
+On the Raspberry Pi 5, SPI functionality is provided by the xref:../computers/io-controllers.adoc[RP1 I/O controller] rather than the main application processor.
+
+RP1 includes nine Synchronous Serial Interface (SSI) controllers. Six of these are routed to GPIO bank `0`. The remaining three - `SPI6`, `SPI7`, and `SPI8` - are internal to RP1 and are not routed to the standard 40-pin GPIO header.
+
+* `SPI0`, with four hardware chip selects.
+* `SPI1`, with three hardware chip selects.
+* `SPI2`, with two hardware chip selects.
+* `SPI3`, with two hardware chip selects.
+* `SPI4`, with one hardware chip select.
+* `SPI5`, with two hardware chip selects.
+
+NOTE: DDR (Double Data Rate) operation is not supported on RP1 SPI controllers.
+NOTE: `SPI4` and `SPI7` buses are device-mode only.
 
 ==== Pin/GPIO mappings
 
@@ -325,7 +356,9 @@ Setup and hold times related to the automatic assertion and de-assertion of the 
 [[driver]]
 ==== Linux driver
 
-The default Linux driver is `spi-bcm2835`.
+On Raspberry Pi 4 and earlier models, the default Linux driver is `spi-bcm2835`.
+
+On Raspberry Pi 5, the RP1 SPI controllers use the Designware SPI/SSI Linux kernel driver `spi_dw`.
 
 SPI0 is disabled by default. To enable it, use xref:configuration.adoc#raspi-config[raspi-config], or ensure the line `dtparam=spi=on` is not commented out in xref:config_txt.adoc#what-is-config-txt[`/boot/firmware/config.txt`]. By default it uses two chip select lines, but this can be reduced to one using `dtoverlay=spi0-1cs`. There is also `dtoverlay=spi0-2cs`; without any parameters it is equivalent to `dtparam=spi=on`.
 
