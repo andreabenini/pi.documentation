@@ -50,9 +50,11 @@ Text-based housekeeping information containing the date and git commit ID of the
 
 ==== `initramfs*`
 
+NOTE: Building and updating `initramfs` is considered an advanced technique that's undertaken only by experienced users. It isn't officially supported by Raspberry Pi and we therefore don't provide instructions for it.
+
 Contents of the initial ramdisk. This loads a temporary root file system into memory before the real root file system can be mounted.
 
-Raspberry Pi OS _Bookworm_ includes an `initramfs` file by default. To enable the initial ramdisk, configure it in xref:config_txt.adoc[`config.txt`] with the xref:config_txt.adoc#auto_initramfs[`auto_initramfs`] keyword.
+Raspberry Pi OS _Bookworm_  and later include an `initramfs` file by default. To enable the initial ramdisk, configure it in xref:config_txt.adoc[`config.txt`] with the xref:config_txt.adoc#auto_initramfs[`auto_initramfs`] keyword.
 
 Raspberry Pi OS _Trixie_ includes the `auto_initramfs` keyword by default.
 
@@ -338,11 +340,29 @@ Trying again, this time using the original example and adding the `-@` option to
 $ dtc -@ -Hepapr -I dts -O dtb -o 1st.dtbo 1st-overlay.dts
 ----
 
-If `dtc` returns an error about the third line, it doesn't have the extensions required for overlay work. Run `sudo apt install device-tree-compiler` and try again – this time, compilation should complete successfully. Note that a suitable compiler is also available in the kernel tree as `scripts/dtc/dtc`, built when the `dtbs` make target is used:
+If `dtc` returns the fatal error, `Unable to parse input tree`, on the `/plugin/;` line, it doesn't have the extensions required for overlay work. Run `sudo apt install device-tree-compiler` to resolve this.
+
+A suitable compiler is also available in the kernel tree as `scripts/dtc/dtc`. It's built when the `dtbs` make target is used:
 
 [source,console]
 ----
 $ make ARCH=arm dtbs
+----
+
+NOTE: Direct compilation with `dtc` works for standalone overlays. However, overlays and `.dts` files found in the Linux kernel source tree generally rely on the C preprocessor (`cpp`) to expand macros and resolve `#include` directives. Attempting to compile in-tree overlays directly with raw `dtc` fails with syntax errors. Instead, build these overlays using the kernel Makefiles (such as `make ARCH=arm dtbs` or `make ARCH=arm64 dtbs`), or through `kdtc`, a wrapper from the `raspberrypi/utils` repository that passes input files through `cpp` before invoking `dtc`.
++
+In simple mode, `kdtc <input> <output>` detects formats automatically. If run from within the kernel git tree, the kernel directory is inferred:
++
+[source,console]
+----
+$ kdtc arch/arm/boot/dts/overlays/vc4-kms-v3d-pi5-overlay.dts vc4-kms-v3d-pi5.dtbo
+----
++
+From outside the kernel tree, provide the path using `-k`:
++
+[source,console]
+----
+$ kdtc -k /path/to/kernel doofer-overlay.dts doofer.dtbo
 ----
 
 Dump the contents of the DTB file to see what the compiler has generated:
@@ -732,6 +752,56 @@ Here are some examples of different types of properties, with parameters to modi
 
 For further examples, a large collection of overlay source files is hosted in the https://github.com/raspberrypi/linux/tree/rpi-6.1.y/arch/arm/boot/dts/overlays[Raspberry Pi Linux GitHub repository].
 
+[[hat-map]]
+====== The HAT map file
+
+The HAT map file retrofits overlay names to HATs whose EEPROMs come with overlays built in.
+
+Changes to the Device Tree and kernel drivers have since meant that some of these named overlays no longer work with current software, or no longer apply at all.
+
+The HAT map lets the firmware resolve this without reprogramming the EEPROM. It associates identified HATs with the overlay that must be loaded for them. If an attached HAT matches an entry in the map, the firmware ignores the overlay built into the EEPROM of the HAT and loads the overlay specified in the map instead.
+
+Like the overlay map, the HAT map is loaded by the firmware at boot. It's written in DTS source format (`hat_map.dts`), compiled to `hat_map.dtb`, and stored in the overlays directory.
+
+The following is an extract from the map file. For the complete file, see the https://github.com/raspberrypi/linux/blob/rpi-6.12.y/arch/arm/boot/dts/overlays/hat_map.dts[hat_map.dts source]:
+
+[source,dts]
+----
+/ {
+    pisound {
+        uuid = [ ... ];
+        overlay = "pisound";
+    };
+
+    hifiberry-amp4 {
+        uuid = [ fcb6ec42 a182 419d a314 7eeae416f608 ];
+        overlay = "hifiberry-dacplus-std";
+    };
+
+    sensehat-v2 {
+        product = "Sense HAT";
+        vendor = "Raspberry Pi";
+        pver = < 0x0002 >;
+        overlay = "rpi-sense-v2";
+    };
+
+    hailo-8l {
+        product = "Raspberry Pi AI Hat, Model Hailo-8L";
+        vendor = "Hailo Technologies";
+        overlay = "none,pciex1,pciex1_gen=3";
+    };
+};
+----
+
+Each node describes one HAT. The node name is only a label. The properties identify the HAT using values read from its EEPROM, and specify the overlay to load:
+
+* `uuid` – The product UUID from the vendor information atom of the EEPROM. Most entries identify HATs this way.
+* `vendor` and `product` – The vendor and product strings from the vendor information atom of the EEPROM. These can be used to identify a HAT instead of its UUID.
+* `pver` – The product version from the vendor information atom. This can be combined with the vendor and product strings to differentiate versions of the same product, such as two versions of Sense HAT.
+* `overlay` – The overlay to load in place of the one built into the EEPROM. Like a `dtoverlay` line in `config.txt`, the value can include parameters after the overlay name, separated by commas.
+
+NOTE: Earlier firmware might not support this feature. We recommend pairing earlier firmware with a kernel and overlays from the same release.
+
 [[part2.3]]
 ===== Export labels
 
@@ -1097,7 +1167,7 @@ The following properties are defined if the system was booted from USB. These ca
 
 `root-hub-port-number`:: The root hub port number that the boot device is connected to – possibly through other USB hubs.
 
-`lun`:: The Logical Unit Number for the mass-storage device.
+`lun`:: The Logical Unit Number for the mass storage device.
 
 ===== NVMEM nodes
 
@@ -1168,7 +1238,7 @@ MODULE_DEVICE_TABLE(of, xxx_of_match);
 Failing that, `depmod` has failed or the updated modules haven't been installed on the target filesystem.
 
 [[part5.2]]
-===== Test overlays using `dtmerge`, `dtdiff` and `ovmerge`
+===== Test overlays using `dtmerge`, `dtdiff`, `ovmerge`, and `kdtc`
 
 Alongside the `dtoverlay` and `dtparam` commands is a utility for applying an overlay to a DTB – `dtmerge`. To use it you first need to obtain your base DTB, which can be obtained in one of two ways:
 
@@ -1267,7 +1337,22 @@ to get:
                 spi@7e2150C0 {
 ----
 
-The https://github.com/raspberrypi/utils[Utils] repo includes another DT utility – `ovmerge`. Unlike `dtmerge`, `ovmerge` combines files and applies overlays in source form. Because the overlay is never compiled, labels are preserved and the result is usually more readable. It also has a number of other tricks, such as the ability to list the order of file inclusion.
+The https://github.com/raspberrypi/utils[utils] repo provides additional DT tools:
+
+* `ovmerge`: Unlike `dtmerge`, `ovmerge` combines files and applies overlays in source form. Because the overlay is never compiled, labels are preserved and the result is usually more readable. It also has a number of other features, such as listing the include hierarchy for each file.
+* `kdtc`: A wrapper around `dtc` that passes input files through the C preprocessor (`cpp`) first to expand `#define` macros and resolve `#include` directives. This allows you to compile individual in-tree kernel overlays without running a full kernel build:
++
+[source,console]
+----
+$ kdtc arch/arm/boot/dts/overlays/vc4-kms-v3d-pi5-overlay.dts vc4-kms-v3d-pi5.dtbo
+----
++
+`kdtc` can also decompile a `.dtbo` file to standard output:
++
+[source,console]
+----
+$ kdtc mystery.dtbo
+----
 
 [[part5.3]]
 ===== Force a specific Device Tree

@@ -152,7 +152,7 @@ To configure Raspberry Pi Imager to support RPIBOOT, complete the following step
 . Use the toggle to select *Enable Rpiboot/Fastboot Support*.
 . Select *Apply* to save your changes and exit the *Debug Options* dialog.
 
-If you're using Raspberry Pi Imager to set up multiple jigs, you need to enable RPIBOOT support only once; Imager saves this settings for subsequent writes.
+If you're using Raspberry Pi Imager to set up multiple jigs, you need to enable RPIBOOT support only once; Imager saves this setting for subsequent writes.
 
 [[setup-step-write-os]]
 === Step 2: Write the operating system to the jig
@@ -163,7 +163,7 @@ With Imager configured to use the custom content repository, you can now write t
 
 . Connect power to the jig.
 +
-The jig boots into USB mass-storage mode. Your computer detects the jig's internal storage as a removable drive.
+The jig boots into RPIBOOT mode. Imager can detect the jig's internal storage as a removable drive.
 
 . Open Raspberry Pi Imager on your computer.
 
@@ -363,43 +363,6 @@ When the *STATUS* LED turns green, provisioning is complete. You can remove the 
 . Remove the CM5 from the module bay.
 
 The CM5 is now ready for deployment.
-
-== View the manufacturing database
-
-If you enabled the manufacturing database in the Secure Boot Provisioner, the jig records details about each provisioned CM5 in this database, including:
-
-* Serial number
-* Board type and revision
-* MAC address (Ethernet)
-* Provisioning date and time
-* Installed OS image
-* Security settings
-
-You can view the information in the database through the Secure Boot Provisioner web interface or by using the command line.
-
-Connect to the jig through Raspberry Pi Connect and export the database as a CSV file:
-
-[tabs]
-======
-Using the web interface::
-To export the manufacturing database to a CSV file from the web interface:
-+
-. Access http://localhost:3142 on the jig as described in <<setup-step-use-provisioner>>.
-. Go to the *Manufacturing Database* tab.
-. Select *Export as CSV* to download a spreadsheet file.
-
-Using the command line::
-Export the manufacturing database to a CSV file by running the following command:
-+
-[source,bash]
-----
-sqlite3 ${RPI_SB_PROVISIONER_MANUFACTURING_DB} \
-  -cmd ".headers on" \
-  -cmd ".mode csv" \
-  -cmd ".output devices.csv" \
-  "SELECT * FROM rpi_sb_provisioner;"
-----
-======
 
 == Update the jig
 

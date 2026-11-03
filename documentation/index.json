@@ -42,12 +42,6 @@
                     "subpath": "remote-access.adoc"
                 },
                 {
-                    "title": "Camera software",
-                    "description": "Software and libraries for Raspberry Pi camera hardware",
-                    "image": "full-sized/Camera.png",
-                    "subpath": "camera_software.adoc"
-                },
-                {
                     "title": "AI software",
                     "description": "Software and libraries for artificial intelligence on Raspberry Pi AI Kit and AI HATs",
                     "image": "full-sized/ai.png",
@@ -58,6 +52,18 @@
                     "description": "Technical information about Raspberry Pi computer hardware",
                     "image": "full-sized/Raspberry-Pi-Hardware.png",
                     "subpath": "raspberry-pi.adoc"
+                },
+                {
+                    "title": "Classic single-board computers",
+                    "description": "Technical information about classic Raspberry Pi models",
+                    "image": "full-sized/sbc.png",
+                    "subpath": "sbcs.adoc"
+                },
+                {
+                    "title": "Zero models",
+                    "description": "Technical information about Raspberry Pi Zero models",
+                    "image": "full-sized/Zero.png",
+                    "subpath": "zero.adoc"
                 },
                 {
                     "title": "Keyboard computers",
@@ -145,14 +151,44 @@
                     "subpath": "monitor.adoc"
                 },
                 {
-                    "title": "Camera",
+                    "title": "Camera Module hardware",
                     "description": "Raspberry Pi camera boards",
                     "image": "full-sized/Camera.png",
                     "subpath": "camera.adoc"
                 },
                 {
+                    "title": "Camera Module software and installation",
+                    "description": "Software and libraries for Raspberry Pi camera hardware",
+                    "image": "full-sized/Camera-Software.png",
+                    "subpath": "camera-software.adoc"
+                },
+                {
+                    "title": "Camera Module 2",
+                    "description": "An 8-megapixel camera available in standard and NoIR versions",
+                    "image": "full-sized/Camera-Module-2.png",
+                    "subpath": "camera-module-2.adoc"
+                },
+                {
+                    "title": "High Quality Camera",
+                    "description": "A 12-megapixel camera for use with external lenses",
+                    "image": "full-sized/High-Quality-Camera.png",
+                    "subpath": "high-quality-camera.adoc"
+                },
+                {
+                    "title": "Camera Module 3",
+                    "description": "A 12-megapixel camera available in standard and NoIR versions, with standard and wide FoV",
+                    "image": "full-sized/Camera-Module-3.png",
+                    "subpath": "camera-module-3.adoc"
+                },
+                {
+                    "title": "Global Shutter Camera",
+                    "description": "A 1.6-megapixel camera that uses a global shutter mechanism",
+                    "image": "full-sized/Global-Shutter-Camera.png",
+                    "subpath": "global-shutter-camera.adoc"
+                },
+                {
                     "title": "AI Camera",
-                    "description": "An AI Camera for your Raspberry Pi",
+                    "description": "AI camera for your Raspberry Pi",
                     "image": "full-sized/ai-cam.png",
                     "subpath": "ai-camera.adoc"
                 },
@@ -215,6 +251,12 @@
                     "description": "A single-head provisioning system that programs Compute Module 5 devices",
                     "image": "full-sized/cm5-programming-jig.png",
                     "subpath": "cm5-programming-jig.adoc"
+                },
+                {
+                    "title": "Smart Display Module",
+                    "description": "Integrate your Compute Module 5 with compatible digital signage",
+                    "image": "full-sized/smart-display-module.png",
+                    "subpath": "smart-display-module.adoc"
                 },
                 {
                     "title": "Bumper",

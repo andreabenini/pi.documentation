@@ -53,7 +53,9 @@ If `1` then `sudo halt` will run in a lower power mode until either GPIO3 or GLO
 
 This setting is not relevant for Raspberry Pi 5 and later, Raspberry Pi Compute Module 5 and later, and Raspberry Pi 500 and later, because the xref:raspberry-pi.adoc#power-button[dedicated power button] can always be used to wake from `HALT` or `STANDBY`.
 
-Default: `1`
+The default bootloader images for Raspberry Pi 4, Raspberry Pi 400, and Raspberry Pi Compute Module 4 set this value to `1` in the bootloader config. A bootloader config that doesn't set `WAKE_ON_GPIO` uses `0`.
+
+Default: `0`
 
 [[POWER_OFF_ON_HALT]]
 ==== `POWER_OFF_ON_HALT`
@@ -475,7 +477,9 @@ Default: `""` (not set)
 
 The Raspberry Pi Imager application is configured with a JSON file downloaded at startup. By default, Raspberry Pi Imager uses the JSON at https://downloads.raspberrypi.com/os_list_imagingutility_v4.json.
 
-Set `IMAGER_REPO_URL` in the EEPROM configuration to specify the location of the JSON file to use during a network install with the embedded Raspberry Pi Imager.
+// Set `IMAGER_REPO_URL` in the EEPROM configuration to specify the location of the JSON file to use during a network install with the embedded Raspberry Pi Imager.
+
+NOTE: Using `IMAGER_REPO_URL` to configure a network install with the embedded Raspberry Pi Imager isn't currently supported because of a https://github.com/raspberrypi/rpi-imager/issues/894[known issue].
 
 You can also change the URL of the JSON file used by the Raspberry Pi Imager application to get it to offer your own images by one of the following methods:
 
@@ -535,7 +539,7 @@ NOTE: NETCONSOLE blocks until the Ethernet link is established or a timeout occu
 
 ===== Format
 
-For more information, see the https://wiki.archlinux.org/index.php/Netconsole[Netconsole documentation].
+For more information, see the https://docs.kernel.org/networking/netconsole.html[Netconsole documentation].
 
 [source]
 ----

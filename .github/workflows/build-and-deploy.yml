@@ -14,22 +14,23 @@ on:
 jobs:
   build:
     runs-on: [self-hosted, web]
-    environment:
-      name: ${{ inputs.environment }}
-      url: ${{ inputs.url }}
+    permissions:
+      contents: read
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: recursive
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.14
       - name: Install Python dependencies
         run: |
           pip3 install --upgrade pip setuptools wheel
           pip3 install -r ./requirements.txt
-      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+      - uses: ruby/setup-ruby@b1da4809b005e0178fe08a1d57317bffc00b7b4c # v1.332.0
         with:
           ruby-version: 3.2
           bundler-cache: true
@@ -37,7 +38,7 @@ jobs:
         run: pip3 install ninja==1.10.2.4
       - name: Install arm-none-eabi-gcc GNU Arm Embedded Toolchain
         if: ${{ inputs.deploy }}
-        uses: carlosperate/arm-none-eabi-gcc-action@98c40e51546516419841748d3210c290df0d2c6c
+        uses: carlosperate/arm-none-eabi-gcc-action@49f4db4520f840e77ab1e99b24cfac2c540a21b1 # v1.14.1
       - name: Install Doxygen
         if: ${{ inputs.deploy }}
         run: |
@@ -52,13 +53,43 @@ jobs:
         run: make build_doxygen_adoc
       - name: Build documentation
         run: make -j 2
-      - name: Deploy to Mythic Beasts
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        id: upload
         if: ${{ inputs.deploy }}
-        uses: ./.github/actions/deploy-action
+        with:
+          name: documentation
+          path: documentation/html/
+          if-no-files-found: error
+          retention-days: 1
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    if: ${{ inputs.deploy }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.url }}
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: documentation
+          path: documentation/html
+      - name: Deploy to Mythic Beasts
+        uses: $/.github/actions/deploy-action
         with:
           private_ssh_key: ${{ secrets.DEPLOY_SSH_KEY }}
+          known_hosts: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
           bastion_host: ${{ secrets.DEPLOY_BASTION_HOST }}
           primary_host: ${{ secrets.DEPLOY_PRIMARY_HOST }}
           secondary_host: ${{ secrets.DEPLOY_SECONDARY_HOST }}
           source: documentation/html/
-          destination: documentation
+          destination: /
+      - name: Delete the uploaded build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ needs.build.outputs.artifact-id }}
+        run: gh api --method DELETE "repos/$GITHUB_REPOSITORY/actions/artifacts/$ARTIFACT_ID"
